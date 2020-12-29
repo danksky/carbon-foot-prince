@@ -27,7 +27,7 @@
 			<li>
 				<label>
 					<span class="form-label">choose a zip file</span>
-					<input type="file" accept="application/zip" id="file-input">
+					<input type="file" accept="application/zip,application/json" id="file-input">
 				</label>
 			</li>
 			<li>
@@ -38,6 +38,18 @@
 						<option value="File">HDD</option>
 					</select>
 				</label>
+			</li>
+			<li>
+				<label>
+					<span class="form-label">progress</span>
+				</label>
+				<ul id="file-progress-meter-list"></ul>
+			</li>
+			<li>
+				<label>
+					<span class="form-label">total progress</span>
+				</label>
+				<ul id="file-progress-meter"></ul>
 			</li>
 			<li>
 				<span class="form-label">download zip content</span>

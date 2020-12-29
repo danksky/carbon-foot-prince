@@ -1,8 +1,8 @@
 (function(obj) {
 
-	console.log(obj);
-
 	var requestFileSystem = obj.webkitRequestFileSystem || obj.mozRequestFileSystem || obj.requestFileSystem;
+	var activityTypeDistances = {};
+	var fileProcessProgress = {};
 
 	function onerror(message) {
 		console.log(message);
@@ -59,10 +59,28 @@
 		};
 	})();
 
-	(function() {
+	function getTotalReadFileProgress() {
+		var totalProgress = 0;
+		Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
+			totalProgress += progressEntry[1].readText;
+		})
+		return totalProgress / Object.keys(fileProcessProgress).length;
+	}
+
+	function areAllFilesProcessed() {
+		var allProcessed = true;
+		Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
+			allProcessed = allProcessed && progressEntry[1].processText;
+		})
+		return allProcessed;
+	}
+
+	function makeDOMInteractive() {
 		var fileInput = document.getElementById("file-input");
 		var unzipProgress = document.createElement("progress");
 		var fileList = document.getElementById("file-list");
+		var fileProgressMeterList = document.getElementById("file-progress-meter-list");
+		var fileProgressMeter = document.getElementById("file-progress-meter");
 		var creationMethodInput = document.getElementById("creation-method-input");
 
 		function download(entry, li, a) {
@@ -83,42 +101,123 @@
 			});
 		}
 
-		if (typeof requestFileSystem == "undefined")
-			creationMethodInput.options.length = 1;
-		fileInput.addEventListener('change', function() {
+		function processSegment (segment, index, year, month) {
+			if (segment?.activitySegment) {
+				var distance = 0;
+				if (segment.activitySegment.distance) {
+					distance = segment.activitySegment.distance					
+				} else {
+
+				}
+
+				var activityType = segment.activitySegment.activityType;
+				if (segment.activitySegment.activities && segment.activitySegment.activities.length > 0) {
+					activityType = segment.activitySegment.activities[0].activityType;
+				}
+				if (activityType === undefined) {
+					console.log(index, segment);
+				}
+				
+				if (activityTypeDistances[year] === undefined) {
+					activityTypeDistances[year] = {};
+				}
+				if (activityTypeDistances[year][month] === undefined) {
+					activityTypeDistances[year][month] = {};
+				}
+
+				if (activityTypeDistances[year][month][activityType]) {
+					activityTypeDistances[year][month][activityType] += distance;
+				} else {
+					activityTypeDistances[year][month][activityType] =  distance;
+				}
+				
+			} else if (segment?.placeVisit) {
+
+			} else {
+			}
+
+		}  
+
+		function handleExtractedFile(entry, index) {			
+			var pathComponents = entry.filename.split("/");
+			var year = pathComponents[pathComponents.length - 2]; // string
+			var month = pathComponents[pathComponents.length - 1].split("_")[1].split(".")[0]; // after the '20XX_' and before the '.json'
+
+			var progressMeter = document.createElement("span");
+			progressMeter.id = "progress-meter-" + year + "-" + month;
+			fileProgressMeterList.appendChild(progressMeter);
+
+			entry.getData(new zip.TextWriter(), function(fileText) {
+				var parsedSemanticHistory = JSON.parse(fileText);
+				if (parsedSemanticHistory?.timelineObjects) {
+					parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
+						processSegment(segment, index, year, month);
+					});
+					fileProcessProgress[entry.filename] = {
+						readText: fileProcessProgress[entry.filename].readText,
+						processText: true,
+					};
+					if (areAllFilesProcessed()) {
+						console.log(fileProcessProgress, activityTypeDistances);
+					}
+				} else {
+
+				}
+			}, function(current, total) {
+				// onprogress callback
+				var progressPercentage = current/total;
+				var progressMeter = document.getElementById("progress-meter-" + year + "-" + month);
+				progressMeter.textContent = progressPercentage + " ";
+				fileProcessProgress[entry.filename] = {
+					readText: progressPercentage,
+					processText: false,
+				};
+				fileProgressMeter.textContent = getTotalReadFileProgress();
+			});
+			
+
+			var li = document.createElement("li");
+			var a = document.createElement("a");
+			a.textContent = entry.filename;
+			a.href = "#";
+			a.addEventListener("click", function(event) {
+				if (!a.download) {
+					download(entry, li, a);
+					event.preventDefault();
+					return false;
+				}
+			}, false);
+			li.appendChild(a);
+			fileList.appendChild(li);
+		}
+
+		function onUploadFile() {
 			fileInput.disabled = true;
 			model.getEntries(fileInput.files[0], function(entries) {
 				fileList.innerHTML = "";
-				entries.forEach(function(entry, i) {
-					var li = document.createElement("li");
-					var a = document.createElement("a");
-					a.textContent = entry.filename;
-					if (entry.filename.includes("json") && i / 10 == 5) {
-						// get first entry content as text
-						entry.getData(new zip.TextWriter(), function(text) {
-							// text contains the entry data as a String
-							console.log(text);
-							var dataMore = JSON.parse(text)
-							console.log(dataMore);
-						}, function(current, total) {
-							// onprogress callback
-						});
-						
-					}
-					console.log(entry.filename);
-					a.href = "#";
-					a.addEventListener("click", function(event) {
-						if (!a.download) {
-							download(entry, li, a);
-							event.preventDefault();
-							return false;
-						}
-					}, false);
-					li.appendChild(a);
-					fileList.appendChild(li);
+				var filteredEntries = entries.filter(function(entry) {
+					// e.g. Semantic Location History/2013/2013_SEPTEMBER.json
+					var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
+					return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
 				});
+				// populate the progress map
+				filteredEntries.forEach(function(entry) {
+					if (fileProcessProgress[entry.filename] === undefined) {
+						fileProcessProgress[entry.filename] = {
+							readText: 0,
+							processText: false,
+						};
+					}
+				});
+				// TODO: Filter this, then populate the progress map.
+				filteredEntries.forEach(handleExtractedFile);
 			});
-		}, false);
-	})();
+		}
+
+		if (typeof requestFileSystem == "undefined")
+			creationMethodInput.options.length = 1;
+		fileInput.addEventListener('change', onUploadFile, false);
+	}
+	makeDOMInteractive();
 
 })(this);
