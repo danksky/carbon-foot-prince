@@ -34,14 +34,6 @@
             zipReader.getEntries(onend);
         }, onerror);
     }
-		
-	function getTotalReadFileProgress() {
-		var totalProgress = 0;
-		Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
-			totalProgress += progressEntry[1].readText;
-		})
-		return totalProgress / Object.keys(fileProcessProgress).length;
-	}
 
 	function areAllFilesProcessed() {
 		var allProcessed = true;
@@ -229,6 +221,25 @@
 
     }  
 
+    function onAllFilesProcessed() {
+        console.log("All files processed.", 
+            fileProcessProgress, 
+            activityEmissionsByDay,
+            activityEmissionsByMonth, 
+            activityEmissionsByYear,
+            activityEmissionsTotals, 
+            getAverageTotalAnnualEmissions(),
+            flights);
+    }
+
+    function getTotalReadFileProgress() {
+		var totalProgress = 0;
+		Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
+			totalProgress += progressEntry[1].readText;
+		})
+		return totalProgress / Object.keys(fileProcessProgress).length;
+	}
+
     function handleExtractedFile(entry, index) {			
         var pathComponents = entry.filename.split("/");
         var year = pathComponents[pathComponents.length - 2]; // string
@@ -313,18 +324,7 @@
                 }
             });
             filteredEntries.forEach(handleExtractedFile);
-        });
-    }
-
-    function onAllFilesProcessed() {
-        console.log("All files processed.", 
-            fileProcessProgress, 
-            activityEmissionsByDay,
-            activityEmissionsByMonth, 
-            activityEmissionsByYear,
-            activityEmissionsTotals, 
-            getAverageTotalAnnualEmissions(),
-            flights);
+        }, onerror);
     }
 
 	function makeDOMInteractive() {
