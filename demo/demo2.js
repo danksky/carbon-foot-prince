@@ -22,16 +22,12 @@
 		alert(message);
 	}
 
-	var model = (function() {
-		return {
-			getEntries : function(file, onend) {
-				zip.createReader(new zip.BlobReader(file), function(zipReader) {
-					zipReader.getEntries(onend);
-				}, onerror);
-			}
-		};
-	})();
-
+	function getEntries(file, onend) {
+        zip.createReader(new zip.BlobReader(file), function(zipReader) {
+            zipReader.getEntries(onend);
+        }, onerror);
+    }
+		
 	function getTotalReadFileProgress() {
 		var totalProgress = 0;
 		Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
@@ -46,6 +42,45 @@
 			allProcessed = allProcessed && progressEntry[1].processText;
 		})
 		return allProcessed;
+	}
+
+	function getAverageTotalAnnualEmissions() {
+		var years = Object.keys(activityEmissionsByMonth);
+		if (years.length > 0) {
+			var startAveragingFromYear = 3000;
+			for (let i = 0 ; i < years.length; i++) {
+				startAveragingFromYear = parseInt(years[i]) < startAveragingFromYear ? parseInt(years[i]) : startAveragingFromYear;
+			}
+			if (startAveragingFromYear < 2015) {
+				startAveragingFromYear = 2015;
+			} 
+			
+			var startAveragingFromMonth = 0; // JANUARY
+			var firstYearsMonths = Object.keys(activityEmissionsByMonth[startAveragingFromYear]);
+			if (firstYearsMonths.length > 1) { // assume that the first month is incomplete
+				if (firstYearsMonths.length < 12) {
+					startAveragingFromMonth = 12 - firstYearsMonths.length + 1; // again, assume that the first month is incomplete
+				}
+				var monthCount = 0;
+				var totalEmissions = 0;
+				// average over every month starting from this one
+				for (let year = startAveragingFromYear; 
+					year <= (new Date()).getUTCFullYear() && activityEmissionsByMonth[year] !== undefined; 
+					year++) {
+					monthCount += Object.keys(activityEmissionsByMonth[year]).length;
+					var yearlyActivities = Object.keys(activityEmissionsByYear[year]);
+					for (let activityIndex = 0; activityIndex < yearlyActivities.length; activityIndex++) {
+						var activityName = yearlyActivities[activityIndex];
+						totalEmissions += activityEmissionsByYear[year][activityName];
+					}
+				}
+				return totalEmissions / monthCount * 12;
+			} else {
+				return -1;
+			}
+		} else {
+			return -1;
+		}
 	}
 
 	function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
@@ -265,9 +300,10 @@
 			});
 		}
 
-		function onUploadFile() {
+		function onUploadFile(event) {
+            console.log(event);
 			fileInput.disabled = true;
-			model.getEntries(fileInput.files[0], function(entries) {
+			getEntries(fileInput.files[0], function(entries) {
 				fileList.innerHTML = "";
 				var filteredEntries = entries.filter(function(entry) {
 					// e.g. Semantic Location History/2013/2013_SEPTEMBER.json
@@ -294,6 +330,7 @@
 				activityEmissionsByMonth, 
 				activityEmissionsByYear,
 				activityEmissionsTotals, 
+				getAverageTotalAnnualEmissions(),
 				flights);
 		}
 
