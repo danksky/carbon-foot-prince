@@ -290,13 +290,7 @@
     function presentationStage() {
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
-        // window.onresize = doALoadOfStuff;
-
-        // function doALoadOfStuff() {
-        //     //do a load of stuff
-        //     drawChart();
-        //     console.log("more stuff onresize");
-        // }
+        
         console.log(
             getAverageTotalAnnualEmissions(),
             getEmissionsChartData(2020),
@@ -385,8 +379,7 @@
             return dailyEmissionsChart[year];
         }
 
-        // TODO: Rename
-        function drawChart(year, cumulative, chartID) {
+        function drawCalendarChart(year, cumulative, chartID) {
             var whichData = cumulative ? 1 : 0;
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'date', id: 'Date' });
@@ -398,7 +391,7 @@
             var chart = new google.visualization.Calendar(chartElement);
 
             var options = {
-                title: "Daily Emissions",
+                title: cumulative ? "Cumulative Emissions over " + year : "Daily Emissions" ,
                 width: chartElement.parentElement.clientWidth,
                 height: chartElement.parentElement.clientHeight,
                 calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
@@ -427,8 +420,13 @@
 
         google.charts.load("current", {packages:["calendar"]});
         google.charts.setOnLoadCallback(() => {
-            drawChart(2020, false, 'activity-daily-emissions-chart');
-            drawChart(2020, true, 'activity-cumulative-emissions-chart');
+            drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
+            drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
+            window.onresize = () => {
+                // TODO: Complete
+                drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
+                drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
+            };
         });
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
