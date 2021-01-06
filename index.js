@@ -378,26 +378,6 @@
                     } 
                     cumulativeEmissions.push([new Date(current), Math.round(cumulativeEmissionsSum * 10) / 10]);
                 }
-
-                // Object.entries(yearEmissions).forEach(function (yearEmissionsEntry) {
-                //     var monthName = yearEmissionsEntry[0];
-                //     var monthIndex = monthMap[monthName];
-                //     var monthActivityEmissionsByDay = yearEmissionsEntry[1];
-                //     Object.entries(monthActivityEmissionsByDay).forEach(function (monthEmissionsEntry) {
-                //         var day = monthEmissionsEntry[0];
-                //         var dayActivityEmissions = monthEmissionsEntry[1];
-                //         var dayEmissionSum = 0;
-                //         Object.entries(dayActivityEmissions).forEach(function (activityEmissionsEntry) {
-                //             var activityEmissions = activityEmissionsEntry[1];
-                //             dayEmissionSum += activityEmissions;
-                //         });
-                //         var date = new Date(year, monthIndex, day);
-                //         dailyEmissions.push([date, Math.round(dayEmissionSum * 10) / 10]);
-                //     });
-                // });
-                // var date = new Date(year, monthIndex, day);
-                // for (var d = new Date(2012, 0, 1); d <= now; d.setDate(d.getDate() - 1)) {
-                // }
             } else {
                 console.error("getEmissionsChartData TODO", year);
             }
