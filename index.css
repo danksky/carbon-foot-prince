@@ -1,0 +1,17 @@
+#activity-daily-emissions-container {
+  height: 400px;
+}
+
+#activity-daily-emissions-chart {
+  width: 100%;
+  height: 100%;
+}
+
+#activity-cumulative-emissions-container {
+  height: 400px;
+}
+
+#activity-cumulative-emissions-chart {
+  width: 100%;
+  height: 100%;
+}

@@ -10,12 +10,14 @@
 	var lastCompleteYear = 0;
     var totalEmissions = 0;
 
+    var dailyEmissionsChart = {};
+
     uploadStage();
 
     function uploadStage() {
         // document elements
         var fileInput = document.getElementById("file-input");
-        var fileProgressMeter = document.getElementById("file-progress-meter");
+        var fileProgressMeter = document.getElementById("upload-progress-bar");
         var creationMethodInput = document.getElementById("creation-method-input");
 
         var flights = {}; // TODO: Rename to flightPathsByYear and populate during processSegment(); perhaps make another function with switch statements to compile annual points/paths for mapping later.
@@ -178,6 +180,18 @@
             presentationStage();
         }
 
+        function hideInstructionStage() {
+
+        }
+
+        function showUploadStage() {
+
+        }
+
+        function hideUploadStage() {
+
+        }
+
         function getTotalReadFileProgress() {
             var totalProgress = 0;
             Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
@@ -236,7 +250,7 @@
             }, function(current, total) {
                 // onprogress callback
                 fileProcessProgress[entry.filename] = {
-                    readText: progressPercentage,
+                    readText: current/ total,
                     processText: false,
                 };
                 fileProgressMeter.textContent = getTotalReadFileProgress();
@@ -276,14 +290,21 @@
     function presentationStage() {
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
-        window.onresize = doALoadOfStuff;
+        // window.onresize = doALoadOfStuff;
 
-        function doALoadOfStuff() {
-            //do a load of stuff
-            drawChart();
-            console.log("more stuff onresize");
+        // function doALoadOfStuff() {
+        //     //do a load of stuff
+        //     drawChart();
+        //     console.log("more stuff onresize");
+        // }
+        console.log(
+            getAverageTotalAnnualEmissions(),
+            getEmissionsChartData(2020),
+        );
+
+        function showPresentationStage() {
+
         }
-        console.log(getAverageTotalAnnualEmissions());
 
         function getAverageTotalAnnualEmissions() {
             var years = Object.keys(activityEmissionsByMonth);
@@ -324,42 +345,111 @@
             }
         }
 
-        function drawChart() {
+        function getEmissionsChartData(year) {
+            if (dailyEmissionsChart[year] !== undefined) {
+                return dailyEmissionsChart[year];
+            }
+            // const monthMap = {"JANUARY": 0, "FEBRUARY": 1, "MARCH": 2, "APRIL": 3, "MAY": 4, "JUNE": 5, "JULY": 6, "AUGUST": 7, "SEPTEMBER": 8, "OCTOBER": 9, "NOVEMBER": 10, "DECEMBER": 11};
+            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+
+            var dailyEmissions = [];
+            var cumulativeEmissions = [];
+            var yearEmissions = activityEmissionsByDay[year];
+            if (yearEmissions !== undefined) {
+                var latestDate = new Date(year+1, 0, 1);
+                console.log(latestDate);
+                var cumulativeEmissionsSum = 0;
+                for (var current = new Date(year, 0, 1); current < latestDate; current.setDate(current.getDate() + 1)) {
+                    var monthName = monthNames[current.getMonth()];
+                    var monthActivityEmissionsByDay = yearEmissions[monthName];
+                    if (monthActivityEmissionsByDay === undefined) {
+                        // console.warn("this month not in year getEmissionsChartData", year, current.getMonth(), monthName);
+                        continue;
+                    }
+                    var activityEmissionsByMonthDay = monthActivityEmissionsByDay[current.getDate()];
+                    if (activityEmissionsByMonthDay !== undefined) {
+                        var dayEmissionSum = 0;
+                        Object.entries(activityEmissionsByMonthDay).forEach(function (activityEmissionsEntry) {
+                            var activityEmissions = activityEmissionsEntry[1];
+                            dayEmissionSum += activityEmissions;
+                            cumulativeEmissionsSum += activityEmissions;
+                        });
+                        dailyEmissions.push([new Date(current), Math.round(dayEmissionSum * 10) / 10]);  
+                    } 
+                    cumulativeEmissions.push([new Date(current), Math.round(cumulativeEmissionsSum * 10) / 10]);
+                }
+
+                // Object.entries(yearEmissions).forEach(function (yearEmissionsEntry) {
+                //     var monthName = yearEmissionsEntry[0];
+                //     var monthIndex = monthMap[monthName];
+                //     var monthActivityEmissionsByDay = yearEmissionsEntry[1];
+                //     Object.entries(monthActivityEmissionsByDay).forEach(function (monthEmissionsEntry) {
+                //         var day = monthEmissionsEntry[0];
+                //         var dayActivityEmissions = monthEmissionsEntry[1];
+                //         var dayEmissionSum = 0;
+                //         Object.entries(dayActivityEmissions).forEach(function (activityEmissionsEntry) {
+                //             var activityEmissions = activityEmissionsEntry[1];
+                //             dayEmissionSum += activityEmissions;
+                //         });
+                //         var date = new Date(year, monthIndex, day);
+                //         dailyEmissions.push([date, Math.round(dayEmissionSum * 10) / 10]);
+                //     });
+                // });
+                // var date = new Date(year, monthIndex, day);
+                // for (var d = new Date(2012, 0, 1); d <= now; d.setDate(d.getDate() - 1)) {
+                // }
+            } else {
+                console.error("getEmissionsChartData TODO", year);
+            }
+            dailyEmissionsChart[year] = [dailyEmissions, cumulativeEmissions];
+            return dailyEmissionsChart[year];
+        }
+
+        // TODO: Rename
+        function drawChart(year, cumulative, chartID) {
+            var whichData = cumulative ? 1 : 0;
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'date', id: 'Date' });
-            dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
-            dataTable.addRows([
-                [ new Date(2012, 3, 13), 37032 ],
-                [ new Date(2012, 3, 14), 38024 ],
-                [ new Date(2012, 3, 15), 38024 ],
-                [ new Date(2012, 3, 16), 38108 ],
-                [ new Date(2012, 3, 17), 38229 ],
-                // Many rows omitted for brevity.
-                [ new Date(2013, 9, 4), 38177 ],
-                [ new Date(2013, 9, 5), 38705 ],
-                [ new Date(2013, 9, 12), 38210 ],
-                [ new Date(2013, 9, 13), 38029 ],
-                [ new Date(2013, 9, 19), 38823 ],
-                [ new Date(2013, 9, 23), 38345 ],
-                [ new Date(2013, 9, 24), 38436 ],
-                [ new Date(2013, 9, 30), 38447 ]
-            ]);
+            dataTable.addColumn({ type: 'number', id: 'Emissions' });
+            var chartData = getEmissionsChartData(year)[whichData];
+            dataTable.addRows(getEmissionsChartData(year)[whichData]);
 
-            var chartElement = document.getElementById('calendar_basic');
+            var chartElement = document.getElementById(chartID);
             var chart = new google.visualization.Calendar(chartElement);
 
             var options = {
-                title: "Red Sox Attendance",
+                title: "Daily Emissions",
                 width: chartElement.parentElement.clientWidth,
                 height: chartElement.parentElement.clientHeight,
                 calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
             };
 
+            if (cumulative) {
+                var emissionBudget = Math.round(getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) * 10) / 10;
+                var cumulativeMax = Math.round(chartData[chartData.length - 1][1] * 10) / 10;
+                if (cumulativeMax < emissionBudget) {
+                    cumulativeMax = emissionBudget;
+                }
+                console.log("emissionBudget, cumulativeMax", emissionBudget, cumulativeMax);
+                options.colorAxis = {
+                    minValue: 0,  
+                    colors: ['#00FF00', '#FFFFFF', '#FF0000'],
+                    values: [
+                        0, 
+                        emissionBudget, 
+                        cumulativeMax,
+                    ]
+                };
+            }            
+
             chart.draw(dataTable, options);
         }
 
         google.charts.load("current", {packages:["calendar"]});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(() => {
+            drawChart(2020, false, 'activity-daily-emissions-chart');
+            drawChart(2020, true, 'activity-cumulative-emissions-chart');
+        });
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
             return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
