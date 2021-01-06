@@ -13,58 +13,10 @@
     uploadStage();
 
     function uploadStage() {
-
-        window.onresize = doALoadOfStuff;
-
-        function doALoadOfStuff() {
-            //do a load of stuff
-            drawChart();
-            console.log("more stuff onresize");
-        }
-
         // document elements
         var fileInput = document.getElementById("file-input");
-        var fileList = document.getElementById("file-list");
-        var fileProgressMeterList = document.getElementById("file-progress-meter-list");
         var fileProgressMeter = document.getElementById("file-progress-meter");
         var creationMethodInput = document.getElementById("creation-method-input");
-
-        google.charts.load("current", {packages:["calendar"]});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn({ type: 'date', id: 'Date' });
-            dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
-            dataTable.addRows([
-                [ new Date(2012, 3, 13), 37032 ],
-                [ new Date(2012, 3, 14), 38024 ],
-                [ new Date(2012, 3, 15), 38024 ],
-                [ new Date(2012, 3, 16), 38108 ],
-                [ new Date(2012, 3, 17), 38229 ],
-                // Many rows omitted for brevity.
-                [ new Date(2013, 9, 4), 38177 ],
-                [ new Date(2013, 9, 5), 38705 ],
-                [ new Date(2013, 9, 12), 38210 ],
-                [ new Date(2013, 9, 13), 38029 ],
-                [ new Date(2013, 9, 19), 38823 ],
-                [ new Date(2013, 9, 23), 38345 ],
-                [ new Date(2013, 9, 24), 38436 ],
-                [ new Date(2013, 9, 30), 38447 ]
-            ]);
-
-            var chartElement = document.getElementById('calendar_basic');
-            var chart = new google.visualization.Calendar(chartElement);
-
-            var options = {
-                title: "Red Sox Attendance",
-                width: chartElement.parentElement.clientWidth,
-                height: chartElement.parentElement.clientHeight,
-                calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
-            };
-
-            chart.draw(dataTable, options);
-        }
 
         var flights = {}; // TODO: Rename to flightPathsByYear and populate during processSegment(); perhaps make another function with switch statements to compile annual points/paths for mapping later.
         var history = {};
@@ -75,6 +27,7 @@
         }
 
         function getEntries(file, onend) {
+            zip.workerScriptsPath = "./lib/";
             zip.createReader(new zip.BlobReader(file), function(zipReader) {
                 zipReader.getEntries(onend);
             }, onerror);
@@ -86,18 +39,6 @@
                 allProcessed = allProcessed && progressEntry[1].processText;
             })
             return allProcessed;
-        }
-
-        function createCalendarDOM() {
-            const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-            var chartContainer = document.getElementById("chart-container");
-            months.forEach(function(month) {
-                var monthContainer = document.createElement("div");
-                monthContainer.className = "month-container";
-                monthContainer.id = "month-container-" + month.toLowerCase();
-                monthContainer.innerText = month;
-                chartContainer.appendChild(monthContainer);
-            })
         }
 
         // UK Department for Business, Energy, and Industrial Strategy - 2019 Government greenhouse gas conversion factors for company reporting
@@ -275,10 +216,6 @@
                 flights[year][month] = [];
             }
 
-            var progressMeter = document.createElement("span");
-            progressMeter.id = "progress-meter-" + year + "-" + month;
-            fileProgressMeterList.appendChild(progressMeter);
-
             entry.getData(new zip.TextWriter(), function(fileText) {
                 var parsedSemanticHistory = JSON.parse(fileText);
                 history[entry.filename] = parsedSemanticHistory; // TODO: Potentially remove.
@@ -298,9 +235,6 @@
                 }
             }, function(current, total) {
                 // onprogress callback
-                var progressPercentage = current/total;
-                var progressMeter = document.getElementById("progress-meter-" + year + "-" + month);
-                progressMeter.textContent = progressPercentage + " ";
                 fileProcessProgress[entry.filename] = {
                     readText: progressPercentage,
                     processText: false,
@@ -313,7 +247,6 @@
             console.log(event);
             fileInput.disabled = true;
             getEntries(fileInput.files[0], function(entries) {
-                fileList.innerHTML = "";
                 var filteredEntries = entries.filter(function(entry) {
                     // e.g. Semantic Location History/2013/2013_SEPTEMBER.json
                     var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
@@ -337,14 +270,19 @@
                 creationMethodInput.options.length = 1;
             fileInput.addEventListener('change', onUploadFile, false);
         }
-        createCalendarDOM();
         makeDOMInteractive();
     }
 
     function presentationStage() {
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
-        
+        window.onresize = doALoadOfStuff;
+
+        function doALoadOfStuff() {
+            //do a load of stuff
+            drawChart();
+            console.log("more stuff onresize");
+        }
         console.log(getAverageTotalAnnualEmissions());
 
         function getAverageTotalAnnualEmissions() {
@@ -385,6 +323,43 @@
                 return -1;
             }
         }
+
+        function drawChart() {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn({ type: 'date', id: 'Date' });
+            dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
+            dataTable.addRows([
+                [ new Date(2012, 3, 13), 37032 ],
+                [ new Date(2012, 3, 14), 38024 ],
+                [ new Date(2012, 3, 15), 38024 ],
+                [ new Date(2012, 3, 16), 38108 ],
+                [ new Date(2012, 3, 17), 38229 ],
+                // Many rows omitted for brevity.
+                [ new Date(2013, 9, 4), 38177 ],
+                [ new Date(2013, 9, 5), 38705 ],
+                [ new Date(2013, 9, 12), 38210 ],
+                [ new Date(2013, 9, 13), 38029 ],
+                [ new Date(2013, 9, 19), 38823 ],
+                [ new Date(2013, 9, 23), 38345 ],
+                [ new Date(2013, 9, 24), 38436 ],
+                [ new Date(2013, 9, 30), 38447 ]
+            ]);
+
+            var chartElement = document.getElementById('calendar_basic');
+            var chart = new google.visualization.Calendar(chartElement);
+
+            var options = {
+                title: "Red Sox Attendance",
+                width: chartElement.parentElement.clientWidth,
+                height: chartElement.parentElement.clientHeight,
+                calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
+            };
+
+            chart.draw(dataTable, options);
+        }
+
+        google.charts.load("current", {packages:["calendar"]});
+        google.charts.setOnLoadCallback(drawChart);
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
             return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));

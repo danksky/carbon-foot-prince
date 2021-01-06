@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8'>
 <title>Read a zip file demo</title>
-<link rel="stylesheet" href="../default.css">
+<!-- <link rel="stylesheet" href="../default.css"> -->
 <link rel="stylesheet" href="demo.css">
 <link href='https://fonts.googleapis.com/css?family=Maven+Pro|Muli|Droid+Sans+Mono|Istok+Web' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -25,9 +25,11 @@
 		</div>
 		
 		<h2>Read a zip file demo</h2>
+		<div id="calendar-container">
+			<div id="calendar_basic"></div>
+		</div>
 		<div id="mapid"></div>
 		<canvas id="myChart" width="400" height="400"></canvas>
-		
 		<div id="chart-container">
 
 		</div>
@@ -68,6 +70,7 @@
 		</ol>
 
 	</div>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
 	integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="

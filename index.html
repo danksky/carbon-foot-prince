@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>TODOTITLE</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+</head>
+<body>
+    <div id="container">
+        <div class="page" id="intro-container">
+            <div id="intro">
+            </div>
+            <div id="upload-container">
+                <div id="instructions-container">
+                    instructions-container
+                    <div id="instructions">
+                        instructions
+                    </div>
+                    <input type="file" accept="application/zip,application/json" id="file-input" />
+                </div>
+                <div id="upload-progress-container">
+                    upload-progress-container
+                    <div id="upload-progress-bar-container">
+                        upload-progress-bar-container
+                        <div id="upload-progress-bar">
+                            upload-progress-bar
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="analysis-container">
+            analysis-container
+            <div class="page" id="overview-page">
+                overview-page
+                <div class="page-section">
+                    section
+                    <div id="summary-container">
+                        summary-container
+                    </div>
+                    <div id="annual-emissions-chart-container">
+                        annual-emissions-chart-container
+                    </div>
+                </div>
+                <div class="page-section">
+                    section
+                    <div id="total-emissions-text">
+                        total-emissions-text
+                    </div>
+                    <div id="total-emissions-donut-chart-container">
+                        total-emissions-donut-chart-container
+                        <div id="total-emissions-donut-chart">
+                            total-emissions-donut-chart
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page" id="breakdown-page">
+                breakdown-page
+                <div class="page-section">
+                    section
+                    <div id="year-container">
+                        year-container
+                        In <span id="focused-year-span">0000</span>, you exceeded your annual carbon allowance by <span id="exceeded-date">January 1</span>. You emitted <span id="excess-co2">99</span> kgt CO<sub>2</sub>.
+                    </div>
+                    <div id="map-container">
+                        map-container
+                    </div>
+                </div>
+                <div class="page-section">
+                    section
+                    <div id="activity-container">
+                        activity-container
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<script type="text/javascript" src="./lib/zip.js"></script>
+<script type="text/javascript" src="./index.js"></script>
+</html>
