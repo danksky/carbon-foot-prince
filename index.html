@@ -11,22 +11,37 @@
 <body>
     <div id="container">
         <div class="page" id="intro-container">
-            <div id="intro">
+            <div class="page-section">
+                <div id="intro">
+                    Learn from yesterday, 
+                    live for today, 
+                    hope for tomorrow.
+                    
+                    Contribute to environmental equity by confronting your footprint. 
+                </div>
             </div>
-            <div id="upload-container">
-                <div id="instructions-container">
-                    instructions-container
-                    <div id="instructions">
-                        instructions
+            <div class="page-section">
+                <div id="upload-container" class="card">
+                    <div id="instructions-container">
+                        <ol> 
+                            <li> Go to Google Takeout to download you Location History data. </li>
+                            <li> Deselect everything except Location History.
+                                <ol>
+                                    <li> Click "Deselect all".</li>
+                                    <li> Scroll until you find "Location History" and select it. </li>
+                                    <li> Scroll down and click "Next step". </li>
+                                </ol>
+                            </li> 
+                            <li> For "Delivery method" choose whichever method you'd like to receive the zip. </li>
+                            <li> For "Frequency" choose "Export once". </li>
+                            <li> Leave "File type & size" as ".zip" and "2 GB". </li>
+                            <li> Once you receive your zipped file (up to 5 days later), download the .zip file and use the button below to import it. </li>
+                        </ol>
                     </div>
                     <input type="file" accept="application/zip,application/json" id="file-input" />
-                </div>
-                <div id="upload-progress-container">
-                    upload-progress-container
-                    <div id="upload-progress-bar-container">
-                        upload-progress-bar-container
-                        <div id="upload-progress-bar">
-                            upload-progress-bar
+                    <div id="upload-progress-container">
+                        <div id="upload-progress-bar-container">
+                            <div id="upload-progress-bar"></div>
                         </div>
                     </div>
                 </div>
@@ -43,6 +58,9 @@
                     </div>
                     <div id="annual-emissions-chart-container">
                         annual-emissions-chart-container
+                        <div id="annual-emissions-chart">
+                            annual-emissions-chart
+                        </div>
                     </div>
                 </div>
                 <div class="page-section">

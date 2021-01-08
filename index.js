@@ -15,10 +15,12 @@
     uploadStage();
 
     function uploadStage() {
-        // document elements
+        // interactive document elements
         var fileInput = document.getElementById("file-input");
         var fileProgressMeter = document.getElementById("upload-progress-bar");
-        var creationMethodInput = document.getElementById("creation-method-input");
+
+        // passive document elements
+        var introContainer = document.getElementById("intro-container");
 
         var flights = {}; // TODO: Rename to flightPathsByYear and populate during processSegment(); perhaps make another function with switch statements to compile annual points/paths for mapping later.
         var history = {};
@@ -176,31 +178,48 @@
                 flights);
 
             // TODO: Cleanup DOM and replace with new DOM. 
-
+            hideUploadStage();
             presentationStage();
-        }
-
-        function hideInstructionStage() {
-
-        }
-
-        function showUploadStage() {
-
-        }
-
-        function hideUploadStage() {
-
-        }
+        }  
 
         function getTotalReadFileProgress() {
             var totalProgress = 0;
-            Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
+            Object.entries(fileProcessProgress).forEach(function(progressEntry) {
                 totalProgress += progressEntry[1].readText;
             })
             return totalProgress / Object.keys(fileProcessProgress).length;
         }
 
-        function handleExtractedFile(entry, index) {			
+        function onFileReadDone(fileName, year, month, fileText) {
+            var parsedSemanticHistory = JSON.parse(fileText);
+            history[fileName] = parsedSemanticHistory; // TODO: Potentially remove.
+            if (parsedSemanticHistory?.timelineObjects) {
+                parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
+                    processSegment(segment, index, year, month);
+                });
+                fileProcessProgress[fileName] = {
+                    readText: fileProcessProgress[fileName].readText,
+                    processText: true,
+                };
+                if (areAllFilesProcessed()) {
+                    onAllFilesProcessed();
+                }
+            } else {
+
+            }
+        }
+        
+        // onFileReadProgress - onprogress callback
+        function onFileReadProgress(fileName, current, total) {
+            fileProcessProgress[fileName] = {
+                readText: current / total,
+                processText: false,
+            };
+            fileProgressMeter.style.width = getTotalReadFileProgress()*100 + "%";
+        }
+
+        function handleExtractedFile(entry, index) {	
+            // populate activityEmissions objects		
             var pathComponents = entry.filename.split("/");
             var year = pathComponents[pathComponents.length - 2]; // string
             var month = pathComponents[pathComponents.length - 1].split("_")[1].split(".")[0]; // after the '20XX_' and before the '.json'
@@ -230,31 +249,23 @@
                 flights[year][month] = [];
             }
 
-            entry.getData(new zip.TextWriter(), function(fileText) {
-                var parsedSemanticHistory = JSON.parse(fileText);
-                history[entry.filename] = parsedSemanticHistory; // TODO: Potentially remove.
-                if (parsedSemanticHistory?.timelineObjects) {
-                    parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
-                        processSegment(segment, index, year, month);
-                    });
-                    fileProcessProgress[entry.filename] = {
-                        readText: fileProcessProgress[entry.filename].readText,
-                        processText: true,
-                    };
-                    if (areAllFilesProcessed()) {
-                        onAllFilesProcessed();
-                    }
-                } else {
+            entry.getData(
+                new zip.TextWriter(), 
+                (fileText) => {onFileReadDone(entry.filename, year, month, fileText)}, 
+                (current, total) => {onFileReadProgress(entry.filename, current, total)},
+            );
+        }
 
-                }
-            }, function(current, total) {
-                // onprogress callback
-                fileProcessProgress[entry.filename] = {
-                    readText: current/ total,
-                    processText: false,
-                };
-                fileProgressMeter.textContent = getTotalReadFileProgress();
-            });
+        function hideInstructionStage() {
+            
+        }
+
+        function showUploadStage() {
+            
+        }
+
+        function hideUploadStage() {
+            introContainer.style.display = "none";
         }
 
         function onUploadFile(event) {
@@ -280,16 +291,21 @@
         }
 
         function makeDOMInteractive() {
-            if (typeof requestFileSystem == "undefined")
-                creationMethodInput.options.length = 1;
             fileInput.addEventListener('change', onUploadFile, false);
         }
         makeDOMInteractive();
     }
 
+    const chartDrawer = {
+        // TODO: Move drawers here.
+    }
+
     function presentationStage() {
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
+        var selectedYear = getWorstYear();
+
+        var analysisContainer = document.getElementById("analysis-container");
         
         console.log(
             getAverageTotalAnnualEmissions(),
@@ -297,7 +313,8 @@
         );
 
         function showPresentationStage() {
-
+            analysisContainer.style.display = "grid";
+            drawAllCharts(selectedYear);
         }
 
         function getAverageTotalAnnualEmissions() {
@@ -379,8 +396,8 @@
             return dailyEmissionsChart[year];
         }
 
-        function drawCalendarChart(year, cumulative, chartID) {
-            var whichData = cumulative ? 1 : 0;
+        function drawCalendarChart(year, isCumulative, chartID) {
+            var whichData = isCumulative ? 1 : 0;
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'date', id: 'Date' });
             dataTable.addColumn({ type: 'number', id: 'Emissions' });
@@ -391,13 +408,13 @@
             var chart = new google.visualization.Calendar(chartElement);
 
             var options = {
-                title: cumulative ? "Cumulative Emissions over " + year : "Daily Emissions" ,
+                title: isCumulative ? "Cumulative Emissions over " + year : "Daily Emissions" ,
                 width: chartElement.parentElement.clientWidth,
                 height: chartElement.parentElement.clientHeight,
                 calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
             };
 
-            if (cumulative) {
+            if (isCumulative) {
                 var emissionBudget = Math.round(getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) * 10) / 10;
                 var cumulativeMax = Math.round(chartData[chartData.length - 1][1] * 10) / 10;
                 if (cumulativeMax < emissionBudget) {
@@ -418,20 +435,157 @@
             chart.draw(dataTable, options);
         }
 
-        google.charts.load("current", {packages:["calendar"]});
-        google.charts.setOnLoadCallback(() => {
-            drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
-            drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
-            window.onresize = () => {
-                // TODO: Complete
+        function titleCase(str) {
+            var splitStr = str.toLowerCase().split(' ');
+            for (var i = 0; i < splitStr.length; i++) {
+                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+            }
+            return splitStr.join(' '); 
+        }
+
+        function drawDonutChart(chartID) {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn({ type: 'string', id: 'Activity' });
+            dataTable.addColumn({ type: 'number', id: 'Emissions' });
+            var annualActivityEmissions = Object.
+                entries(activityEmissionsTotals).
+                map(function (activityEmissionEntry) {
+                return [
+                    titleCase((activityEmissionEntry[0] + "").replaceAll("_"," ").replace("IN ", "")), 
+                    activityEmissionEntry[1]];
+            });
+            dataTable.addRows(annualActivityEmissions);
+    
+            var chartElement = document.getElementById(chartID)
+            var chart = new google.visualization.PieChart(chartElement);
+
+            var options = {
+                pieHole: 0.4,
+            };
+
+            chart.draw(dataTable, options);
+        }
+
+        function drawLineChart(chartID) {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn({ type: 'string', id: 'Year' });
+            dataTable.addColumn({ type: 'number', id: 'Annual Emissions' });
+            dataTable.addColumn({ type: 'number', id: 'Annual Allowance' });
+            dataTable.addColumn({ type: 'number', id: 'Average Developed World Emissions' });
+            dataTable.addColumn({ type: 'number', id: 'Average Emissions Per Capita' });
+
+            var transportationShareOfUSACarbon = 0.28; // https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks
+            var usaTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
+                2010: 18.45,
+                2011: 17.88,
+                2012: 17.11,
+                2013: 17.46,
+                2014: 17.49,
+                2015: 16.90,
+                2016: 16.43,
+                2017: 16.21,
+                2018: 16.56,
+                2019: 16.60, // https://www.wri.org/blog/2019/12/co2-emissions-climb-all-time-high-again-2019-6-takeaways-latest-climate-data
+                2020: 15.53, // https://www.statista.com/statistics/193174/us-carbon-dioxide-emissions-per-person-since-2009/
+            }
+            var transportationShareOfGlobalCarbon = 0.14; // https://www.epa.gov/ghgemissions/global-greenhouse-gas-emissions-data
+            var worldTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
+                2010: 4.75,
+                2011: 4.88,
+                2012: 4.90,
+                2013: 4.88,
+                2014: 4.87,
+                2015: 4.81,
+                2016: 4.78,
+                2017: 4.79,
+                2018: 4.79,
+                2019: 4.80, // https://www.wri.org/blog/2019/12/co2-emissions-climb-all-time-high-again-2019-6-takeaways-latest-climate-data
+                2020: 4.46, // "compared to 2019... a drop of 7% in global emissions." https://www.carbonbrief.org/global-carbon-project-coronavirus-causes-record-fall-in-fossil-fuel-emissions-in-2020
+                            // world population increased - https://www.worldometers.info/world-population/world-population-by-year/
+            }
+
+            var annualEmisionsData = Object.entries(activityEmissionsByYear).map(function(yearEntry) {
+                var annualSum = 0;
+                Object.entries(yearEntry[1]).forEach(function(yearActivityEntry) {
+                    annualSum += yearActivityEntry[1];
+                });
+                return [
+                    yearEntry[0], 
+                    annualSum / 1000, 
+                    getAnnualBudgetAllowance(reductionPercentageGoal, yearEntry[0], getAverageTotalAnnualEmissions()) / 1000, 
+                    usaTotalPerCapita[parseInt(yearEntry[0])] * transportationShareOfUSACarbon,
+                    worldTotalPerCapita[parseInt(yearEntry[0])] * transportationShareOfGlobalCarbon,
+                ];
+            });
+            dataTable.addRows(annualEmisionsData);
+
+            var chartElement = document.getElementById(chartID);
+            var chart = new google.visualization.LineChart(chartElement);
+
+            var options = {
+            };
+
+            chart.draw(dataTable, options);
+        }
+
+        function drawAllCharts() {
+            
+            google.charts.load("current", {packages:["calendar", "corechart"]});
+            google.charts.setOnLoadCallback(() => {
                 drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
                 drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
-            };
-        });
+                drawDonutChart('total-emissions-donut-chart');
+                drawLineChart('annual-emissions-chart');
+                window.onresize = () => {
+                    // TODO: Complete
+                    drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
+                    drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
+                    drawDonutChart('total-emissions-donut-chart');
+                    drawLineChart('annual-emissions-chart');
+                };
+            });
+            // TODO: finish
+        }
+
+        function chooseYear(event) {
+            // selectedYear = event...
+            drawAllCharts();
+            changeAllText();
+        }
+
+        function changeAllText() {
+
+        }
+
+        function chooseActivity(event) {
+
+        }
+
+        function getExcessCarbonUsage() {
+            
+        }
+
+        function getWorstYear() {
+            return 0;
+        }
+
+        
+
+        function drawMap() {
+
+        }
+
+        
+
+        
+
+        
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
             return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
         }
+
+        showPresentationStage();        
     }
 
 })(this);

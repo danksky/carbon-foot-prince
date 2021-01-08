@@ -1,3 +1,44 @@
+body {
+  margin: 0;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.page-section {
+  grid-column-start: span 1;
+  height: 100%;
+}
+
+.card {
+  margin: auto;
+  margin-top: calc(25vh - 5%);
+  margin-bottom: calc(25vh - 5%);
+  width: 60%;
+  height: 40%;
+  padding: 10%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+#analysis-container {
+  display: none;
+}
+
+#upload-progress-bar-container {
+  width: 100%;
+  height: 20px;
+}
+
+#upload-progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: green;
+}
+
 #activity-daily-emissions-container {
   height: 400px;
 }
@@ -12,6 +53,24 @@
 }
 
 #activity-cumulative-emissions-chart {
+  width: 100%;
+  height: 100%;
+}
+
+#total-emissions-donut-chart-container {
+  height: 400px;
+}
+
+#total-emissions-donut-chart {
+  width: 100%;
+  height: 100%;
+}
+
+#annual-emissions-chart-container {
+  height: 400px;
+}
+
+#annual-emissions-chart {
   width: 100%;
   height: 100%;
 }
