@@ -306,15 +306,17 @@
         var selectedYear = getWorstYear();
 
         var analysisContainer = document.getElementById("analysis-container");
+        var yearSelectorContainer = document.getElementById("year-selector-container");
         
         console.log(
             getAverageTotalAnnualEmissions(),
             getEmissionsChartData(2020),
         );
 
-        function showPresentationStage() {
+        function showPresentationStage(year) {
             analysisContainer.style.display = "grid";
-            drawAllCharts(selectedYear);
+            generateYearSelection();
+            drawAllCharts(year);
         }
 
         function getAverageTotalAnnualEmissions() {
@@ -366,7 +368,10 @@
             var dailyEmissions = [];
             var cumulativeEmissions = [];
             var yearEmissions = activityEmissionsByDay[year];
-            if (yearEmissions !== undefined) {
+            if (yearEmissions === undefined) {
+                console.error("getEmissionsChartData TODO", year);
+                return undefined;
+            } else {
                 var latestDate = new Date(year+1, 0, 1);
                 console.log(latestDate);
                 var cumulativeEmissionsSum = 0;
@@ -389,11 +394,9 @@
                     } 
                     cumulativeEmissions.push([new Date(current), Math.round(cumulativeEmissionsSum * 10) / 10]);
                 }
-            } else {
-                console.error("getEmissionsChartData TODO", year);
-            }
-            dailyEmissionsChart[year] = [dailyEmissions, cumulativeEmissions];
-            return dailyEmissionsChart[year];
+                dailyEmissionsChart[year] = [dailyEmissions, cumulativeEmissions];
+                return dailyEmissionsChart[year];
+            } 
         }
 
         function drawCalendarChart(year, isCumulative, chartID) {
@@ -402,7 +405,7 @@
             dataTable.addColumn({ type: 'date', id: 'Date' });
             dataTable.addColumn({ type: 'number', id: 'Emissions' });
             var chartData = getEmissionsChartData(year)[whichData];
-            dataTable.addRows(getEmissionsChartData(year)[whichData]);
+            dataTable.addRows(chartData);
 
             var chartElement = document.getElementById(chartID);
             var chart = new google.visualization.Calendar(chartElement);
@@ -420,7 +423,7 @@
                 if (cumulativeMax < emissionBudget) {
                     cumulativeMax = emissionBudget;
                 }
-                console.log("emissionBudget, cumulativeMax", emissionBudget, cumulativeMax);
+                // console.log("emissionBudget, cumulativeMax", emissionBudget, cumulativeMax);
                 options.colorAxis = {
                     minValue: 0,  
                     colors: ['#00FF00', '#FFFFFF', '#FF0000'],
@@ -528,18 +531,22 @@
             chart.draw(dataTable, options);
         }
 
-        function drawAllCharts() {
-            
+        function drawAllCharts(year) {
+            console.log("drawAllCharts", year);
+            if (activityEmissionsByYear[year] === undefined) {
+                console.error("drawAllCharts failed because no data for year", year)
+                return;
+            }
             google.charts.load("current", {packages:["calendar", "corechart"]});
             google.charts.setOnLoadCallback(() => {
-                drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
-                drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
+                drawCalendarChart(year, false, 'activity-daily-emissions-chart');
+                drawCalendarChart(year, true, 'activity-cumulative-emissions-chart');
                 drawDonutChart('total-emissions-donut-chart');
                 drawLineChart('annual-emissions-chart');
                 window.onresize = () => {
                     // TODO: Complete
-                    drawCalendarChart(2020, false, 'activity-daily-emissions-chart');
-                    drawCalendarChart(2020, true, 'activity-cumulative-emissions-chart');
+                    drawCalendarChart(year, false, 'activity-daily-emissions-chart');
+                    drawCalendarChart(year, true, 'activity-cumulative-emissions-chart');
                     drawDonutChart('total-emissions-donut-chart');
                     drawLineChart('annual-emissions-chart');
                 };
@@ -547,10 +554,23 @@
             // TODO: finish
         }
 
+        function generateYearSelection() {
+            Object.entries(activityEmissionsByYear).forEach(function (emissionsYearEntry) {
+                var yearSelector = document.createElement("div");
+                yearSelector.className = "year-selector";
+                yearSelector.id = "year-selector-" + emissionsYearEntry[0];
+                yearSelector.innerText = emissionsYearEntry[0];
+                yearSelector.onclick = chooseYear;
+                yearSelector.setAttribute("year", emissionsYearEntry[0]);
+                yearSelectorContainer.appendChild(yearSelector);
+            });
+        }
+
         function chooseYear(event) {
-            // selectedYear = event...
-            drawAllCharts();
-            changeAllText();
+            selectedYear = parseInt(event.target.innerHTML);
+            // console.log(selectedYear);
+            drawAllCharts(selectedYear);
+            changeAllText(selectedYear);
         }
 
         function changeAllText() {
@@ -566,26 +586,30 @@
         }
 
         function getWorstYear() {
-            return 0;
+            var worstYear = 0;
+            var maxEmissions = 0;
+            Object.entries(activityEmissionsByYear).forEach(function(yearActivityEntry) {
+                var annualSum = 0;
+                Object.entries(yearActivityEntry[1]).forEach(function(activityEntry) {
+                    annualSum += activityEntry[1];
+                })
+                if (maxEmissions <= annualSum) {
+                    maxEmissions = annualSum;
+                    worstYear = parseInt(yearActivityEntry[0]);
+                }
+            })
+            return worstYear;
         }
-
-        
 
         function drawMap() {
 
         }
 
-        
-
-        
-
-        
-
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
             return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
         }
 
-        showPresentationStage();        
+        showPresentationStage(selectedYear);        
     }
 
 })(this);
