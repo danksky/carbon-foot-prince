@@ -36,7 +36,7 @@
         var history = {};
 
         function onerror(message) {
-            console.log(message);
+            console.error(message);
             alert(message);
         }
 
@@ -199,15 +199,7 @@
         }  
 
         function onAllFilesProcessed() {
-            console.log("All files processed.", 
-                fileProcessProgress, 
-                activityEmissionsByDay,
-                activityEmissionsByMonth, 
-                activityEmissionsByYear,
-                activityEmissionsTotals, 
-                flights);
-
-            // TODO: Cleanup DOM and replace with new DOM. 
+            gtag('event', 'on_all_files_processed');
             hideUploadStage();
             presentationStage();
         }  
@@ -299,8 +291,8 @@
         }
 
         function onUploadFile(event) {
-            console.log(event);
             fileInput.disabled = true;
+            gtag('event', 'on_zip_file_uploaded');
             getEntries(fileInput.files[0], function(entries) {
                 var filteredEntries = entries.filter(function(entry) {
                     // e.g. Semantic Location History/2013/2013_SEPTEMBER.json
@@ -434,13 +426,12 @@
                 return undefined;
             } else {
                 var latestDate = new Date(year+1, 0, 1);
-                console.log(latestDate);
                 var cumulativeEmissionsSum = 0;
                 for (var current = new Date(year, 0, 1); current < latestDate; current.setDate(current.getDate() + 1)) {
                     var monthName = monthNames[current.getMonth()];
                     var monthActivityEmissionsByDay = yearEmissions[monthName];
                     if (monthActivityEmissionsByDay === undefined) {
-                        // console.warn("this month not in year getEmissionsChartData", year, current.getMonth(), monthName);
+                        console.warn("this month not in year getEmissionsChartData", year, current.getMonth(), monthName);
                         continue;
                     }
                     var activityEmissionsByMonthDay = monthActivityEmissionsByDay[current.getDate()];
@@ -484,7 +475,6 @@
                 if (cumulativeMax < emissionBudget) {
                     cumulativeMax = emissionBudget;
                 }
-                // console.log("emissionBudget, cumulativeMax", emissionBudget, cumulativeMax);
                 options.colorAxis = {
                     minValue: 0,  
                     colors: ['#00FF00', '#FFFFFF', '#FF0000'],
@@ -594,7 +584,6 @@
         }
 
         function drawAllCharts(year) {
-            console.log("drawAllCharts", year);
             if (activityEmissionsByYear[year] === undefined) {
                 console.error("drawAllCharts failed because no data for year", year)
                 return;
@@ -668,6 +657,7 @@
         }
 
         function chooseYear(event) {
+            gtag('event', 'on_choose_year');
             selectedYear = parseInt(event.target.getAttribute("year"));
             changeAllText(selectedYear);
             drawAllCharts(selectedYear);
@@ -675,9 +665,8 @@
         }
 
         function chooseActivity(event) {
+            gtag('event', 'on_choose_activity');
             selectedActivity = event.target.getAttribute("activity");
-            console.log(event);
-            console.log(selectedActivity);
             drawMap(selectedYear, selectedActivity);
         }
 
@@ -686,7 +675,6 @@
                 return yearCount;
             }
             var minimumYear = (new Date()).getFullYear();
-            console.log(Object.keys(activityEmissionsByYear));
             Object.keys(activityEmissionsByYear).forEach(function (yearKey) {
                 minimumYear = Math.min(minimumYear, parseInt(yearKey));
             })
