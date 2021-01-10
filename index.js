@@ -331,14 +331,33 @@
     }
 
     function presentationStage() {
+        const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
+        var totalEmissions = undefined;
+        var yearCount = undefined;
+        var yearExceededDate = {};
+        var annualTotals = {};
+        
         var selectedYear = getWorstYear();
         var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
 
         var analysisContainer = document.getElementById("analysis-container");
         var yearSelectorContainer = document.getElementById("year-selector-container");
         var activitySelectorContainer = document.getElementById("activity-selector-container");
+
+        // text fields
+        var tfYearCount = document.getElementById("year-count");
+        var tfHalfTotalEmissions = document.getElementById("half-total-emission");
+        var tfQuarterTotalEmissions = document.getElementById("quarter-total-emission");
+        var tfExceededDate = document.getElementById("exceeded-date");
+        var tfDidExceedAllowance = document.getElementById("did-exceed-allowance");
+        var tfDidNotExceedAllowance = document.getElementById("did-not-exceed-allowance");
+        var tfExcessCO2 = document.getElementById("excess-co2");
+
+        var totalEmissionsElements = document.getElementsByClassName("total-emission");
+        var selectedYearElements = document.getElementsByClassName("selected-year");
 
         var map = undefined;
         
@@ -351,8 +370,21 @@
             analysisContainer.style.display = "block";
             generateYearSelection();
             generateActivitySelection();
+            changeAllText(year);
             drawAllCharts(year);
             drawMap(year, activity);
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function titleCase(str) {
+            var splitStr = str.toLowerCase().split(' ');
+            for (var i = 0; i < splitStr.length; i++) {
+                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+            }
+            return splitStr.join(' '); 
         }
 
         function getAverageTotalAnnualEmissions() {
@@ -398,9 +430,6 @@
             if (dailyEmissionsChart[year] !== undefined) {
                 return dailyEmissionsChart[year];
             }
-            // const monthMap = {"JANUARY": 0, "FEBRUARY": 1, "MARCH": 2, "APRIL": 3, "MAY": 4, "JUNE": 5, "JULY": 6, "AUGUST": 7, "SEPTEMBER": 8, "OCTOBER": 9, "NOVEMBER": 10, "DECEMBER": 11};
-            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-
             var dailyEmissions = [];
             var cumulativeEmissions = [];
             var yearEmissions = activityEmissionsByDay[year];
@@ -474,14 +503,6 @@
             chart.draw(dataTable, options);
         }
 
-        function titleCase(str) {
-            var splitStr = str.toLowerCase().split(' ');
-            for (var i = 0; i < splitStr.length; i++) {
-                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
-            }
-            return splitStr.join(' '); 
-        }
-
         function drawDonutChart(chartID) {
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'string', id: 'Activity' });
@@ -491,7 +512,8 @@
                 map(function (activityEmissionEntry) {
                 return [
                     titleCase((activityEmissionEntry[0] + "").replaceAll("_"," ").replace("IN ", "")), 
-                    activityEmissionEntry[1]];
+                    Math.round(activityEmissionEntry[1] * 10) / 10,
+                ];
             });
             dataTable.addRows(annualActivityEmissions);
     
@@ -500,6 +522,11 @@
 
             var options = {
                 pieHole: 0.4,
+                slices: {
+                    0: {offset: 0.1},
+                    1: {offset: 0.1},
+                    2: {offset: 0.1},
+                }
             };
 
             chart.draw(dataTable, options);
@@ -638,9 +665,9 @@
 
         function chooseYear(event) {
             selectedYear = parseInt(event.target.getAttribute("year"));
+            changeAllText(selectedYear);
             drawAllCharts(selectedYear);
             drawMap(selectedYear, selectedActivity);
-            changeAllText(selectedYear);
         }
 
         function chooseActivity(event) {
@@ -650,12 +677,21 @@
             drawMap(selectedYear, selectedActivity);
         }
 
-        function changeAllText() {
-
+        function getYearCount() {
+            if (yearCount !== undefined) {
+                return yearCount;
+            }
+            var minimumYear = (new Date()).getYear();
+            Object.keys(activityEmissionsByYear).forEach(function (yearKey) {
+                var year = parseInt(yearKey);
+                minimumYear = Math.min(minimumYear, year);
+            })
+            yearCount = (new Date()).getYear() - minimumYear;
+            return yearCount;
         }
 
-        function getExcessCarbonUsage() {
-            
+        function getExcessCarbonUsage(year) {
+            return Math.round( getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) * 10) / 10 - getAnnualTotal(year);
         }
 
         function getWorstYear() {
@@ -672,6 +708,75 @@
                 }
             })
             return worstYear;
+        }
+
+        function getTotalEmissions() {
+            if (totalEmissions !== undefined) {
+                return totalEmissions;
+            }
+            totalEmissions = 0;
+            Object.
+                entries(activityEmissionsTotals).
+                forEach(function (activityEmissionEntry) {
+                    totalEmissions += activityEmissionEntry[1];
+                });
+            totalEmissions = Math.round(totalEmissions * 10) / 10
+            return totalEmissions;
+        }
+
+        function getExceededDate(year) {
+            if (yearExceededDate[year] !== undefined) {
+                return yearExceededDate[year];
+            }
+            var cumulativeEmissionsData = getEmissionsChartData(year)[1];
+            var annualAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions());
+            var exceededDate = null;
+            for (var i = 0; i < cumulativeEmissionsData.length; i++) {
+                var cumulativeEmissionsDayEntry = cumulativeEmissionsData[i];
+                if (cumulativeEmissionsDayEntry[1] > annualAllowance) {
+                    exceededDate = cumulativeEmissionsDayEntry[0];
+                    break;
+                }
+            }
+            yearExceededDate[year] = exceededDate;
+            return exceededDate;
+        }
+
+        function getAnnualTotal(year) {
+            if (annualTotals[year] !== undefined) {
+                return annualTotals[year];
+            }
+            annualTotals[year] = 0;
+            Object.
+                entries(activityEmissionsByYear[year]).
+                forEach(function (activityEmissions) {
+                    annualTotals[year] += activityEmissions[1];
+                });
+            annualTotals[year] = Math.round(annualTotals);
+            return annualTotals[year];
+        }
+
+        function changeAllText(year) {
+            tfYearCount.innerText = getYearCount();
+            tfHalfTotalEmissions.innerText = numberWithCommas(getTotalEmissions() / 2);
+            tfQuarterTotalEmissions.innerText = numberWithCommas(getTotalEmissions() / 4);
+            var exceededDate = getExceededDate(year);
+            if (exceededDate === null) {
+                tfDidExceedAllowance.style.display = "none";
+                tfDidNotExceedAllowance.style.display = "inline-block";
+            } else {
+                exceededDate = new Date(exceededDate);
+                tfExceededDate.innerText = titleCase(monthNames[exceededDate.getMonth()]) + " " + exceededDate.getDate();
+                tfDidExceedAllowance.style.display = "inline-block";
+                tfDidNotExceedAllowance.style.display = "none";
+            }
+            tfExcessCO2.innerText = getExcessCarbonUsage(year);
+            for (var i = 0; i < totalEmissionsElements.length; i++) {
+                totalEmissionsElements[i].innerText = numberWithCommas(getTotalEmissions());
+            }
+            for (var i = 0; i < selectedYearElements.length; i++) {
+                selectedYearElements[i].innerText = year;
+            }
         }
 
         function drawMap(year, activityType) {

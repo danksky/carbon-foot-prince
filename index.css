@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: sans-serif;
 }
 
 .stage-container {
@@ -10,7 +11,7 @@ body {
 
 .page {
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
@@ -54,12 +55,28 @@ body {
   background-color: green;
 }
 
-#overview-page {
-  height: 90vh;
-}
-
 #summary-container {
   height: 50%;
+}
+
+#annual-emissions-chart-container {
+  height: 50%;
+}
+
+#annual-emissions-chart {
+  height: 100%;
+}
+
+#total-emissions-text {
+  height: 50%;
+}
+
+#total-emissions-donut-chart-container {
+  height: 50%;
+}
+
+#total-emissions-donut-chart {
+  height: 100%;
 }
 
 #year-selector-container {
@@ -73,10 +90,31 @@ body {
   flex: 1;
   padding-top: 1.25vh;
   border: 1px gray solid;
+  width: 10em;
+  max-width: 10em;
 }
 
 .year-selector:hover {
   background-color: lightgreen;
+}
+
+#year-container {
+  height: 50%;
+}
+
+#big-selected-year {
+  font-size: 16em;
+  line-height: 100%;
+}
+
+#map-container {
+  width: 100%;
+  height: 50%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
 }
 
 #activity-daily-emissions-container {
@@ -93,15 +131,6 @@ body {
 }
 
 #activity-cumulative-emissions-chart {
-  width: 100%;
-  height: 100%;
-}
-
-#total-emissions-donut-chart-container {
-  height: 50%;
-}
-
-#total-emissions-donut-chart {
   width: 100%;
   height: 100%;
 }
@@ -129,18 +158,4 @@ body {
 
 .activity-selector:hover {
   background-color: lightgreen;
-}
-
-#annual-emissions-chart-container {
-  height: 50%;
-}
-
-#annual-emissions-chart {
-  width: 100%;
-  height: 100%;
-}
-
-#map {
-  width: 100%;
-  height: 400px;
 }
