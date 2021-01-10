@@ -339,6 +339,7 @@
         var yearCount = undefined;
         var yearExceededDate = {};
         var annualTotals = {};
+        var annualExcess = {};
         
         var selectedYear = getWorstYear();
         var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
@@ -360,11 +361,6 @@
         var selectedYearElements = document.getElementsByClassName("selected-year");
 
         var map = undefined;
-        
-        console.log(
-            getAverageTotalAnnualEmissions(),
-            getEmissionsChartData(2020),
-        );
 
         function showPresentationStage(year, activity) {
             analysisContainer.style.display = "block";
@@ -476,9 +472,9 @@
             var chart = new google.visualization.Calendar(chartElement);
 
             var options = {
-                title: isCumulative ? "Cumulative Emissions over " + year : "Daily Emissions" ,
-                width: chartElement.parentElement.clientWidth,
-                height: chartElement.parentElement.clientHeight,
+                // title: isCumulative ? "Cumulative Emissions over " + year : "Daily Emissions" ,
+                // width: chartElement.parentElement.clientWidth,
+                // height: chartElement.parentElement.clientHeight,
                 calendar: { cellSize: chartElement.parentElement.clientWidth / 60 },
             };
 
@@ -633,32 +629,37 @@
                 var activitySelector = document.createElement("div");
                 activitySelector.className = "activity-selector";
                 activitySelector.id = "activity-selector-" + emissionsTotalEntry[0];
-                activitySelector.innerText = emissionsTotalEntry[0];
-                switch (emissionsTotalEntry[0]) {
-                    case "FLYING": 
-                        activitySelector.innerHTML = "&#x1F6EB";
-                        break;
-                    case "IN_BUS": 
-                        activitySelector.innerHTML = "&#x1F68C";    
-                        break;
-                    case "IN_FERRY": 
-                        activitySelector.innerHTML = "&#x26F4";    
-                        break;
-                    case "IN_PASSENGER_VEHICLE": 
-                        activitySelector.innerHTML = "&#x1F697";    
-                        break;
-                    case "IN_SUBWAY": 
-                        activitySelector.innerHTML = "&#x1F687";    
-                        break;
-                    case "IN_TRAIN": 
-                        activitySelector.innerHTML = "&#x1F686";    
-                        break;
-                    case "MOTORCYCLING": 
-                        activitySelector.innerHTML = "&#x1F3CD";    
-                        break;
-                }
                 activitySelector.onclick = chooseActivity;
                 activitySelector.setAttribute("activity", emissionsTotalEntry[0]);
+
+                var selectorImage = document.createElement("img");
+                selectorImage.className = "activity-selector-image";
+                selectorImage.id = "activity-selector-image-" + emissionsTotalEntry[0];
+                selectorImage.setAttribute("activity", emissionsTotalEntry[0]);
+                switch (emissionsTotalEntry[0]) {
+                    case "FLYING": 
+                        selectorImage.src = "./images/plane.svg";
+                        break;
+                    case "IN_BUS": 
+                        selectorImage.src = "./images/bus.svg";
+                        break;
+                    case "IN_FERRY": 
+                        selectorImage.src = "./images/boat.svg";
+                        break;
+                    case "IN_PASSENGER_VEHICLE": 
+                        selectorImage.src = "./images/car.svg";
+                        break;
+                    case "IN_SUBWAY": 
+                        selectorImage.src = "./images/subway.svg";
+                        break;
+                    case "IN_TRAIN": 
+                        selectorImage.src = "./images/train.svg";
+                        break;
+                    case "MOTORCYCLING": 
+                        selectorImage.src = "./images/motorcycle.svg";
+                        break;
+                }
+                activitySelector.appendChild(selectorImage);
                 activitySelectorContainer.appendChild(activitySelector);
             });
         }
@@ -691,7 +692,14 @@
         }
 
         function getExcessCarbonUsage(year) {
-            return Math.round( getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) * 10) / 10 - getAnnualTotal(year);
+            if (annualExcess[year] !== undefined) {
+                return annualExcess[year];
+            }
+            annualExcess[year] = 0;
+            var annualBudgetAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions());
+            annualExcess[year] = getAnnualTotal(year) - annualBudgetAllowance;
+            annualExcess[year] = Math.round( annualExcess[year] * 10) / 10;
+            return annualExcess[year];
         }
 
         function getWorstYear() {
@@ -752,7 +760,7 @@
                 forEach(function (activityEmissions) {
                     annualTotals[year] += activityEmissions[1];
                 });
-            annualTotals[year] = Math.round(annualTotals);
+            annualTotals[year] = Math.round( annualTotals[year] * 10) / 10;
             return annualTotals[year];
         }
 
@@ -763,11 +771,11 @@
             var exceededDate = getExceededDate(year);
             if (exceededDate === null) {
                 tfDidExceedAllowance.style.display = "none";
-                tfDidNotExceedAllowance.style.display = "inline-block";
+                tfDidNotExceedAllowance.style.display = "inline";
             } else {
                 exceededDate = new Date(exceededDate);
                 tfExceededDate.innerText = titleCase(monthNames[exceededDate.getMonth()]) + " " + exceededDate.getDate();
-                tfDidExceedAllowance.style.display = "inline-block";
+                tfDidExceedAllowance.style.display = "inline";
                 tfDidNotExceedAllowance.style.display = "none";
             }
             tfExcessCO2.innerText = getExcessCarbonUsage(year);

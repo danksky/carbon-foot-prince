@@ -1,3 +1,12 @@
+:root {
+  --primary-green: #01db22;
+  --secondary-green: #99ffa8;
+  --white: #ffffff;
+  --red: #ff5b19;
+  --primary-blue: #005db3;
+  --secondary-blue: #d9edff;
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -92,10 +101,13 @@ body {
   border: 1px gray solid;
   width: 10em;
   max-width: 10em;
+  border: 1px var(--primary-blue) solid;
+  color: var(--primary-blue);
 }
 
 .year-selector:hover {
-  background-color: lightgreen;
+  background-color: var(--secondary-blue);
+  cursor: pointer;
 }
 
 #year-container {
@@ -103,8 +115,19 @@ body {
 }
 
 #big-selected-year {
-  font-size: 16em;
+  font-size: 18vw;
   line-height: 100%;
+}
+
+#selected-year-caption {
+}
+
+#did-exceed-allowance {
+  display: contents;
+}
+
+#did-not-exceed-allowance {
+  display: contents;
 }
 
 #map-container {
@@ -117,8 +140,54 @@ body {
   height: 100%;
 }
 
+#summary-page {
+}
+
+#activity-container {
+  min-height: 60vh;
+  max-height: 70.5vh;
+}
+
+#activity-selector-container {
+  display: flex;
+  justify-content: space-around;
+  max-height: 10vh;
+}
+
+.activity-selector {
+  text-align: center;
+  flex: 1;
+  border: 1px var(--primary-blue) solid;
+}
+
+.activity-selector:hover {
+  background-color: var(--secondary-blue);
+  cursor: pointer;
+}
+
+.activity-selector-image {
+  width: 60%;
+  height: 60%;
+  padding: 20%;
+  fill: var(--primary-blue);
+}
+#calendar-charts-container {
+  width: 100%;
+  height: 70%;
+}
+
+.calculator-chart-container {
+  padding-bottom: 5%;
+  height: 22.5vh;
+  padding-top: 5%;
+}
+
+.calendar-chart-label {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
 #activity-daily-emissions-container {
-  height: 30%;
 }
 
 #activity-daily-emissions-chart {
@@ -127,35 +196,9 @@ body {
 }
 
 #activity-cumulative-emissions-container {
-  height: 30%;
 }
 
 #activity-cumulative-emissions-chart {
   width: 100%;
   height: 100%;
-}
-
-#summary-page {
-}
-
-#activity-container {
-  padding-top: 5%;
-  height: calc(100% - 10vw);
-}
-
-#activity-selector-container {
-  display: flex;
-  justify-content: space-around;
-  height: 4.5vh;
-}
-
-.activity-selector {
-  text-align: center;
-  flex: 1;
-  padding: 2%;
-  border: 1px gray solid;
-}
-
-.activity-selector:hover {
-  background-color: lightgreen;
 }

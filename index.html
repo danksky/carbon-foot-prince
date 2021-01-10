@@ -76,7 +76,9 @@
                     <div id="year-container">
                         <span class="selected-year" id="big-selected-year">0000</span>
                         <div id="selected-year-caption">
-                            In <span class="selected-year" id="focused-year-span">0000</span>, you <span id="did-exceed-allowance">exceeded your annual personal transportation carbon allowance by <span id="exceeded-date">January 1</span>.</span><span id="did-not-exceed-allowance">did not exceed your annual personal transportation carbon allowance. Nice job!</span> You emitted <span id="excess-co2">99</span> kgt CO<sub>2</sub>.
+                            In <span class="selected-year" id="focused-year-span">0000</span>, you 
+                            <span id="did-exceed-allowance">exceeded your annual personal transportation carbon allowance by <span id="exceeded-date">January 1</span>. You emitted and excess of <span id="excess-co2">99</span> kgt CO<sub>2</sub>.</span>
+                            <span id="did-not-exceed-allowance">did not exceed your annual personal transportation carbon allowance. Nice job!</span> 
                         </div>
                     </div>
                     <div id="map-container">
@@ -86,17 +88,21 @@
                 <div class="page-section">
                     <div id="activity-container" class="card">
                         <div id="activity-selector-container"></div>
-                        <div id="activity-daily-emissions-container">
-                            <div id="activity-daily-emissions-label">
-                                activity-daily-emissions-label
+                        <div id="calendar-charts-container">
+                            <div class="calculator-chart-container" id="activity-daily-emissions-container">
+                                <div class="calendar-chart-label" id="activity-daily-emissions-label">
+                                    <h3>Daily Emissions</h3>
+                                    <p></p>
+                                </div>
+                                <div id="activity-daily-emissions-chart"></div>
                             </div>
-                            <div id="activity-daily-emissions-chart"></div>
-                        </div>
-                        <div id="activity-cumulative-emissions-container">
-                            <div id="activity-cumulative-emissions-label">
-                                activity-cumulative-emissions-label
+                            <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
+                                <div class="calendar-chart-label" id="activity-cumulative-emissions-label">
+                                    <h3>Cumulative Emissions</h3>
+                                    <p>When the gradient below turns from green to white, you have reached your annual carbon emission allowance. Once the gradient turns red, your carbon emissions exceed what you might have budgeted for <span class="selected-year">0000</span> in 2015.</p>
+                                </div>
+                                <div id="activity-cumulative-emissions-chart"></div>
                             </div>
-                            <div id="activity-cumulative-emissions-chart"></div>
                         </div>
                     </div>
                 </div>
