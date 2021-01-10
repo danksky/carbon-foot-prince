@@ -7,18 +7,6 @@
     var fileProcessProgress = {};
     
     var mapDataByYear = {};
-    var flightPathsByYear = {};
-    var passengerVehicleSourcesByYear = {};
-    var busSourcesByYear = {};
-    var subwaySourcesByYear = {};
-    var trainPathsByYear = {};
-    var ferrySourcesByYear = {};
-    var motorcyclingSourcesByYear = {};
-
-	var earliestRecordedDate = 0;
-	var firstCompleteYear = 0;
-	var lastCompleteYear = 0;
-    var totalEmissions = 0;
 
     var dailyEmissionsChart = {};
 
