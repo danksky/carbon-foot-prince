@@ -43,10 +43,30 @@ body {
   padding: 10%;
 }
 
+#intro {
+  margin-top: 40%;
+}
+
+#intro-title {
+  font-size: 4em;
+}
+
+#intro-subtitle {
+  font-size: 2em;
+  font-weight: normal;
+}
+
+#intro-subtitle {
+  font-size: 2em;
+}
+
 #upload-container {
   margin-top: calc(25vh - 15%);
-  margin-bottom: calc(25vh - 15%);
-  height: 40%;
+  min-height: 40%;
+}
+
+#instructions-description {
+  font-weight: normal;
 }
 
 #analysis-container {
