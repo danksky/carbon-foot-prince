@@ -84,12 +84,17 @@ body {
   background-color: green;
 }
 
-#summary-container {
-  height: 50%;
+#summary-text {
+  height: 40%;
+  font-size: 1.5em;
+}
+
+#summary-text span {
+  font-weight: bold;
 }
 
 #annual-emissions-chart-container {
-  height: 50%;
+  height: 60%;
 }
 
 #annual-emissions-chart {
@@ -97,11 +102,16 @@ body {
 }
 
 #total-emissions-text {
-  height: 50%;
+  height: 40%;
+  font-size: 4vw;
+}
+
+#big-total-emission {
+  font-size: 10vw;
 }
 
 #total-emissions-donut-chart-container {
-  height: 50%;
+  height: 60%;
 }
 
 #total-emissions-donut-chart {
@@ -131,7 +141,8 @@ body {
 }
 
 #year-container {
-  height: 50%;
+  padding-bottom: 10%;
+  max-height: 50%;
 }
 
 #big-selected-year {

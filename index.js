@@ -351,7 +351,6 @@
         // text fields
         var tfYearCount = document.getElementById("year-count");
         var tfHalfTotalEmissions = document.getElementById("half-total-emission");
-        var tfQuarterTotalEmissions = document.getElementById("quarter-total-emission");
         var tfExceededDate = document.getElementById("exceeded-date");
         var tfDidExceedAllowance = document.getElementById("did-exceed-allowance");
         var tfDidNotExceedAllowance = document.getElementById("did-not-exceed-allowance");
@@ -359,6 +358,7 @@
 
         var totalEmissionsElements = document.getElementsByClassName("total-emission");
         var selectedYearElements = document.getElementsByClassName("selected-year");
+        var quarterTotalEmissionsElements = document.getElementsByClassName("quarter-total-emission");
 
         var map = undefined;
 
@@ -530,11 +530,11 @@
 
         function drawLineChart(chartID) {
             var dataTable = new google.visualization.DataTable();
-            dataTable.addColumn({ type: 'string', id: 'Year' });
-            dataTable.addColumn({ type: 'number', id: 'Annual Emissions' });
-            dataTable.addColumn({ type: 'number', id: 'Annual Allowance' });
-            dataTable.addColumn({ type: 'number', id: 'Average Developed World Emissions' });
-            dataTable.addColumn({ type: 'number', id: 'Average Emissions Per Capita' });
+            dataTable.addColumn('string', 'Year' );
+            dataTable.addColumn('number', 'Annual Emissions' );
+            dataTable.addColumn('number', 'Annual Allowance' );
+            dataTable.addColumn('number', 'Average Developed World Emissions' );
+            dataTable.addColumn('number', 'Average Emissions Per Capita' );
 
             var transportationShareOfUSACarbon = 0.28; // https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks
             var usaTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
@@ -582,12 +582,15 @@
             dataTable.addRows(annualEmisionsData);
 
             var chartElement = document.getElementById(chartID);
-            var chart = new google.visualization.LineChart(chartElement);
-
+            var chart = new google.charts.Line(chartElement);
+            
             var options = {
+                legend: {
+                    position: 'top'
+                },
             };
 
-            chart.draw(dataTable, options);
+            chart.draw(dataTable, google.charts.Line.convertOptions(options));
         }
 
         function drawAllCharts(year) {
@@ -596,7 +599,7 @@
                 console.error("drawAllCharts failed because no data for year", year)
                 return;
             }
-            google.charts.load("current", {packages:["calendar", "corechart"]});
+            google.charts.load("current", {packages:["line", "calendar", "corechart"]});
             google.charts.setOnLoadCallback(() => {
                 drawCalendarChart(year, false, 'activity-daily-emissions-chart');
                 drawCalendarChart(year, true, 'activity-cumulative-emissions-chart');
@@ -767,7 +770,6 @@
         function changeAllText(year) {
             tfYearCount.innerText = getYearCount();
             tfHalfTotalEmissions.innerText = numberWithCommas(getTotalEmissions() / 2);
-            tfQuarterTotalEmissions.innerText = numberWithCommas(getTotalEmissions() / 4);
             var exceededDate = getExceededDate(year);
             if (exceededDate === null) {
                 tfDidExceedAllowance.style.display = "none";
@@ -784,6 +786,9 @@
             }
             for (var i = 0; i < selectedYearElements.length; i++) {
                 selectedYearElements[i].innerText = year;
+            }
+            for (var i = 0; i < quarterTotalEmissionsElements.length; i++) {
+                quarterTotalEmissionsElements[i].innerText = numberWithCommas(getTotalEmissions() / 4);
             }
         }
 
