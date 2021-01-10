@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="container">
-        <div class="page" id="intro-container">
+        <div class="page stage-container" id="intro-container">
             <div class="page-section">
                 <div id="intro">
                     Learn from yesterday, 
@@ -47,66 +47,50 @@
                 </div>
             </div>
         </div>
-        <div id="analysis-container">
-            analysis-container
+        <div class="stage-container" id="analysis-container">
             <div class="page" id="overview-page">
-                overview-page
-                <div class="page-section">
-                    section
+                <div id="summary-page" class="page-section">
                     <div id="summary-container">
-                        summary-container
+                        Your personal transportation over the past <span id="year-count">X</span> years has emitted <span id="total-emission">X</span> kgt of CO<sub>2</sub>. 
+                        Of this, <span id="half-total-emission">X</span> kgt CO<sub>2</sub> will remain in the atmosphere, 
+                        and <span id="quarter-total-emission">X</span> kgt CO<sub>2</sub> will acidify the ocean. 
+                        Plants will eat the rest.
                     </div>
                     <div id="annual-emissions-chart-container">
-                        annual-emissions-chart-container
                         <div id="annual-emissions-chart">
-                            annual-emissions-chart
+                            <span id="total-emission-large">X</span> kgt CO<sub>2</sub>
                         </div>
                     </div>
                 </div>
                 <div class="page-section">
-                    section
                     <div id="total-emissions-text">
-                        total-emissions-text
+                        <span id="total-emission-large">X</span> kgt of CO<sub>2</sub>
                     </div>
                     <div id="total-emissions-donut-chart-container">
-                        total-emissions-donut-chart-container
-                        <div id="total-emissions-donut-chart">
-                            total-emissions-donut-chart
-                        </div>
+                        <div id="total-emissions-donut-chart"></div>
                     </div>
                 </div>
             </div>
-            <div id="year-selector-container">
-                year-selector-container
-            </div>
+            <div class="page-divider" id="year-selector-container"></div>
             <div class="page" id="breakdown-page">
-                breakdown-page
                 <div class="page-section">
-                    section
                     <div id="year-container">
-                        year-container
                         In <span id="focused-year-span">0000</span>, you exceeded your annual carbon allowance by <span id="exceeded-date">January 1</span>. You emitted <span id="excess-co2">99</span> kgt CO<sub>2</sub>.
                     </div>
                     <div id="map-container">
-                        map-container
+                        <div id=map></div>
                     </div>
                 </div>
                 <div class="page-section">
-                    section
-                    <div id="activity-container">
-                        activity-container
-                        <div id="activity-selector-container">
-                            activity-selector-container
-                        </div>
+                    <div id="activity-container" class="card">
+                        <div id="activity-selector-container"></div>
                         <div id="activity-daily-emissions-container">
-                            activity-daily-emissions-container
                             <div id="activity-daily-emissions-label">
                                 activity-daily-emissions-label
                             </div>
                             <div id="activity-daily-emissions-chart"></div>
                         </div>
                         <div id="activity-cumulative-emissions-container">
-                            activity-cumulative-emissions-container
                             <div id="activity-cumulative-emissions-label">
                                 activity-cumulative-emissions-label
                             </div>
@@ -124,6 +108,10 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js" 
+    integrity="sha512-KhIBJeCI4oTEeqOmRi2gDJ7m+JARImhUYgXWiOTIp9qqySpFUAJs09erGKem4E5IPuxxSTjavuurvBitBmwE0w==" 
+    crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="./lib/zip.js"></script>
 <script type="text/javascript" src="./index.js"></script>
 </html>

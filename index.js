@@ -4,7 +4,17 @@
 	var activityEmissionsByMonth = {};
 	var activityEmissionsByYear = {};
 	var activityEmissionsTotals = {};
-	var fileProcessProgress = {};
+    var fileProcessProgress = {};
+    
+    var mapDataByYear = {};
+    var flightPathsByYear = {};
+    var passengerVehicleSourcesByYear = {};
+    var busSourcesByYear = {};
+    var subwaySourcesByYear = {};
+    var trainPathsByYear = {};
+    var ferrySourcesByYear = {};
+    var motorcyclingSourcesByYear = {};
+
 	var earliestRecordedDate = 0;
 	var firstCompleteYear = 0;
 	var lastCompleteYear = 0;
@@ -124,43 +134,63 @@
 
                 var SCALAR_E7 = 0.0000001; // Since Google Takeout stores latlngs as integers
 
-                if (activityType == "FLYING") {
-                    if (segment.activitySegment.startLocation
-                        && segment.activitySegment.endLocation
-                        && segment.activitySegment.startLocation.latitudeE7
-                        && segment.activitySegment.startLocation.longitudeE7
-                        && segment.activitySegment.endLocation.latitudeE7
-                        && segment.activitySegment.endLocation.longitudeE7) {
-                        var startLatitude = segment.activitySegment.startLocation.latitudeE7 * SCALAR_E7,
-                        startLongitude = segment.activitySegment.startLocation.longitudeE7 * SCALAR_E7, 
-                        endLatitude = segment.activitySegment.endLocation.latitudeE7 * SCALAR_E7,
-                        endLongitude = segment.activitySegment.endLocation.longitudeE7 * SCALAR_E7;
+                
+                if (segment.activitySegment.startLocation
+                    && segment.activitySegment.endLocation
+                    && segment.activitySegment.startLocation.latitudeE7
+                    && segment.activitySegment.startLocation.longitudeE7
+                    && segment.activitySegment.endLocation.latitudeE7
+                    && segment.activitySegment.endLocation.longitudeE7) {
+                    var startLatitude = segment.activitySegment.startLocation.latitudeE7 * SCALAR_E7,
+                    startLongitude = segment.activitySegment.startLocation.longitudeE7 * SCALAR_E7, 
+                    endLatitude = segment.activitySegment.endLocation.latitudeE7 * SCALAR_E7,
+                    endLongitude = segment.activitySegment.endLocation.longitudeE7 * SCALAR_E7;
 
-                        // Handle negative latlngs due to google unsigned/signed integer bug.
-                        if ( startLatitude > 180 ) startLatitude = startLatitude - (2 ** 32) * SCALAR_E7;
-                        if ( startLongitude > 180 ) startLongitude = startLongitude - (2 ** 32) * SCALAR_E7;
-                        if ( endLatitude > 180 ) endLatitude = endLatitude - (2 ** 32) * SCALAR_E7;
-                        if ( endLongitude > 180 ) endLongitude = endLongitude - (2 ** 32) * SCALAR_E7;
+                    // Handle negative latlngs due to google unsigned/signed integer bug.
+                    if ( startLatitude > 180 ) startLatitude = startLatitude - (2 ** 32) * SCALAR_E7;
+                    if ( startLongitude > 180 ) startLongitude = startLongitude - (2 ** 32) * SCALAR_E7;
+                    if ( endLatitude > 180 ) endLatitude = endLatitude - (2 ** 32) * SCALAR_E7;
+                    if ( endLongitude > 180 ) endLongitude = endLongitude - (2 ** 32) * SCALAR_E7;
 
-                        // create a red polyline from an array of LatLng points
-                        if (Number.isNaN(startLatitude) || Number.isNaN(startLongitude) || Number.isNaN(endLatitude) || Number.isNaN(endLongitude)) {
-                            console.log(segment);
-                            // TODO: Handle this case
-                        } else {
-                            var latlngs = [
-                                [startLatitude, startLongitude],
-                                [endLatitude, endLongitude]
-                            ];
-                            flights[year][month].push(latlngs);
-                            // if (year === "2019")
-                            // 	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-                        }
-                        
-
+                    if (Number.isNaN(startLatitude) || Number.isNaN(startLongitude) || Number.isNaN(endLatitude) || Number.isNaN(endLongitude)) {
+                        console.log(segment);
+                        // TODO: Handle this case
                     } else {
-
+                        if (mapDataByYear[year] === undefined) {
+                            mapDataByYear[year] = {};
+                        }
+                        switch (activityType) {
+                            case "FLYING": 
+                            case "IN_TRAIN":
+                                if (mapDataByYear[year][activityType] === undefined) {
+                                    mapDataByYear[year][activityType] = L.layerGroup();
+                                }
+                                var sdLatLongs = [
+                                    [startLatitude, startLongitude],
+                                    [endLatitude, endLongitude]
+                                ];
+                                var polyline = L.polyline(sdLatLongs, {color: 'red'});
+                                mapDataByYear[year][activityType].addLayer(polyline);
+                                break;
+                            case "IN_BUS":
+                            case "IN_FERRY":
+                            case "IN_PASSENGER_VEHICLE":
+                            case "IN_SUBWAY":
+                            case "MOTORCYCLING":
+                                if (mapDataByYear[year][activityType] === undefined) {
+                                    mapDataByYear[year][activityType] = L.heatLayer([]);
+                                } else {
+                                    mapDataByYear[year][activityType].addLatLng(
+                                        [startLatitude, startLongitude]
+                                    );
+                                }
+                                break;
+                        }
                     }
+                } else {
+
                 }
+                
             } else if (segment?.placeVisit) {
 
             } else {
@@ -304,19 +334,25 @@
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
         var selectedYear = getWorstYear();
+        var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
 
         var analysisContainer = document.getElementById("analysis-container");
         var yearSelectorContainer = document.getElementById("year-selector-container");
+        var activitySelectorContainer = document.getElementById("activity-selector-container");
+
+        var map = undefined;
         
         console.log(
             getAverageTotalAnnualEmissions(),
             getEmissionsChartData(2020),
         );
 
-        function showPresentationStage(year) {
-            analysisContainer.style.display = "grid";
+        function showPresentationStage(year, activity) {
+            analysisContainer.style.display = "block";
             generateYearSelection();
+            generateActivitySelection();
             drawAllCharts(year);
+            drawMap(year, activity);
         }
 
         function getAverageTotalAnnualEmissions() {
@@ -551,7 +587,6 @@
                     drawLineChart('annual-emissions-chart');
                 };
             });
-            // TODO: finish
         }
 
         function generateYearSelection() {
@@ -566,18 +601,56 @@
             });
         }
 
+        function generateActivitySelection() {
+            Object.entries(activityEmissionsTotals).forEach(function (emissionsTotalEntry) {
+                var activitySelector = document.createElement("div");
+                activitySelector.className = "activity-selector";
+                activitySelector.id = "activity-selector-" + emissionsTotalEntry[0];
+                activitySelector.innerText = emissionsTotalEntry[0];
+                switch (emissionsTotalEntry[0]) {
+                    case "FLYING": 
+                        activitySelector.innerHTML = "&#x1F6EB";
+                        break;
+                    case "IN_BUS": 
+                        activitySelector.innerHTML = "&#x1F68C";    
+                        break;
+                    case "IN_FERRY": 
+                        activitySelector.innerHTML = "&#x26F4";    
+                        break;
+                    case "IN_PASSENGER_VEHICLE": 
+                        activitySelector.innerHTML = "&#x1F697";    
+                        break;
+                    case "IN_SUBWAY": 
+                        activitySelector.innerHTML = "&#x1F687";    
+                        break;
+                    case "IN_TRAIN": 
+                        activitySelector.innerHTML = "&#x1F686";    
+                        break;
+                    case "MOTORCYCLING": 
+                        activitySelector.innerHTML = "&#x1F3CD";    
+                        break;
+                }
+                activitySelector.onclick = chooseActivity;
+                activitySelector.setAttribute("activity", emissionsTotalEntry[0]);
+                activitySelectorContainer.appendChild(activitySelector);
+            });
+        }
+
         function chooseYear(event) {
-            selectedYear = parseInt(event.target.innerHTML);
-            // console.log(selectedYear);
+            selectedYear = parseInt(event.target.getAttribute("year"));
             drawAllCharts(selectedYear);
+            drawMap(selectedYear, selectedActivity);
             changeAllText(selectedYear);
         }
 
-        function changeAllText() {
-
+        function chooseActivity(event) {
+            selectedActivity = event.target.getAttribute("activity");
+            console.log(event);
+            console.log(selectedActivity);
+            drawMap(selectedYear, selectedActivity);
         }
 
-        function chooseActivity(event) {
+        function changeAllText() {
 
         }
 
@@ -601,15 +674,46 @@
             return worstYear;
         }
 
-        function drawMap() {
-
+        function drawMap(year, activityType) {
+            if (map === undefined) {
+                map = L.map('map').setView([0, 0], 1);
+                var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                }).addTo(map);
+            } else {
+                // TODO: Also check if the year and selectedType are different from how they were, otherwise no need to refresh
+                map.eachLayer(function(layer){
+                    if (layer._url === undefined) {
+                        map.removeLayer(layer);
+                    }
+                });
+            }
+            switch (activityType) {
+                case "FLYING": 
+                case "IN_TRAIN":
+                    var polygroup = mapDataByYear[year][activityType];
+                    if (polygroup !== undefined) {
+                        polygroup.addTo(map);
+                    }
+                    break;
+                case "IN_BUS":
+                case "IN_FERRY":
+                case "IN_PASSENGER_VEHICLE":
+                case "IN_SUBWAY":
+                case "MOTORCYCLING":
+                    var heatLayer = mapDataByYear[year][activityType];
+                    if (heatLayer !== undefined) {
+                        heatLayer.addTo(map);
+                    }
+                    break;
+            }
         }
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
             return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
         }
 
-        showPresentationStage(selectedYear);        
+        showPresentationStage(selectedYear, selectedActivity);        
     }
 
 })(this);

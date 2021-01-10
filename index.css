@@ -2,26 +2,41 @@ body {
   margin: 0;
 }
 
+.stage-container {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
 .page {
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
 }
 
 .page-section {
   grid-column-start: span 1;
-  height: 100%;
+  height: calc(100% - 10vw);
+  padding: 10%;
+}
+
+.page-divider {
+  grid-column-start: span 2;
 }
 
 .card {
   margin: auto;
-  margin-top: calc(25vh - 5%);
-  margin-bottom: calc(25vh - 5%);
-  width: 60%;
-  height: 40%;
-  padding: 10%;
+  width: 80%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  padding: 10%;
+}
+
+#upload-container {
+  margin-top: calc(25vh - 15%);
+  margin-bottom: calc(25vh - 15%);
+  height: 40%;
 }
 
 #analysis-container {
@@ -39,8 +54,33 @@ body {
   background-color: green;
 }
 
+#overview-page {
+  height: 90vh;
+}
+
+#summary-container {
+  height: 50%;
+}
+
+#year-selector-container {
+  display: flex;
+  justify-content: space-around;
+  height: 4.5vh;
+}
+
+.year-selector {
+  text-align: center;
+  flex: 1;
+  padding-top: 1.25vh;
+  border: 1px gray solid;
+}
+
+.year-selector:hover {
+  background-color: lightgreen;
+}
+
 #activity-daily-emissions-container {
-  height: 400px;
+  height: 30%;
 }
 
 #activity-daily-emissions-chart {
@@ -49,7 +89,7 @@ body {
 }
 
 #activity-cumulative-emissions-container {
-  height: 400px;
+  height: 30%;
 }
 
 #activity-cumulative-emissions-chart {
@@ -58,7 +98,7 @@ body {
 }
 
 #total-emissions-donut-chart-container {
-  height: 400px;
+  height: 50%;
 }
 
 #total-emissions-donut-chart {
@@ -66,11 +106,41 @@ body {
   height: 100%;
 }
 
+#summary-page {
+}
+
+#activity-container {
+  padding-top: 5%;
+  height: calc(100% - 10vw);
+}
+
+#activity-selector-container {
+  display: flex;
+  justify-content: space-around;
+  height: 4.5vh;
+}
+
+.activity-selector {
+  text-align: center;
+  flex: 1;
+  padding: 2%;
+  border: 1px gray solid;
+}
+
+.activity-selector:hover {
+  background-color: lightgreen;
+}
+
 #annual-emissions-chart-container {
-  height: 400px;
+  height: 50%;
 }
 
 #annual-emissions-chart {
   width: 100%;
   height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 400px;
 }
