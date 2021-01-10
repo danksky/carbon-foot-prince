@@ -681,12 +681,12 @@
             if (yearCount !== undefined) {
                 return yearCount;
             }
-            var minimumYear = (new Date()).getYear();
+            var minimumYear = (new Date()).getFullYear();
+            console.log(Object.keys(activityEmissionsByYear));
             Object.keys(activityEmissionsByYear).forEach(function (yearKey) {
-                var year = parseInt(yearKey);
-                minimumYear = Math.min(minimumYear, year);
+                minimumYear = Math.min(minimumYear, parseInt(yearKey));
             })
-            yearCount = (new Date()).getYear() - minimumYear;
+            yearCount = (new Date()).getFullYear() - minimumYear;
             return yearCount;
         }
 
