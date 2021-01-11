@@ -62,13 +62,23 @@
         </div>
         <div class="stage-container" id="analysis-container">
             <div class="page" id="overview-page">
-                <div id="summary-page" class="page-section">
+                <div class="page-section">
+                    <img id="summary-image" src="images/pollution.svg" />
                     <div id="summary-text">
                         Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
                         Of this, <span id="half-total-emission">X</span> kgt CO<sub>2</sub> will remain in the atmosphere, 
                         and <span class="quarter-total-emission">X</span> kgt CO<sub>2</sub> will acidify the ocean. 
                         Plants will process the other <span class="quarter-total-emission">X</span> kgt CO<sub>2</sub>.
                     </div>
+                    <div id="total-emissions-text">
+                        <span class="total-emission" id="big-total-emission">X</span> kgt of CO<sub>2</sub>
+                    </div>
+                    <div id="total-emissions-donut-chart-container">
+                        <div id="total-emissions-donut-chart"></div>
+                    </div>
+                </div>
+                <div id="summary-page" class="page-section">
+                    <img id="line-graph-image" src="images/line-graph.svg" />
                     <div id="annual-emissions-chart-legend">
                         <div class="annual-emissions-chart-legend-item">
                             <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-1"></div>
@@ -98,14 +108,6 @@
                     <div id="annual-emissions-chart-container">
                         <div id="annual-emissions-chart">
                         </div>
-                    </div>
-                </div>
-                <div class="page-section">
-                    <div id="total-emissions-text">
-                        <span class="total-emission" id="big-total-emission">X</span> kgt of CO<sub>2</sub>
-                    </div>
-                    <div id="total-emissions-donut-chart-container">
-                        <div id="total-emissions-donut-chart"></div>
                     </div>
                 </div>
             </div>
