@@ -510,9 +510,9 @@
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn('string', 'Year' );
             dataTable.addColumn('number', 'Annual Emissions' );
-            dataTable.addColumn('number', 'Annual Allowance' );
-            dataTable.addColumn('number', 'Average Developed World Emissions' );
-            dataTable.addColumn('number', 'Average Emissions Per Capita' );
+            dataTable.addColumn('number', 'Paris Climate Accord Allowance' );
+            dataTable.addColumn('number', 'Average USA Emissions Per Capita' );
+            dataTable.addColumn('number', 'Average World Emissions Per Capita' );
 
             var transportationShareOfUSACarbon = 0.28; // https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks
             var usaTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
@@ -544,19 +544,30 @@
                             // world population increased - https://www.worldometers.info/world-population/world-population-by-year/
             }
 
-            var annualEmisionsData = Object.entries(activityEmissionsByYear).map(function(yearEntry) {
-                var annualSum = 0;
-                Object.entries(yearEntry[1]).forEach(function(yearActivityEntry) {
-                    annualSum += yearActivityEntry[1];
-                });
-                return [
-                    yearEntry[0], 
-                    annualSum / 1000, 
-                    getAnnualBudgetAllowance(reductionPercentageGoal, yearEntry[0], getAverageTotalAnnualEmissions()) / 1000, 
-                    usaTotalPerCapita[parseInt(yearEntry[0])] * transportationShareOfUSACarbon,
-                    worldTotalPerCapita[parseInt(yearEntry[0])] * transportationShareOfGlobalCarbon,
-                ];
+            var minYear = (new Date()).getFullYear();
+            Object.keys(activityEmissionsByYear).forEach(function(yearKey) {
+                minYear = Math.min(minYear, yearKey);
             });
+
+            var latestYear = 2020;
+            var annualEmisionsData = [];
+            for (var year = minYear; year <= latestYear; year++) {
+                var annualSum = null;
+                if (activityEmissionsByYear[year] !== undefined) {
+                    annualSum = 0;
+                    Object.entries(activityEmissionsByYear[year]).forEach(function(yearActivityEntry) {
+                        annualSum += yearActivityEntry[1];
+                    });
+                    annualSum = annualSum / 1000;
+                }
+                annualEmisionsData.push([
+                    year.toString(), 
+                    annualSum, 
+                    getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) / 1000, 
+                    usaTotalPerCapita[year] * transportationShareOfUSACarbon,
+                    worldTotalPerCapita[year] * transportationShareOfGlobalCarbon,
+                ]);
+            }
             dataTable.addRows(annualEmisionsData);
 
             var chartElement = document.getElementById(chartID);
@@ -564,8 +575,11 @@
             
             var options = {
                 legend: {
-                    position: 'top'
+                    position: 'none'
                 },
+                vAxis: {
+                    title: 'Kilogram tons of CO2'
+                }
             };
 
             chart.draw(dataTable, google.charts.Line.convertOptions(options));
@@ -707,6 +721,7 @@
                 forEach(function (activityEmissionEntry) {
                     totalEmissions += activityEmissionEntry[1];
                 });
+            totalEmissions = totalEmissions / 1000;
             totalEmissions = Math.round(totalEmissions * 10) / 10
             return totalEmissions;
         }

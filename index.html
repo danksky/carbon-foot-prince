@@ -25,6 +25,7 @@
         <div class="page stage-container" id="intro-container">
             <div class="page-section">
                 <div id="intro">
+                    <img id="intro-image" src="images/plant.svg" />
                     <h1 id="intro-title"> Carbon Footprince </h1> 
                     <h2 id="intro-subtitle"> Personal Transportation Carbon Tracker </h2>
                 </div>
@@ -63,10 +64,36 @@
             <div class="page" id="overview-page">
                 <div id="summary-page" class="page-section">
                     <div id="summary-text">
-                        Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservative calculation of <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
+                        Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
                         Of this, <span id="half-total-emission">X</span> kgt CO<sub>2</sub> will remain in the atmosphere, 
                         and <span class="quarter-total-emission">X</span> kgt CO<sub>2</sub> will acidify the ocean. 
-                        Plants will eat the other <span class="quarter-total-emission">X</span> kgt CO<sub>2</sub>.
+                        Plants will process the other <span class="quarter-total-emission">X</span> kgt CO<sub>2</sub>.
+                    </div>
+                    <div id="annual-emissions-chart-legend">
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-1"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Personal Transportation Emissions</strong> - your personal carbon output from personal transportation
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-2"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Personal 2015 Paris Climate Accords Goal</strong> - the annual per-capita reduction goals set by the 2015 Paris Climate Accords 
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-3"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>USA Transportation Emissions Per Capita</strong>
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-4"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Global Transportation Emissions Per Capita</strong>
+                            </div>
+                        </div>
                     </div>
                     <div id="annual-emissions-chart-container">
                         <div id="annual-emissions-chart">
@@ -82,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="page-divider" id="year-selector-container"></div>
+            <div class="page-divider card" id="year-selector-container"></div>
             <div class="page" id="breakdown-page">
                 <div class="page-section">
                     <div id="year-container">
