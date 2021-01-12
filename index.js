@@ -825,8 +825,8 @@
             }
         }
 
-        function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, averageAnnualEmissions) {
-            return averageAnnualEmissions * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
+        function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, annualEmissionsAverage) {
+            return annualEmissionsAverage * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
         }
 
         showPresentationStage(selectedYear, selectedActivity);        
