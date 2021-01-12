@@ -21,27 +21,50 @@
     </script>
 </head>
 <body>
+    <div class=header>
+        <a href="todo" class="header-button-anchor">
+            <div class="header-button">
+                <img class="header-button-icon" src="images/privacy.svg" alt="privacy"/>
+            </div>
+        </a>
+        <a href="todo" class="header-button-anchor">
+            <div class="header-button">
+                <img class="header-button-icon" src="images/github.svg" alt="github project"/>
+            </div>
+        </a>
+        <a href="todo" class="header-button-anchor">
+            <div class="header-button">
+                <img class="header-button-icon" src="images/question-mark.svg" alt="questions"/>
+            </div>
+        </a>
+    </div>
     <div id="container">
         <div class="page stage-container" id="intro-container">
-            <div class="page-section">
+            <div class="intro-section page-section">
                 <div id="intro">
                     <img id="intro-image" src="images/plant.svg" />
                     <h1 id="intro-title"> Carbon Footprince </h1> 
                     <h2 id="intro-subtitle"> Personal Transportation Carbon Tracker </h2>
+                    <br />
+                    <!-- <br /> -->
+                    <h2 id="intro-subtitle"> Use your Google location history data to calculate the carbon footprint of what moves you. </h2>
                 </div>
             </div>
-            <div class="page-section">
+            <div class="intro-section page-section">
                 <div id="upload-container" class="card">
                     <div id="instructions-container">
                         <h2 id="instructions-description">Confront your personal transportation carbon footprint and contribute to environmental equity.</h2>
                         <h2>Start here</h2>
-                        <ol> 
+                        <div class="instruction-button" id="instruction-button">
+                            <img class="instruction-button-icon" src="images/instructions.svg" /><span class="instruction-button-text">Show steps to download my Google Location History</span>
+                        </div>
+                        <ol id="instructions-steps"> 
                             <li> Go to <a href="https://takeout.google.com/settings/takeout">Google Takeout</a> to download your Location History data. </li>
                             <li> Deselect everything except Location History.
                                 <ol>
-                                    <li> Click "Deselect all".</li>
-                                    <li> Scroll until you find "Location History" and select it. </li>
-                                    <li> Scroll down and click "Next step". </li>
+                                    <li> Click <strong>Deselect all</strong>.</li>
+                                    <li> Scroll until you find <strong>History</strong> and select it.</li>
+                                    <li> Scroll down and click <strong>Next step</strong>.</li>
                                 </ol>
                             </li> 
                             <li> For <strong>Delivery method</strong> choose whichever method you'd like to receive the zip. </li>
@@ -52,6 +75,23 @@
                         </ol>
                     </div>
                     <input type="file" accept="application/zip,application/json" id="file-input" />
+                    <div id="questions-container">
+                        <a href="todo" class="question-button-anchor">
+                            <div class="question-button">
+                                <img class="question-button-icon" src="images/question-mark.svg" /><span class="question-button-text">Does my data leave my computer?</span>
+                            </div>
+                        </a>
+                        <a href="todo" class="question-button-anchor">
+                            <div class="question-button">
+                                <img class="question-button-icon" src="images/question-mark.svg" /><span class="question-button-text">How do I contribute to this open-source project?</span>
+                            </div>
+                        </a>
+                        <a href="todo" class="question-button-anchor">
+                            <div class="question-button">
+                                <img class="question-button-icon" src="images/question-mark.svg" /><span class="question-button-text">Is the calculation reliable?</span>
+                            </div>
+                        </a>
+                    </div>
                     <div id="upload-progress-container">
                         <div id="upload-progress-bar-container">
                             <div id="upload-progress-bar"></div>

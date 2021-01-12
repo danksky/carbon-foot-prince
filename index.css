@@ -1,6 +1,8 @@
 :root {
-  --primary-green: #01db22;
-  --secondary-green: #99ffa8;
+  --primary-decorative-green: #01db22;
+  --secondary-decorative-green: #99ffa8;
+  --primary-green: #088b1b;
+  --secondary-green: #dbffe0;
   --white: #ffffff;
   --red: #ff5b19;
   --primary-blue: #005db3;
@@ -43,8 +45,47 @@ body {
   padding: 10%;
 }
 
+.header {
+  width: 90%;
+  min-height: 6vh;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  padding-left: 5%;
+  padding-right: 5%;
+  overflow: auto;
+}
+
+.header-button-anchor {
+  text-decoration: none;
+}
+
+.header-button-anchor:visited {
+  text-decoration: none;
+}
+
+.header-button {
+  padding: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+  border: 1px solid var(--primary-blue);
+  float: right;
+  margin-left: 5px;
+}
+
+.header-button:hover {
+  background-color: var(--secondary-blue);
+}
+
+.header-button-icon {
+  width: 1.5em;
+}
+
+.intro-section {
+  height: calc(100% - 15vw);
+}
+
 #intro {
-  margin-top: 30%;
+  /* margin-top: 15%; */
 }
 
 #intro-image {
@@ -65,12 +106,69 @@ body {
 }
 
 #upload-container {
-  margin-top: calc(25vh - 15%);
+  /* margin-top: calc(10vh); */
   min-height: 40%;
+}
+
+#instructions-container {
+  /* border: 1px solid var(--primary-green); */
 }
 
 #instructions-description {
   font-weight: normal;
+}
+
+#questions-container {
+  width: 100%;
+}
+
+.instruction-button {
+  border: 1px solid var(--primary-green);
+  padding: 15px;
+  margin-top: 15px;
+  color: var(--primary-green);
+  margin-bottom: 15px;
+}
+
+.instruction-button:hover {
+  background-color: var(--secondary-green);
+  cursor: pointer;
+}
+
+.instruction-button-icon {
+  width: 0.8em;
+  margin-right: 1em;
+}
+
+#instructions-steps {
+  display: none;
+  user-select: none;
+  /* border: 1px solid var(--primary-green); */
+}
+
+.question-button-anchor {
+  text-decoration: none;
+}
+
+.question-button-anchor:visited {
+  color: var(--primary-blue);
+}
+
+.question-button {
+  border: 1px solid var(--primary-blue);
+  padding: 15px;
+  margin-top: 15px;
+  color: var(--primary-blue);
+}
+
+.question-button:hover {
+  background-color: var(--secondary-blue);
+  cursor: pointer;
+}
+
+.question-button-icon {
+  width: 0.8em;
+  margin-right: 1em;
 }
 
 #analysis-container {
@@ -85,7 +183,7 @@ body {
 #upload-progress-bar {
   width: 0%;
   height: 100%;
-  background-color: var(--primary-green);
+  background-color: var(--primary-decorative-green);
 }
 
 #summary-image {
@@ -95,7 +193,7 @@ body {
 }
 
 #summary-text {
-  margin-top: 15%;
+  margin-top: 0%;
   /* height: 35%; */
   margin-bottom: 0%;
   font-size: 1em;
@@ -112,7 +210,7 @@ body {
 }
 
 #big-total-emission {
-  font-size: 10vw;
+  font-size: 8vw;
 }
 
 #annual-emissions-chart-container {
@@ -142,7 +240,7 @@ body {
 }
 
 #annual-emissions-chart-legend {
-  margin-top: 15%;
+  margin-top: 0%;
   /* height: 35%; */
   margin-bottom: 5%;
   font-size: 1em;
@@ -203,11 +301,14 @@ body {
 #year-container {
   padding-bottom: 10%;
   max-height: 50%;
+  width: 100%;
 }
 
 #big-selected-year {
   font-size: 18vw;
   line-height: 100%;
+  font-weight: bold;
+  width: 100%;
 }
 
 #selected-year-caption {

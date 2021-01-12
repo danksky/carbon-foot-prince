@@ -16,6 +16,8 @@
         // interactive document elements
         var fileInput = document.getElementById("file-input");
         var fileProgressMeter = document.getElementById("upload-progress-bar");
+        var instructionButton = document.getElementById("instruction-button");
+        var instructionSteps = document.getElementById("instructions-steps")
 
         // passive document elements
         var introContainer = document.getElementById("intro-container");
@@ -274,6 +276,10 @@
             
         }
 
+        function toggleInstructionSteps(event) {
+            instructionSteps.style.display = instructionSteps.style.display === "block" ? "none" : "block" ;
+        }
+
         function hideUploadStage() {
             introContainer.style.display = "none";
         }
@@ -302,6 +308,7 @@
 
         function makeDOMInteractive() {
             fileInput.addEventListener('change', onUploadFile, false);
+            instructionButton.onclick = toggleInstructionSteps;
         }
         makeDOMInteractive();
     }
