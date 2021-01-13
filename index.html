@@ -5,7 +5,7 @@
     <meta name="description" content="Analyze your location history, confront your personal transportation carbon footprint, and contribute to environmental equity.">
     <meta name="keywords" content="Personal, Transportation, Carbon, Tracker, Footprince, CO2, Emission, Offset, Pollution, Carbon dioxide, fossil fuels">
     <meta name="author" content="Daniel Kawalsky">
-    <title>Carbon Footprince</title>
+    <title>Carbon Foot Prince</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -43,7 +43,7 @@
             <div class="intro-section page-section">
                 <div id="intro">
                     <img id="intro-image" src="images/plant.svg" />
-                    <h1 id="intro-title"> Carbon Footprince </h1> 
+                    <h2 id="intro-title"> Carbon Foot Prince </h2> 
                     <h2 id="intro-subtitle"> Personal Transportation Carbon Tracker </h2>
                     <br />
                     <h2 id="intro-subtitle"> Use your Google location history data to calculate the carbon footprint of what moves you. </h2>
@@ -87,7 +87,7 @@
                         </a>
                         <a href="https://github.com/danksky/carbon-analysis#contribute" class="question-button-anchor">
                             <div class="question-button">
-                                <img class="question-button-icon" src="images/question-mark.svg" /><span class="question-button-text">How do I contribute to this open-source project?</span>
+                                <img class="question-button-icon" src="images/question-mark.svg" /><span class="question-button-text">How do I improve this open-source project?</span>
                             </div>
                         </a>
                         <a href="https://github.com/danksky/carbon-analysis#calculation" class="question-button-anchor">
@@ -152,7 +152,7 @@
             </div>
             <div class="page-divider card" id="year-selector-container"></div>
             <div class="page" id="breakdown-page">
-                <div class="page-section">
+                <div class="page-section" id="breakdown-page-section-1">
                     <div id="year-container">
                         <span class="selected-year" id="big-selected-year">0000</span>
                         <div id="selected-year-caption">
@@ -167,27 +167,30 @@
                 </div>
                 <div class="page-section">
                     <div id="activity-container" class="card">
-                        <div id="activity-selector-container"></div>
-                        <div id="calendar-charts-container">
-                            <div class="calculator-chart-container" id="activity-daily-emissions-container">
-                                <div class="calendar-chart-label" id="activity-daily-emissions-label">
-                                    <h3>Daily Emissions</h3>
-                                    <p></p>
+                        <div id="activity-inner-container">
+                            <div id="activity-selector-container"></div>
+                            <div id="calendar-charts-container">
+                                <div class="calculator-chart-container" id="activity-daily-emissions-container">
+                                    <div class="calendar-chart-label" id="activity-daily-emissions-label">
+                                        <h3>Daily Emissions</h3>
+                                        <p></p>
+                                    </div>
+                                    <div id="activity-daily-emissions-chart"></div>
                                 </div>
-                                <div id="activity-daily-emissions-chart"></div>
-                            </div>
-                            <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
-                                <div class="calendar-chart-label" id="activity-cumulative-emissions-label">
-                                    <h3>Cumulative Emissions</h3>
-                                    <p>When the gradient below turns from green to white, you have reached your annual carbon emission allowance. Once the gradient turns red, your carbon emissions exceed what you might have budgeted for <span class="selected-year">0000</span> in 2015.</p>
+                                <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
+                                    <div class="calendar-chart-label" id="activity-cumulative-emissions-label">
+                                        <h3>Cumulative Emissions</h3>
+                                        <p>The gradient below projects the 2015 Paris Climate Accords goals onto your year's emissions. When it turns from green to white, you have reached your annual carbon emission allowance for <span class="selected-year">0000</span>. Once your carbon emissions exceed this budget, the gradient turns red.</p>
+                                    </div>
+                                    <div id="activity-cumulative-emissions-chart"></div>
                                 </div>
-                                <div id="activity-cumulative-emissions-chart"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                </div>
+            </div>
+            <div class="footer">
+                Read more about this project.
             </div>
         </div>
     </div>

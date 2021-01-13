@@ -502,6 +502,8 @@
             var chart = new google.visualization.PieChart(chartElement);
 
             var options = {
+                // width: chartElement.parentElement.clientWidth,
+                // height: chartElement.parentElement.clientHeight,
                 pieHole: 0.4,
                 slices: {
                     0: {offset: 0.1},
@@ -795,6 +797,7 @@
                 map = L.map('map').setView([0, 0], 1);
                 var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 1
                 }).addTo(map);
             } else {
                 // TODO: Also check if the year and selectedType are different from how they were, otherwise no need to refresh
