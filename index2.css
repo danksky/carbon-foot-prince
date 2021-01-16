@@ -1,0 +1,222 @@
+:root {
+  --primary-background-color: #edf6ff;
+  --primary-border-color: #d6d5ff;
+  --primary-border-setting: 2px solid #d6d5ff;
+  --primary-button-text-color: #7500a8;
+  --primary-button-hover-darken: #d5d7db;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans", sans-serif;
+}
+
+#container {
+  width: 100%;
+  min-height: 800px;
+  height: 100vh;
+  background-color: var(--primary-background-color);
+  display: grid;
+  grid-template-columns: 1fr 1000px 1fr;
+  grid-template-rows: 25% 50% 25%;
+}
+
+.button {
+  color: var(--primary-button-text-color);
+}
+
+.button:hover {
+  background-color: var(--primary-button-hover-darken);
+  cursor: pointer;
+}
+
+#main-view-container {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  background-color: white;
+  border-radius: 8px;
+  border: var(--primary-border-setting);
+  display: grid;
+  grid-template-columns: 45% 55%;
+  grid-template-rows: 100%;
+}
+
+#scope-control-panel-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  height: 100%;
+  /* display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center; */
+}
+
+#scope-control-panel-selector-container {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: white;
+  height: 100%;
+  border: var(--primary-border-setting);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.scope-control-panel-selector {
+  grid-column-start: span 1;
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scope-control-panel-selector:nth-of-type(1) {
+  border-right: var(--primary-border-setting);
+}
+
+#presentation-view-control-panel-cell {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 50% 30% 20%;
+}
+
+#presentation-view-control-panel-cell-row {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 1fr 100px 100px 60px 68px 68px 68px 1fr;
+}
+
+#chart-view-control-panel-selector-container {
+  grid-column-end: 8;
+  grid-column-start: 5;
+  height: 100%;
+  background-color: white;
+  overflow: hidden;
+  grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  border: var(--primary-border-setting);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chart-view-control-panel-selector {
+  grid-column-start: span 1;
+  border-right: var(--primary-border-setting);
+}
+
+.chart-view-control-panel-selector:nth-last-child(1) {
+  border-right: none;
+}
+
+.chart-view-control-panel-icon {
+  width: 32px;
+  height: 32px;
+  padding: 16px;
+}
+
+.introduction-view-section {
+  display: none;
+  grid-column-start: span 2;
+}
+
+.main-view-first-section {
+  border-right: var(--primary-border-setting);
+  padding: 10%;
+}
+.about-view-section {
+  display: none;
+  grid-column-start: span 1;
+}
+.upload-view-section {
+  display: block; /* TODO: Change this */
+  grid-column-start: span 1;
+}
+/* TODO: Remove */
+#upload-progress-bar-container {
+  width: 100%;
+  height: 20px;
+}
+/* TODO: Remove */
+#upload-progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: pink;
+}
+
+.presentation-view-section {
+  display: none;
+  grid-column-start: span 1;
+}
+.map-section {
+  display: none;
+  grid-column-start: span 2;
+}
+
+#main-text-section {
+  border-right: var(--primary-border-setting);
+}
+
+#main-view-text-container {
+  margin: 10%;
+}
+
+#chart-container {
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+}
+
+#annual-emissions-chart-legend {
+  margin-top: 0%;
+  /* height: 35%; */
+  margin-bottom: 5%;
+  font-size: 1em;
+}
+
+.annual-emissions-chart-legend-item {
+  margin-bottom: 5px;
+}
+
+.annual-emissions-chart-legend-item-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 5px;
+}
+#annual-emissions-chart-legend-item-color-1 {
+  background-color: rgb(66, 133, 244);
+}
+#annual-emissions-chart-legend-item-color-2 {
+  background-color: rgb(219, 68, 55);
+}
+#annual-emissions-chart-legend-item-color-3 {
+  background-color: rgb(244, 180, 0);
+}
+#annual-emissions-chart-legend-item-color-4 {
+  background-color: rgb(15, 157, 88);
+}
+.annual-emissions-chart-legend-item-explanation {
+  display: contents;
+}
+
+#main-view-chart-container {
+  margin-left: 10%;
+  margin-top: 10%;
+  width: 80%;
+  height: 80%;
+}

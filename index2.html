@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="description" content="Analyze your location history, confront your personal transportation carbon footprint, and contribute to environmental equity.">
+    <meta name="keywords" content="Personal, Transportation, Carbon, Tracker, Footprince, CO2, Emission, Offset, Pollution, Carbon dioxide, fossil fuels">
+    <meta name="author" content="Daniel Kawalsky">
+    <title>Carbon Foot Prince</title>
+    <link rel="stylesheet" href="index2.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZJM8SPL1G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4ZJM8SPL1G');
+    </script> -->
+</head>
+<body>
+    <div id="container">
+        <div id="presentation-view-control-panel-cell">
+            <div id="presentation-view-control-panel-cell-row">
+                <div id="scope-control-panel-selector-container">
+                    <div class="scope-control-panel-selector button">
+                        Overall
+                    </div>
+                    <div class="scope-control-panel-selector button">
+                        Annual
+                    </div>
+                </div>
+                <div id="chart-view-control-panel-selector-container">
+                    <div class="chart-view-control-panel-selector button">
+                        <img class="chart-view-control-panel-icon" src="images/views/healing.svg" />
+                    </div>
+                    <div class="chart-view-control-panel-selector button">
+                        <img class="chart-view-control-panel-icon" src="images/views/donut-chart.svg" />
+                    </div>
+                    <div class="chart-view-control-panel-selector button">
+                        <img class="chart-view-control-panel-icon" src="images/views/line-graph.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main-view-container">
+            <div class="introduction-view-section">
+                <img id="introduction-image" src="images/plant.svg" />
+                    <h2 id="introduction-title"> Carbon Foot Prince </h2> 
+                    <h2 id="introduction-subtitle"> Personal Transportation Carbon Tracker </h2>
+                    <br />
+                    <h2 id="introduction-subtitle"> Use your Google location history data to calculate the carbon footprint of what moves you. </h2>
+            </div>
+            <div class="about-view-section main-view-first-section" id="questions-container-section">
+                <div class="main-view-text-medium-title">Questions</div>
+            </div>
+            <div class="about-view-section" id="answer-container-section">
+                <div class="main-view-text-medium-title">ANSWER_TITLE_PLACEHOLDER</div>
+            </div>
+            <div class="upload-view-section main-view-first-section" id="instructions-container-section">
+                <div class="main-view-text-medium-title">Get your location history</div>
+                <ol id="instructions-steps"> 
+                    <li> Go to <a href="https://takeout.google.com/settings/takeout">Google Takeout</a> to download your Location History data. </li>
+                    <li> Deselect everything except Location History.
+                        <ol>
+                            <li> Click <strong>Deselect all</strong>.</li>
+                            <li> Scroll until you find <strong>History</strong> and select it.</li>
+                            <li> Scroll down and click <strong>Next step</strong>.</li>
+                        </ol>
+                    </li> 
+                    <li> For <strong>Delivery method</strong> choose whichever method you'd like to receive the zip. </li>
+                    <li> For <strong>Frequency</strong> choose "Export once". </li>
+                    <li> Leave <strong>File type & size</strong> as ".zip" and "2 GB". </li>
+                    <li> Wait (up to 5 days) to receive your zipped file, then download the .zip file.  </li>
+                    <li> Import it here using the button below. </li>
+                </ol>
+            </div>
+            <div class="upload-view-section" id="upload-container-section">
+                <div class="main-view-text-medium-title">Import file</div>
+                <input type="file" accept="application/zip,application/json" id="file-input" />
+                <div id="upload-progress-container">
+                    <!-- TODO Scrap this --> 
+                    <div id="upload-progress-bar-container"> 
+                        <div id="upload-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="presentation-view-section main-view-first-section" id="presentation-text-section">
+                <div id="presentation-view-text-container">
+                    <div id="annual-emissions-chart-legend">
+                        <div class="main-view-text-medium-title">Legend</div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-1"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Personal Transportation Emissions</strong> - your personal carbon output from personal transportation
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-2"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Personal 2015 Paris Climate Accords Goal</strong> - the annual per-capita reduction goals set by the 2015 Paris Climate Accords 
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-3"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>USA Transportation Emissions Per Capita</strong>
+                            </div>
+                        </div>
+                        <div class="annual-emissions-chart-legend-item">
+                            <div class="annual-emissions-chart-legend-item-color" id="annual-emissions-chart-legend-item-color-4"></div>
+                            <div class="annual-emissions-chart-legend-item-explanation">
+                                <strong>Global Transportation Emissions Per Capita</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="calendar-emissions-charts-legend">
+                        <div class="main-view-text-medium-title">Daily Emissions</div>
+                        <div class="presentation-view-text-explanation"></div>
+                        <div class="main-view-text-medium-title">Cumulative Emissions</div>
+                        <div class="presentation-view-text-explanation">The gradient below projects the 2015 Paris Climate Accords goals onto your year's emissions. When it turns from green to white, you have reached your annual carbon emission allowance for <span class="selected-year">0000</span>. Once your carbon emissions exceed this budget, the gradient turns red.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="presentation-view-section" id="presentation-chart-section">
+                <div id="presentation-view-chart-container">
+                    <div id="calendar-charts-container">
+                        <div class="calculator-chart-container" id="activity-daily-emissions-container">
+                            <h3 class="chart-label">Daily Emissions</h3>
+                            <div id="activity-daily-emissions-chart"></div>
+                        </div>
+                        <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
+                            <h3 class="chart-label">Cumulative Emissions</h3>
+                            <div id="activity-cumulative-emissions-chart"></div>
+                        </div>
+                    </div>
+                    <div id="annual-emissions-chart-container">
+                        <h3 class="chart-label">Annual Emissions</h3>
+                        <div id="annual-emissions-chart"></div>
+                    </div>
+                    <div id="total-emissions-donut-chart-container">
+                        <h3 class="chart-label">Total Emissions</h3>
+                        <div id="total-emissions-donut-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="map-container">
+                <div id="map-label"></div>
+                <div id="map"></div>
+            </div>
+        </div>
+        <div id="activity-selector-container">
+        </div>
+        <div id="year-selector-container">
+        </div>
+    </div>
+    
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js" 
+    integrity="sha512-KhIBJeCI4oTEeqOmRi2gDJ7m+JARImhUYgXWiOTIp9qqySpFUAJs09erGKem4E5IPuxxSTjavuurvBitBmwE0w==" 
+    crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="./lib/zip.js"></script>
+<script type="text/javascript" src="./index2.js"></script>
+</html>
