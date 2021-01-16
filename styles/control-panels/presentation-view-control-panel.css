@@ -1,0 +1,95 @@
+#presentation-view-control-panel-cell {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 50% 30% 20%;
+}
+
+#presentation-view-control-panel-cell-row {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 1fr 100px 100px 60px 68px 68px 68px 1fr;
+}
+
+#scope-control-panel-container {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  height: 100%;
+}
+
+#scope-control-panel-selector-container {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: white;
+  height: 100%;
+  border: var(--primary-border-setting);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  box-shadow: var(--primary-shadow);
+}
+
+.scope-control-panel-selector {
+  grid-column-start: span 1;
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scope-control-panel-selector:nth-of-type(1) {
+  border-right: var(--primary-border-setting);
+}
+
+#control-panel-chevron {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 2em;
+  color: var(--primary-button-text-color);
+  user-select: none;
+  opacity: 60%;
+  text-shadow: var(--primary-shadow);
+}
+
+#chart-view-control-panel-selector-container {
+  grid-column-start: 5;
+  grid-column-end: 8;
+  height: 100%;
+  background-color: white;
+  overflow: hidden;
+  grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  border: var(--primary-border-setting);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--primary-shadow);
+}
+
+.chart-view-control-panel-selector {
+  grid-column-start: span 1;
+  border-right: var(--primary-border-setting);
+}
+
+.chart-view-control-panel-selector:nth-last-child(1) {
+  border-right: none;
+}
+
+.chart-view-control-panel-icon {
+  width: 32px;
+  height: 32px;
+  padding: 16px;
+}

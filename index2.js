@@ -18,6 +18,11 @@
         var fileProgressMeter = document.getElementById("upload-progress-bar"); // TODO: Scrap
         // var instructionButton = document.getElementById("instruction-button");
         // var instructionSteps = document.getElementById("instructions-steps")
+        var introductionSection = document.getElementById("introduction-view-section");
+        var introButtonLearnMore = document.getElementById("intro-button-learn-more");
+        var introButtonStart = document.getElementById("intro-button-start");
+
+        var questionSections = document.getElementsByClassName("about-view-section");
 
         // passive document elements
         var introContainer = document.getElementById("intro-container");
@@ -268,6 +273,17 @@
             );
         }
 
+        function hideIntroductionStage() {
+            introductionSection.style.display = "none";
+        }
+
+        function showQuestionStage() {
+            for (var i = 0; i < questionSections.length; i++) {
+                var questionSection = questionSections[i];
+                questionSection.style.display = "block";
+            }
+        }
+
         function hideInstructionStage() {
             
         }
@@ -309,6 +325,10 @@
         function makeDOMInteractive() {
             fileInput.addEventListener('change', onUploadFile, false);
             // instructionButton.onclick = toggleInstructionSteps;
+            introButtonLearnMore.onclick = () => {
+                hideIntroductionStage();
+                showQuestionStage();
+            }
         }
         makeDOMInteractive();
     }
@@ -354,8 +374,8 @@
             generateYearSelection();
             generateActivitySelection();
             changeAllText(year);
-            drawAllCharts(year);
-            drawMap(year, activity);
+            // drawAllCharts(year);
+            // drawMap(year, activity);
         }
 
         function numberWithCommas(x) {
@@ -618,8 +638,8 @@
         function generateYearSelection() {
             Object.entries(activityEmissionsByYear).forEach(function (emissionsYearEntry) {
                 var yearSelector = document.createElement("div");
-                yearSelector.className = "year-selector";
-                yearSelector.id = "year-selector-" + emissionsYearEntry[0];
+                yearSelector.className = "year-control-panel-selector button";
+                yearSelector.id = "year-control-panel-selector-" + emissionsYearEntry[0];
                 yearSelector.innerText = emissionsYearEntry[0];
                 yearSelector.onclick = chooseYear;
                 yearSelector.setAttribute("year", emissionsYearEntry[0]);
@@ -630,36 +650,36 @@
         function generateActivitySelection() {
             Object.entries(activityEmissionsTotals).forEach(function (emissionsTotalEntry) {
                 var activitySelector = document.createElement("div");
-                activitySelector.className = "activity-selector";
-                activitySelector.id = "activity-selector-" + emissionsTotalEntry[0];
+                activitySelector.className = "activity-control-panel-selector";
+                activitySelector.id = "activity-control-panel-selector-" + emissionsTotalEntry[0];
                 activitySelector.onclick = chooseActivity;
                 activitySelector.setAttribute("activity", emissionsTotalEntry[0]);
 
                 var selectorImage = document.createElement("img");
-                selectorImage.className = "activity-selector-image";
-                selectorImage.id = "activity-selector-image-" + emissionsTotalEntry[0];
+                selectorImage.className = "activity-control-panel-icon";
+                selectorImage.id = "activity-control-panel-icon-" + emissionsTotalEntry[0];
                 selectorImage.setAttribute("activity", emissionsTotalEntry[0]);
                 switch (emissionsTotalEntry[0]) {
                     case "FLYING": 
-                        selectorImage.src = "./images/plane.svg";
+                        selectorImage.src = "images/activities/plane.svg";
                         break;
                     case "IN_BUS": 
-                        selectorImage.src = "./images/bus.svg";
+                        selectorImage.src = "images/activities/bus.svg";
                         break;
                     case "IN_FERRY": 
-                        selectorImage.src = "./images/boat.svg";
+                        selectorImage.src = "images/activities/boat.svg";
                         break;
                     case "IN_PASSENGER_VEHICLE": 
-                        selectorImage.src = "./images/car.svg";
+                        selectorImage.src = "images/activities/car.svg";
                         break;
                     case "IN_SUBWAY": 
-                        selectorImage.src = "./images/subway.svg";
+                        selectorImage.src = "images/activities/subway.svg";
                         break;
                     case "IN_TRAIN": 
-                        selectorImage.src = "./images/train.svg";
+                        selectorImage.src = "images/activities/train.svg";
                         break;
                     case "MOTORCYCLING": 
-                        selectorImage.src = "./images/motorcycle.svg";
+                        selectorImage.src = "images/activities/motorcycle.svg";
                         break;
                 }
                 activitySelector.appendChild(selectorImage);

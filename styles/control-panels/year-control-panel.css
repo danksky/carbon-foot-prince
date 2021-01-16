@@ -1,0 +1,44 @@
+#year-control-panel-cell {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 20% 30% 50%;
+  grid-template-columns: 1fr;
+}
+
+#year-control-panel-cell-row {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+#year-control-panel-selector-container {
+  display: inline-flex;
+  background-color: white;
+  height: 93.5%;
+  border: var(--primary-border-setting);
+  border-radius: 8px;
+  margin: auto;
+  box-shadow: var(--primary-shadow);
+}
+
+.year-control-panel-selector {
+  height: calc(100% - 20px);
+  border-right: var(--primary-border-setting);
+  text-align: center;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.year-control-panel-selector:nth-last-child(1) {
+  border-right: none;
+}

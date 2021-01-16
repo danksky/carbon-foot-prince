@@ -7,6 +7,10 @@
     <meta name="author" content="Daniel Kawalsky">
     <title>Carbon Foot Prince</title>
     <link rel="stylesheet" href="index2.css">
+    <link rel="stylesheet" href="styles/control-panels/activity-control-panel.css">
+    <link rel="stylesheet" href="styles/control-panels/presentation-view-control-panel.css">
+    <link rel="stylesheet" href="styles/control-panels/year-control-panel.css">
+    <link rel="stylesheet" href="styles/main-view/introduction.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -34,6 +38,7 @@
                         Annual
                     </div>
                 </div>
+                <div id="control-panel-chevron">▸</div>
                 <div id="chart-view-control-panel-selector-container">
                     <div class="chart-view-control-panel-selector button">
                         <img class="chart-view-control-panel-icon" src="images/views/healing.svg" />
@@ -47,13 +52,25 @@
                 </div>
             </div>
         </div>
-        <div id="main-view-container">
-            <div class="introduction-view-section">
-                <img id="introduction-image" src="images/plant.svg" />
+        <div id="main-view-cell">
+            <div class="introduction-view-section" id="introduction-view-section">
+                <div id="introduction-header">
+                    <img id="introduction-image" src="images/plant.svg" />
                     <h2 id="introduction-title"> Carbon Foot Prince </h2> 
                     <h2 id="introduction-subtitle"> Personal Transportation Carbon Tracker </h2>
                     <br />
                     <h2 id="introduction-subtitle"> Use your Google location history data to calculate the carbon footprint of what moves you. </h2>
+                </div>
+                <div id="intro-button-container">
+                    <div class="intro-button button" id="intro-button-learn-more">
+                        <span class="intro-button-text">Learn More</span>
+                        <img class="intro-button-icon" src="images/icons/walking.svg" />
+                    </div>
+                    <div class="intro-button button" id="intro-button-start">
+                        <span class="intro-button-text">Start</span>
+                        <img class="intro-button-icon" src="images/icons/running.svg" />
+                    </div>
+                </div>
             </div>
             <div class="about-view-section main-view-first-section" id="questions-container-section">
                 <div class="main-view-text-medium-title">Questions</div>
@@ -153,9 +170,38 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div id="activity-selector-container">
+        <div id="activity-control-panel-cell">
+            <div id="activity-control-panel-cell-column">
+                <div id="actvity-control-panel-selector-container">
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/plane.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/train.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/car.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/boat.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/motorcycle.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/subway.svg" />
+                    </div>
+                    <div class="activity-control-panel-selector button">
+                        <img class="activity-control-panel-icon" src="images/activities/bus.svg" />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="year-selector-container">
+        <div id="year-control-panel-cell">
+            <div id="year-control-panel-cell-row">
+                <div id="year-control-panel-selector-container">
+                </div>
+            </div>
         </div>
     </div>
     
