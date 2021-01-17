@@ -240,11 +240,11 @@
             console.log(importErrors);
             if (didImportError) {
                 showErrors();
+            } else {
+                hideUploadStage();
+                presentationStage();
             }
-
             // gtag('event', 'on_all_files_processed');
-            // hideUploadStage();
-            // presentationStage();
         }  
 
         function getTotalReadFileProgress() {
@@ -443,17 +443,26 @@
             aboutTextContribute.style.display = "none";
             aboutTextCalculation.style.display = "none";
 
+            aboutButtonDefault.classList.remove("selected");
+            aboutButtonPrivacy.classList.remove("selected");
+            aboutButtonContribute.classList.remove("selected");
+            aboutButtonCalculation.classList.remove("selected");
+
             switch(whichQuestion) {
                 case "default":
+                    aboutButtonDefault.classList.add("selected");
                     aboutTextDefault.style.display = "block";
                     break;
                 case "privacy":
+                    aboutButtonPrivacy.classList.add("selected");
                     aboutTextPrivacy.style.display = "block";
                     break;
                 case "contribute":
+                    aboutButtonContribute.classList.add("selected");
                     aboutTextContribute.style.display = "block";
                     break;
                 case "calculation":
+                    aboutButtonCalculation.classList.add("selected");
                     aboutTextCalculation.style.display = "block";
                     break;
             }

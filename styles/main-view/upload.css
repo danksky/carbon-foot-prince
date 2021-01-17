@@ -55,7 +55,7 @@
 
 #upload-error-container {
   display: none;
-  border: 2px solid #bd0000;
+  border: 2px solid #ffbfbf;
   border-radius: 8px;
-  background-color: #bd000020;
+  background-color: #ffbfbf40;
 }

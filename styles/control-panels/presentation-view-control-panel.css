@@ -82,6 +82,8 @@
 .chart-view-control-panel-selector {
   grid-column-start: span 1;
   border-right: var(--primary-border-setting);
+  display: flex;
+  align-items: center;
 }
 
 .chart-view-control-panel-selector:nth-last-child(1) {
