@@ -5,7 +5,10 @@
 	var activityEmissionsByYear = {};
 	var activityEmissionsTotals = {};
     var fileProcessProgress = {};
-    
+
+    const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+    const monthNums = {"JANUARY": 0, "FEBRUARY": 1, "MARCH": 2, "APRIL": 3, "MAY": 4, "JUNE": 5, "JULY": 6, "AUGUST": 7, "SEPTEMBER": 8, "OCTOBER": 9, "NOVEMBER": 10, "DECEMBER": 11};
+
     var mapDataByYear = {};
 
     var dailyEmissionsChart = {};
@@ -16,6 +19,7 @@
         // interactive document elements
         var fileInput = document.getElementById("file-input");
         var fileProgressMeter = document.getElementById("upload-progress-bar"); // TODO: Scrap
+        var progressIndicatorComponents = {};
         // var instructionButton = document.getElementById("instruction-button");
         // var instructionSteps = document.getElementById("instructions-steps")
         var introductionSection = document.getElementById("introduction-view-section");
@@ -36,8 +40,8 @@
 
         var uploadViewSections = document.getElementsByClassName("upload-view-section");
         var uploadBackButton = document.getElementById("main-view-button-upload-back");
+        var uploadProgressContainer = document.getElementById("upload-progress-container");
 
-        var flights = {}; // TODO: Rename to flightPathsByYear and populate during processSegment(); perhaps make another function with switch statements to compile annual points/paths for mapping later.
         var history = {};
 
         function onerror(message) {
@@ -54,8 +58,10 @@
 
         function areAllFilesProcessed() {
             var allProcessed = true;
-            Object.entries(fileProcessProgress).forEach(function(progressEntry, index) {
-                allProcessed = allProcessed && progressEntry[1].processText;
+            Object.entries(fileProcessProgress).forEach(function(progressYearEntry) {
+                Object.entries(progressYearEntry[1]).forEach(function(progressMonthEntry) {
+                    allProcessed = allProcessed && progressMonthEntry[1].processText;
+                });
             })
             return allProcessed;
         }
@@ -211,10 +217,14 @@
 
         function getTotalReadFileProgress() {
             var totalProgress = 0;
-            Object.entries(fileProcessProgress).forEach(function(progressEntry) {
-                totalProgress += progressEntry[1].readText;
+            var keys = 0;
+            Object.entries(fileProcessProgress).forEach(function(progressYearEntry) {
+                Object.entries(progressYearEntry[1]).forEach(function(progressMonthEntry) {
+                    totalProgress += progressMonthEntry[1].readText;
+                    keys++;
+                });
             })
-            return totalProgress / Object.keys(fileProcessProgress).length;
+            return totalProgress / keys;
         }
 
         function onFileReadDone(fileName, year, month, fileText) {
@@ -224,10 +234,7 @@
                 parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
                     processSegment(segment, index, year, month);
                 });
-                fileProcessProgress[fileName] = {
-                    readText: fileProcessProgress[fileName].readText,
-                    processText: true,
-                };
+                fileProcessProgress[year][month].processText = true;
                 if (areAllFilesProcessed()) {
                     onAllFilesProcessed();
                 }
@@ -237,50 +244,106 @@
         }
         
         // onFileReadProgress - onprogress callback
-        function onFileReadProgress(fileName, current, total) {
-            fileProcessProgress[fileName] = {
-                readText: current / total,
-                processText: false,
-            };
+        function onFileReadProgress(yearString, monthName, current, total) {
+            fileProcessProgress[yearString][monthName].readText = current / total;
+            fileProcessProgress[yearString][monthName].processText = false;
+            var RB = 210 - Math.ceil(100 * current / total);
+            var progressIndicatorColorRGB = "rgb(" + RB + ", 210, " + RB + ")";
+            progressIndicatorComponents[yearString][monthName].style.backgroundColor = progressIndicatorColorRGB;
             fileProgressMeter.style.width = getTotalReadFileProgress()*100 + "%";
         }
 
         function handleExtractedFile(entry, index) {	
             // populate activityEmissions objects		
             var pathComponents = entry.filename.split("/");
-            var year = pathComponents[pathComponents.length - 2]; // string
-            var month = pathComponents[pathComponents.length - 1].split("_")[1].split(".")[0]; // after the '20XX_' and before the '.json'
+            var yearString = pathComponents[pathComponents.length - 2]; // string
+            var monthName = pathComponents[pathComponents.length - 1].split("_")[1].split(".")[0]; // after the '20XX_' and before the '.json'
 
-            if (activityEmissionsByYear[year] === undefined) {
-                activityEmissionsByYear[year] = {};
-            }
-
-            if (activityEmissionsByMonth[year] === undefined) {
-                activityEmissionsByMonth[year] = {};
-            }
-            if (activityEmissionsByMonth[year][month] === undefined) {
-                activityEmissionsByMonth[year][month] = {};
+            if (activityEmissionsByYear[yearString] === undefined) {
+                activityEmissionsByYear[yearString] = {};
             }
 
-            if (activityEmissionsByDay[year] === undefined) {
-                activityEmissionsByDay[year] = {};
+            if (activityEmissionsByMonth[yearString] === undefined) {
+                activityEmissionsByMonth[yearString] = {};
             }
-            if (activityEmissionsByDay[year][month] === undefined) {
-                activityEmissionsByDay[year][month] = {};
+            if (activityEmissionsByMonth[yearString][monthName] === undefined) {
+                activityEmissionsByMonth[yearString][monthName] = {};
             }
 
-            if (flights[year] === undefined) {
-                flights[year] = {};
+            if (activityEmissionsByDay[yearString] === undefined) {
+                activityEmissionsByDay[yearString] = {};
             }
-            if (flights[year][month] === undefined) {
-                flights[year][month] = [];
+            if (activityEmissionsByDay[yearString][monthName] === undefined) {
+                activityEmissionsByDay[yearString][monthName] = {};
             }
 
             entry.getData(
                 new zip.TextWriter(), 
-                (fileText) => {onFileReadDone(entry.filename, year, month, fileText)}, 
-                (current, total) => {onFileReadProgress(entry.filename, current, total)},
+                (fileText) => {onFileReadDone(entry.filename, yearString, monthName, fileText)}, 
+                (current, total) => {onFileReadProgress(yearString, monthName, current, total)},
             );
+        }
+
+        function generateUploadProgress(filteredEntries) {
+            // populate the progress map
+            filteredEntries.forEach(function(entry) {
+                var pathComponents = entry.filename.split("/");
+                var yearString = pathComponents[pathComponents.length - 2]; // string
+                var monthName = pathComponents[pathComponents.length - 1].split("_")[1].split(".")[0]; // after the '20XX_' and before the '.json'
+                if (fileProcessProgress[yearString] === undefined) {
+                    fileProcessProgress[yearString] = {};
+                }
+                if (fileProcessProgress[yearString][monthName] === undefined) {
+                    fileProcessProgress[yearString][monthName] = {
+                        readText: 0,
+                        processText: false,
+                        fileName: entry.filename,
+                    };
+                }
+            })
+            var yearStrings = Object.keys(fileProcessProgress);
+            yearStrings.sort(function (a, b) {
+                return ('' + a.attr).localeCompare(b.attr);
+            });
+            var earliestYear = parseInt(yearStrings[0]);
+            var latestYear = (new Date()).getFullYear();
+
+            for (var year = earliestYear; year <= latestYear; year++) {
+                var yearString = year + "";
+                var uploadProgressYearContainer = document.createElement("div");
+                uploadProgressYearContainer.className = "upload-progress-year-container";
+                uploadProgressYearContainer.id = "upload-progress-year-container-" + yearString;
+                for (var j = 0; j < 12; j++) {
+                    var uploadProgressMonthContainer = document.createElement("div");
+                    uploadProgressMonthContainer.className = "upload-progress-month-container";
+                    uploadProgressMonthContainer.id = "upload-progress-month-container-" + yearString + "-" + j;
+                    
+                    var uploadProgressMonthIndicator = document.createElement("div");
+                    uploadProgressMonthIndicator.classList.add("upload-progress-month-indicator");
+                    uploadProgressMonthIndicator.classList.add("month-missing");
+                    uploadProgressMonthIndicator.id = "upload-progress-month-indicator-" + yearString + "-" + j;
+
+                    var monthName = monthNames[j];
+                    if (fileProcessProgress[yearString] !== undefined && 
+                        fileProcessProgress[yearString][monthName] !== undefined) {
+                        uploadProgressMonthIndicator.classList.remove("month-missing");
+                    }
+                    
+                    var uploadProgressMonthSpacer = document.createElement("div");
+                    uploadProgressMonthSpacer.className = "upload-progress-month-spacer";
+                    uploadProgressMonthSpacer.id = "upload-progress-month-spacer-" + yearString + "-" + j;
+                    
+                    uploadProgressMonthContainer.appendChild(uploadProgressMonthIndicator);
+                    uploadProgressMonthContainer.appendChild(uploadProgressMonthSpacer);
+                    
+                    uploadProgressYearContainer.appendChild(uploadProgressMonthContainer);
+                    if (progressIndicatorComponents[yearString] === undefined) {
+                        progressIndicatorComponents[yearString] = {};
+                    }
+                    progressIndicatorComponents[yearString][monthName] = uploadProgressMonthIndicator;
+                }
+                uploadProgressContainer.appendChild(uploadProgressYearContainer);
+            }
         }
 
         function showIntroductionStage() {
@@ -325,18 +388,10 @@
             }
         }
 
-        function hideInstructionStage() {
-            
-        }
-
         function showUploadStage() {
             for (var i = 0; i < aboutViewSections.length; i++) {
                 uploadViewSections[i].style.display = "block";
             }
-        }
-
-        function toggleInstructionSteps(event) {
-            instructionSteps.style.display = instructionSteps.style.display === "block" ? "none" : "block" ;
         }
 
         function hideUploadStage() {
@@ -345,26 +400,21 @@
             }
         }
 
+        function onEntriesExtracted(entries) {
+            // filter the files that aren't history related
+            var filteredEntries = entries.filter(function(entry) {
+                // e.g. Semantic Location History/2013/2013_SEPTEMBER.json
+                var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
+                return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
+            });
+            generateUploadProgress(filteredEntries);
+            filteredEntries.forEach(handleExtractedFile);
+        }
+
         function onUploadFile(event) {
             fileInput.disabled = true;
             // gtag('event', 'on_zip_file_uploaded');
-            getEntries(fileInput.files[0], function(entries) {
-                var filteredEntries = entries.filter(function(entry) {
-                    // e.g. Semantic Location History/2013/2013_SEPTEMBER.json
-                    var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
-                    return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
-                });
-                // populate the progress map
-                filteredEntries.forEach(function(entry) {
-                    if (fileProcessProgress[entry.filename] === undefined) {
-                        fileProcessProgress[entry.filename] = {
-                            readText: 0,
-                            processText: false,
-                        };
-                    }
-                });
-                filteredEntries.forEach(handleExtractedFile);
-            }, onerror);
+            getEntries(fileInput.files[0], onEntriesExtracted, onerror);
         }
 
         function makeDOMInteractive() {
@@ -405,8 +455,6 @@
     }
 
     function presentationStage() {
-        const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-
         // goal: 50% current emissions from year 2015 to 2030
         var reductionPercentageGoal = 0.0452; // 1 - Math.pow(0.5, 1/(2030 - 2015));
         var totalEmissions = undefined;

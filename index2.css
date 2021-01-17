@@ -99,6 +99,7 @@ body {
 .main-view-first-section {
   border-right: var(--primary-border-setting);
   padding: 10%;
+  overflow-y: scroll;
 }
 
 .main-view-text-medium-title {
