@@ -80,7 +80,7 @@ body {
 }
 
 .navigation-header .main-view-button-icon {
-  margin: 8px;
+  margin: 0px;
 }
 
 .navigation-header .main-view-text-medium-title {
@@ -116,18 +116,6 @@ body {
   display: none;
   grid-column-start: span 1;
 }
-/* TODO: Remove */
-#upload-progress-bar-container {
-  width: 100%;
-  height: 20px;
-}
-/* TODO: Remove */
-#upload-progress-bar {
-  width: 0%;
-  height: 100%;
-  background-color: pink;
-}
-
 .presentation-view-section {
   display: none;
   grid-column-start: span 1;

@@ -18,10 +18,7 @@
     function uploadStage() {
         // interactive document elements
         var fileInput = document.getElementById("file-input");
-        var fileProgressMeter = document.getElementById("upload-progress-bar"); // TODO: Scrap
-        var progressIndicatorComponents = {};
-        // var instructionButton = document.getElementById("instruction-button");
-        // var instructionSteps = document.getElementById("instructions-steps")
+        var fileProgressMeter = document.getElementById("upload-progress-bar"); 
         var introductionSection = document.getElementById("introduction-view-section");
         var introButtonLearnMore = document.getElementById("main-view-button-learn-more");
         var introButtonStart = document.getElementById("main-view-button-start");
@@ -41,19 +38,48 @@
         var uploadViewSections = document.getElementsByClassName("upload-view-section");
         var uploadBackButton = document.getElementById("main-view-button-upload-back");
         var uploadProgressContainer = document.getElementById("upload-progress-container");
+        var uploadProgressIndicatorComponents = {};
+        var uploadErrorContainer = document.getElementById("upload-error-container");
+        var uploadErrorsList = document.getElementById("upload-errors-list");
+        
+        var didImportError = false;
+        var importErrors = {};
 
         var history = {};
 
-        function onerror(message) {
-            console.error(message);
-            alert(message);
+        function onError(error, semanticError, yearString, monthName, fileName) {
+            didImportError = true;
+            if (yearString && monthName) {
+                if (importErrors[yearString] === undefined) {
+                    importErrors[yearString] = {};
+                }
+                if (importErrors[yearString][monthName] === undefined) {
+                    importErrors[yearString][monthName] = [];
+                }
+                importErrors[yearString][monthName].push({
+                    error: error,
+                    semanticError: semanticError, 
+                });
+
+                if (uploadProgressIndicatorComponents[yearString][monthName] !== undefined) {
+                    uploadProgressIndicatorComponents[yearString][monthName].style.backgroundColor = "rgb(210, 110, 110)";
+                }
+
+                if (fileProcessProgress[yearString] !== undefined &&
+                    fileProcessProgress[yearString][monthName] !== undefined) {
+                    fileProcessProgress[yearString][monthName].processText = true;
+                }
+            }
+            if (yearString) {
+
+            } 
         }
 
         function getEntries(file, onend) {
             zip.workerScriptsPath = "./lib/";
             zip.createReader(new zip.BlobReader(file), function(zipReader) {
                 zipReader.getEntries(onend);
-            }, onerror);
+            }, onError);
         }
 
         function areAllFilesProcessed() {
@@ -88,15 +114,15 @@
             return 0;
         }
 
-        function processSegment (segment, index, year, month) {
+        function processSegment (segment, index, yearString, monthName) {
             if (segment?.activitySegment) {
                 var distance = 0;
                 if (segment.activitySegment.distance) {
                     distance = segment.activitySegment.distance					
                 } else {
-
+        
                 }
-
+        
                 var activityType = segment.activitySegment.activityType;
                 if (segment.activitySegment.activities && segment.activitySegment.activities.length > 0) {
                     activityType = segment.activitySegment.activities[0].activityType;
@@ -104,7 +130,7 @@
                 if (activityType === undefined) {
                     console.log(index, segment);
                 }
-
+        
                 var activityEmissions = getActivityEmissions(distance, activityType);
                 if (activityEmissions > 0) {
                     if (activityEmissionsTotals[activityType] === undefined) {
@@ -112,29 +138,29 @@
                     } else {
                         activityEmissionsTotals[activityType] += activityEmissions;
                     }
-
-                    if (activityEmissionsByYear[year][activityType] === undefined) {
-                        activityEmissionsByYear[year][activityType] = activityEmissions;
+        
+                    if (activityEmissionsByYear[yearString][activityType] === undefined) {
+                        activityEmissionsByYear[yearString][activityType] = activityEmissions;
                     } else {
-                        activityEmissionsByYear[year][activityType] += activityEmissions;
+                        activityEmissionsByYear[yearString][activityType] += activityEmissions;
                     }
-
-                    if (activityEmissionsByMonth[year][month][activityType]) {
-                        activityEmissionsByMonth[year][month][activityType] += activityEmissions;
+        
+                    if (activityEmissionsByMonth[yearString][monthName][activityType]) {
+                        activityEmissionsByMonth[yearString][monthName][activityType] += activityEmissions;
                     } else {
-                        activityEmissionsByMonth[year][month][activityType] =  activityEmissions;
+                        activityEmissionsByMonth[yearString][monthName][activityType] =  activityEmissions;
                     }
-
+        
                     if (segment.activitySegment.duration && 
                         segment.activitySegment.duration.startTimestampMs) {
                         var date = (new Date(parseInt(segment.activitySegment.duration.startTimestampMs))).getDate()
-                        if (activityEmissionsByDay[year][month][date] === undefined) {
-                            activityEmissionsByDay[year][month][date] = {};
+                        if (activityEmissionsByDay[yearString][monthName][date] === undefined) {
+                            activityEmissionsByDay[yearString][monthName][date] = {};
                         } 
-                        if (activityEmissionsByDay[year][month][date][activityType] === undefined) {
-                            activityEmissionsByDay[year][month][date][activityType] = activityEmissions;
+                        if (activityEmissionsByDay[yearString][monthName][date][activityType] === undefined) {
+                            activityEmissionsByDay[yearString][monthName][date][activityType] = activityEmissions;
                         } else {
-                            activityEmissionsByDay[year][month][date][activityType] += activityEmissions;
+                            activityEmissionsByDay[yearString][monthName][date][activityType] += activityEmissions;
                         }
                     } else {
                         console.log("no date", index, segment)
@@ -142,9 +168,9 @@
                 } else {
                     // not a polluting activity
                 }
-
+        
                 var SCALAR_E7 = 0.0000001; // Since Google Takeout stores latlngs as integers
-
+        
                 
                 if (segment.activitySegment.startLocation
                     && segment.activitySegment.endLocation
@@ -156,42 +182,42 @@
                     startLongitude = segment.activitySegment.startLocation.longitudeE7 * SCALAR_E7, 
                     endLatitude = segment.activitySegment.endLocation.latitudeE7 * SCALAR_E7,
                     endLongitude = segment.activitySegment.endLocation.longitudeE7 * SCALAR_E7;
-
+        
                     // Handle negative latlngs due to google unsigned/signed integer bug.
                     if ( startLatitude > 180 ) startLatitude = startLatitude - (2 ** 32) * SCALAR_E7;
                     if ( startLongitude > 180 ) startLongitude = startLongitude - (2 ** 32) * SCALAR_E7;
                     if ( endLatitude > 180 ) endLatitude = endLatitude - (2 ** 32) * SCALAR_E7;
                     if ( endLongitude > 180 ) endLongitude = endLongitude - (2 ** 32) * SCALAR_E7;
-
+        
                     if (Number.isNaN(startLatitude) || Number.isNaN(startLongitude) || Number.isNaN(endLatitude) || Number.isNaN(endLongitude)) {
                         console.log(segment);
                         // TODO: Handle this case
                     } else {
-                        if (mapDataByYear[year] === undefined) {
-                            mapDataByYear[year] = {};
+                        if (mapDataByYear[yearString] === undefined) {
+                            mapDataByYear[yearString] = {};
                         }
                         switch (activityType) {
                             case "FLYING": 
                             case "IN_TRAIN":
-                                if (mapDataByYear[year][activityType] === undefined) {
-                                    mapDataByYear[year][activityType] = L.layerGroup();
+                                if (mapDataByYear[yearString][activityType] === undefined) {
+                                    mapDataByYear[yearString][activityType] = L.layerGroup();
                                 }
                                 var sdLatLongs = [
                                     [startLatitude, startLongitude],
                                     [endLatitude, endLongitude]
                                 ];
                                 var polyline = L.polyline(sdLatLongs, {color: 'red'});
-                                mapDataByYear[year][activityType].addLayer(polyline);
+                                mapDataByYear[yearString][activityType].addLayer(polyline);
                                 break;
                             case "IN_BUS":
                             case "IN_FERRY":
                             case "IN_PASSENGER_VEHICLE":
                             case "IN_SUBWAY":
                             case "MOTORCYCLING":
-                                if (mapDataByYear[year][activityType] === undefined) {
-                                    mapDataByYear[year][activityType] = L.heatLayer([]);
+                                if (mapDataByYear[yearString][activityType] === undefined) {
+                                    mapDataByYear[yearString][activityType] = L.heatLayer([]);
                                 } else {
-                                    mapDataByYear[year][activityType].addLatLng(
+                                    mapDataByYear[yearString][activityType].addLatLng(
                                         [startLatitude, startLongitude]
                                     );
                                 }
@@ -199,17 +225,23 @@
                         }
                     }
                 } else {
-
+        
                 }
                 
             } else if (segment?.placeVisit) {
-
+        
             } else {
             }
-
+        
         }  
 
         function onAllFilesProcessed() {
+            console.log(didImportError);
+            console.log(importErrors);
+            if (didImportError) {
+                showErrors();
+            }
+
             // gtag('event', 'on_all_files_processed');
             // hideUploadStage();
             // presentationStage();
@@ -227,19 +259,31 @@
             return totalProgress / keys;
         }
 
-        function onFileReadDone(fileName, year, month, fileText) {
-            var parsedSemanticHistory = JSON.parse(fileText);
-            history[fileName] = parsedSemanticHistory; // TODO: Potentially remove.
-            if (parsedSemanticHistory?.timelineObjects) {
-                parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
-                    processSegment(segment, index, year, month);
-                });
-                fileProcessProgress[year][month].processText = true;
-                if (areAllFilesProcessed()) {
-                    onAllFilesProcessed();
+        function onFileReadDone(fileName, yearString, monthName, fileText) {
+            try {
+                var parsedSemanticHistory = JSON.parse(fileText);
+                history[fileName] = parsedSemanticHistory; // TODO: Potentially remove.
+                if (parsedSemanticHistory === undefined) {
+                    var errorMessage = "The JSON file for " + monthName + " " + yearString + " is parseable but unusable.";
+                    onError(null, errorMessage, yearString, monthName, fileName);
+                    return;
                 }
-            } else {
-
+                if (parsedSemanticHistory.timelineObjects) {
+                    parsedSemanticHistory.timelineObjects.forEach(function(segment, index) { 
+                        processSegment(segment, index, yearString, monthName);
+                    });
+                    fileProcessProgress[yearString][monthName].processText = true;
+                    if (areAllFilesProcessed()) {
+                        onAllFilesProcessed();
+                    }
+                } else {
+                    var errorMessage = "The JSON file for " + monthName + " " + yearString + " does not contain timelineObjects.";
+                    onError(null, errorMessage, yearString, monthName, fileName);
+                }
+            } catch(jsonParseError) {
+                fileProcessProgress[yearString][monthName].failure = true;
+                var errorMessage = "The file for " + monthName + " " + yearString + " is not valid JSON.";
+                onError(jsonParseError, errorMessage, yearString, monthName, fileName);
             }
         }
         
@@ -249,7 +293,7 @@
             fileProcessProgress[yearString][monthName].processText = false;
             var RB = 210 - Math.ceil(100 * current / total);
             var progressIndicatorColorRGB = "rgb(" + RB + ", 210, " + RB + ")";
-            progressIndicatorComponents[yearString][monthName].style.backgroundColor = progressIndicatorColorRGB;
+            uploadProgressIndicatorComponents[yearString][monthName].style.backgroundColor = progressIndicatorColorRGB;
             fileProgressMeter.style.width = getTotalReadFileProgress()*100 + "%";
         }
 
@@ -285,6 +329,10 @@
         }
 
         function generateUploadProgress(filteredEntries) {
+            var importWarningElement = document.createElement("div");
+            importWarningElement.innerHTML = "Do not change tabs or press back. Even if the page seems to freeze, the import should only take a maximum of 2 minutes.";
+            uploadProgressContainer.prepend(importWarningElement);
+
             // populate the progress map
             filteredEntries.forEach(function(entry) {
                 var pathComponents = entry.filename.split("/");
@@ -298,6 +346,7 @@
                         readText: 0,
                         processText: false,
                         fileName: entry.filename,
+                        failure: false,
                     };
                 }
             })
@@ -329,21 +378,49 @@
                         uploadProgressMonthIndicator.classList.remove("month-missing");
                     }
                     
-                    var uploadProgressMonthSpacer = document.createElement("div");
-                    uploadProgressMonthSpacer.className = "upload-progress-month-spacer";
-                    uploadProgressMonthSpacer.id = "upload-progress-month-spacer-" + yearString + "-" + j;
-                    
                     uploadProgressMonthContainer.appendChild(uploadProgressMonthIndicator);
-                    uploadProgressMonthContainer.appendChild(uploadProgressMonthSpacer);
+
+                    if (j < 11) {
+                        var uploadProgressMonthSpacer = document.createElement("div");
+                        uploadProgressMonthSpacer.className = "upload-progress-month-spacer";
+                        uploadProgressMonthSpacer.id = "upload-progress-month-spacer-" + yearString + "-" + j;
+                        uploadProgressMonthContainer.appendChild(uploadProgressMonthSpacer);
+                    }
                     
                     uploadProgressYearContainer.appendChild(uploadProgressMonthContainer);
-                    if (progressIndicatorComponents[yearString] === undefined) {
-                        progressIndicatorComponents[yearString] = {};
+                    if (uploadProgressIndicatorComponents[yearString] === undefined) {
+                        uploadProgressIndicatorComponents[yearString] = {};
                     }
-                    progressIndicatorComponents[yearString][monthName] = uploadProgressMonthIndicator;
+                    uploadProgressIndicatorComponents[yearString][monthName] = uploadProgressMonthIndicator;
                 }
                 uploadProgressContainer.appendChild(uploadProgressYearContainer);
             }
+        }
+
+        function showErrors() {
+            console.log(importErrors);
+            // remove any pre-existing error components
+            while (uploadErrorsList.firstChild) {
+                uploadErrorsList.removeChild(uploadErrorsList.firstChild);
+            }
+            // generate error components
+            Object.entries(importErrors).forEach(function(importErrorYearEntry) {
+                Object.entries(importErrorYearEntry[1]).forEach(function(importErrorMonthEntry) {
+                    var errorList = importErrorMonthEntry[1];
+                    errorList.forEach(function(errorListItem) {
+                        var errorElement = document.createElement("li");
+                        errorElement.className = "upload-error-element";
+                        errorElement.id = "upload-error-element-" + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
+                        var errorElementMessage = document.createElement("div");
+                        errorElementMessage.className = "upload-error-element-text";
+                        errorElementMessage.id = "upload-error-element-text-"  + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
+                        errorElementMessage.innerText = errorListItem.semanticError;
+                        errorElement.appendChild(errorElementMessage);
+                        uploadErrorsList.appendChild(errorElement);
+                    });
+                });
+            })
+            uploadErrorContainer.style.display = "block";
         }
 
         function showIntroductionStage() {
