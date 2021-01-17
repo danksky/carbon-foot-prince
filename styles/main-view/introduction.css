@@ -22,21 +22,3 @@
   display: flex;
   justify-content: space-between;
 }
-
-.intro-button {
-  border: 8px;
-  padding: 10px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-}
-
-.intro-button:hover {
-  background-color: var(--primary-background-color);
-}
-
-.intro-button-icon {
-  width: 32px;
-  margin: 16px;
-}

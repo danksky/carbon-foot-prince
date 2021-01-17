@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles/control-panels/presentation-view-control-panel.css">
     <link rel="stylesheet" href="styles/control-panels/year-control-panel.css">
     <link rel="stylesheet" href="styles/main-view/introduction.css">
+    <link rel="stylesheet" href="styles/main-view/about.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -62,24 +63,126 @@
                     <h2 id="introduction-subtitle"> Use your Google location history data to calculate the carbon footprint of what moves you. </h2>
                 </div>
                 <div id="intro-button-container">
-                    <div class="intro-button button" id="intro-button-learn-more">
-                        <span class="intro-button-text">Learn More</span>
-                        <img class="intro-button-icon" src="images/icons/walking.svg" />
+                    <div class="main-view-button button" id="main-view-button-learn-more">
+                        <span class="main-view-button-text">Learn More</span>
+                        <img class="main-view-button-icon" src="images/icons/walking.svg" />
                     </div>
-                    <div class="intro-button button" id="intro-button-start">
-                        <span class="intro-button-text">Start</span>
-                        <img class="intro-button-icon" src="images/icons/running.svg" />
+                    <div class="main-view-button button" id="main-view-button-start">
+                        <span class="main-view-button-text">Start</span>
+                        <img class="main-view-button-icon" src="images/icons/running.svg" />
                     </div>
                 </div>
             </div>
             <div class="about-view-section main-view-first-section" id="questions-container-section">
-                <div class="main-view-text-medium-title">Questions</div>
+                <div class="navigation-header">
+                    <div class="main-view-button button" id="main-view-button-about-back">
+                        <img class="main-view-button-icon" src="images/icons/left-arrow.svg" />
+                    </div>
+                    <div class="main-view-text-medium-title">Questions</div>
+                </div>
+                <div class="question-button button" id="question-button-default">
+                    <div class="question-button-icon-container">
+                        <img class="question-button-icon" src="images/question-mark.svg" />
+                    </div> 
+                    <div class="question-button-text-container">
+                        <span class="question-button-text">What is Carbon Foot Prince?</span>
+                    </div>
+                </div>
+                <div class="question-button button" id="question-button-privacy">
+                    <div class="question-button-icon-container">
+                        <img class="question-button-icon" src="images/question-mark.svg" />
+                    </div> 
+                    <div class="question-button-text-container">
+                        <span class="question-button-text">How can I be sure my location data does not leave my computer?</span>
+                    </div>
+                </div>
+                <div class="question-button button" id="question-button-contribute">
+                    <div class="question-button-icon-container">
+                        <img class="question-button-icon" src="images/question-mark.svg" />
+                    </div> 
+                    <div class="question-button-text-container">
+                        <span class="question-button-text">How do I improve this open-source project?</span>
+                    </div>
+                </div>
+                <div class="question-button button" id="question-button-calculation">
+                    <div class="question-button-icon-container">
+                        <img class="question-button-icon" src="images/question-mark.svg" />
+                    </div>
+                    <div class="question-button-text-container">
+                        <span class="question-button-text">Is the calculation reliable?</span>
+                    </div>
+                </div>
+                <div class="main-view-button button" id="main-view-button-start-2">
+                    <span class="main-view-button-text">Start</span>
+                    <img class="main-view-button-icon" src="images/icons/running.svg" />
+                </div>
             </div>
             <div class="about-view-section" id="answer-container-section">
-                <div class="main-view-text-medium-title">ANSWER_TITLE_PLACEHOLDER</div>
+                <div class="about-text" id="about-text-default">
+                    <div class="main-view-text-medium-title">Learn More</div>
+                    <div class="about-text-paragraph">
+                        Just as Google Location History makes you confront 
+                        <a href="https://www.google.com/maps/timeline">just how much of your 
+                        life story</a> is stored on corporate servers, Carbon Foot Prince is 
+                        a tool to get familiar with your personal impact. This tool personalizes
+                        the toll your fossil-fueled movement takes on the global climate based
+                        on activity recorded in your location history– and it does this all 
+                        offline.
+                        <br />
+                        <br />
+                        Learn more by asking a pre-answered question from the left panel, or ask 
+                        a question 
+                        <a href="https://github.com/danksky/carbon-analysis/issues/new">by creating a new issue</a> 
+                        on this project's code repository. 
+                    </div>
+                </div>
+                <div class="about-text" id="about-text-privacy">
+                    <div class="main-view-text-medium-title">Privacy</div>
+                    <div class="about-text-paragraph">
+                        Your data does not leave your computer. Trust me, I'm a developer ;) 
+                        But seriously, I understand the sensitivity of your location history 
+                        data, so this tool is specifically designed to do all of the analysis 
+                        on your computer – it is not sent to external servers. I don't encourage
+                        you to trust me at face value, so I invite you to view the 
+                        <a href="https://github.com/danksky/carbon-analysis">source code</a>.
+                    </div>
+                </div>
+                <div class="about-text" id="about-text-calculation">
+                    <div class="main-view-text-medium-title">Calculation</div>
+                    <div class="about-text-paragraph">
+                        To simplify some calculations, the tool makes an assumption about
+                        the occupancy of your vehicle and matches it with emissions coefficients
+                        reported by Defra, then calculates your emissions per trip.
+                    </div>
+                    <div class="main-view-text-medium-title">Sources</div>
+                    <div class="about-text-paragraph">
+                        The estimates are based on figures published by U.S. and 
+                        U.K. government agencies, Our World in Data, and the IEA. 
+                    </div>
+                    <div class="main-view-text-medium-title">Limitations</div>
+                    <div class="about-text-paragraph">
+                        Carbon Foot Prince is an fine-grained approximation tool– it is only 
+                        as precise as the data provided to it permits it to be; sometimes, 
+                        Google location history data have lots of gaps. Figure that the 
+                        estimates presented to you will be quite conservative. 
+                    </div>
+                </div>
+                <div class="about-text" id="about-text-contribute">
+                    <div class="main-view-text-medium-title">Roove for Improoment</div>
+                    <div class="about-text-paragraph">
+                        Does something feels off? Is there a glaring typo I missed? Oh! Did you 
+                        think of a great feature to add?
+                        <a href="https://github.com/danksky/carbon-analysis/issues/new">Let's do better!</a> 
+                    </div>
+                </div>
             </div>
             <div class="upload-view-section main-view-first-section" id="instructions-container-section">
-                <div class="main-view-text-medium-title">Get your location history</div>
+                <div class="navigation-header">
+                    <div class="main-view-button button" id="main-view-button-upload-back">
+                        <img class="main-view-button-icon" src="images/icons/left-arrow.svg" />
+                    </div>
+                    <div class="main-view-text-medium-title">Get your location history</div>
+                </div>
                 <ol id="instructions-steps"> 
                     <li> Go to <a href="https://takeout.google.com/settings/takeout">Google Takeout</a> to download your Location History data. </li>
                     <li> Deselect everything except Location History.

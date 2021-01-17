@@ -538,7 +538,7 @@
                 2020: 15.53, // https://www.statista.com/statistics/193174/us-carbon-dioxide-emissions-per-person-since-2009/
             }
             var transportationShareOfGlobalCarbon = 0.14; // https://www.epa.gov/ghgemissions/global-greenhouse-gas-emissions-data
-            var worldTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
+            var worldTotalPerCapita = { 
                 2010: 4.75,
                 2011: 4.88,
                 2012: 4.90,

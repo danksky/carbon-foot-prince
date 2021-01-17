@@ -19,13 +19,23 @@
         // var instructionButton = document.getElementById("instruction-button");
         // var instructionSteps = document.getElementById("instructions-steps")
         var introductionSection = document.getElementById("introduction-view-section");
-        var introButtonLearnMore = document.getElementById("intro-button-learn-more");
-        var introButtonStart = document.getElementById("intro-button-start");
+        var introButtonLearnMore = document.getElementById("main-view-button-learn-more");
+        var introButtonStart = document.getElementById("main-view-button-start");
+        var introButtonStart2 = document.getElementById("main-view-button-start-2");
 
-        var questionSections = document.getElementsByClassName("about-view-section");
+        var aboutViewSections = document.getElementsByClassName("about-view-section");
+        var aboutBackButton = document.getElementById("main-view-button-about-back");
+        var aboutButtonDefault = document.getElementById("question-button-default");
+        var aboutButtonPrivacy = document.getElementById("question-button-privacy");
+        var aboutButtonContribute = document.getElementById("question-button-contribute");
+        var aboutButtonCalculation = document.getElementById("question-button-calculation");
+        var aboutTextDefault = document.getElementById("about-text-default");
+        var aboutTextPrivacy = document.getElementById("about-text-privacy");
+        var aboutTextCalculation = document.getElementById("about-text-calculation");
+        var aboutTextContribute = document.getElementById("about-text-contribute");
 
-        // passive document elements
-        var introContainer = document.getElementById("intro-container");
+        var uploadViewSections = document.getElementsByClassName("upload-view-section");
+        var uploadBackButton = document.getElementById("main-view-button-upload-back");
 
         var flights = {}; // TODO: Rename to flightPathsByYear and populate during processSegment(); perhaps make another function with switch statements to compile annual points/paths for mapping later.
         var history = {};
@@ -273,14 +283,45 @@
             );
         }
 
+        function showIntroductionStage() {
+            introductionSection.style.display = "block";
+        }
+
         function hideIntroductionStage() {
             introductionSection.style.display = "none";
         }
 
         function showQuestionStage() {
-            for (var i = 0; i < questionSections.length; i++) {
-                var questionSection = questionSections[i];
-                questionSection.style.display = "block";
+            for (var i = 0; i < aboutViewSections.length; i++) {
+                aboutViewSections[i].style.display = "block";
+            }
+        }
+
+        function handleAboutButtonClick(event, whichQuestion) {
+            aboutTextDefault.style.display = "none";
+            aboutTextPrivacy.style.display = "none";
+            aboutTextContribute.style.display = "none";
+            aboutTextCalculation.style.display = "none";
+
+            switch(whichQuestion) {
+                case "default":
+                    aboutTextDefault.style.display = "block";
+                    break;
+                case "privacy":
+                    aboutTextPrivacy.style.display = "block";
+                    break;
+                case "contribute":
+                    aboutTextContribute.style.display = "block";
+                    break;
+                case "calculation":
+                    aboutTextCalculation.style.display = "block";
+                    break;
+            }
+        }
+
+        function hideQuestionStage() {
+            for (var i = 0; i < aboutViewSections.length; i++) {
+                aboutViewSections[i].style.display = "none";
             }
         }
 
@@ -289,7 +330,9 @@
         }
 
         function showUploadStage() {
-            
+            for (var i = 0; i < aboutViewSections.length; i++) {
+                uploadViewSections[i].style.display = "block";
+            }
         }
 
         function toggleInstructionSteps(event) {
@@ -297,7 +340,9 @@
         }
 
         function hideUploadStage() {
-            introContainer.style.display = "none";
+            for (var i = 0; i < aboutViewSections.length; i++) {
+                uploadViewSections[i].style.display = "none";
+            }
         }
 
         function onUploadFile(event) {
@@ -325,8 +370,30 @@
         function makeDOMInteractive() {
             fileInput.addEventListener('change', onUploadFile, false);
             // instructionButton.onclick = toggleInstructionSteps;
+
+            aboutButtonDefault.onclick = (e) => {handleAboutButtonClick(e, "default")};
+            aboutButtonPrivacy.onclick = (e) => {handleAboutButtonClick(e, "privacy")};
+            aboutButtonContribute.onclick = (e) => {handleAboutButtonClick(e, "contribute")};
+            aboutButtonCalculation.onclick = (e) => {handleAboutButtonClick(e, "calculation")};
+
             introButtonLearnMore.onclick = () => {
                 hideIntroductionStage();
+                showQuestionStage();
+            }
+            introButtonStart.onclick = () => {
+                hideIntroductionStage();
+                showUploadStage();
+            }
+            introButtonStart2.onclick = () => {
+                hideQuestionStage();
+                showUploadStage();
+            }
+            aboutBackButton.onclick = () => {
+                hideQuestionStage();
+                showIntroductionStage();
+            }
+            uploadBackButton.onclick = () => {
+                hideUploadStage();
                 showQuestionStage();
             }
         }

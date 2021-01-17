@@ -2,7 +2,7 @@
   --primary-background-color: #edf6ff;
   --primary-border-color: #d6d5ff;
   --primary-border-setting: 2px solid #d6d5ff;
-  --primary-button-text-color: #7500a8;
+  --primary-button-text-color: #004759;
   --primary-button-hover-darken: #d5d7db;
   --primary-shadow: 10px 10px 0px #d6d5ff;
   --primary-selected-color: #d6d5ff85;
@@ -50,6 +50,43 @@ body {
   box-shadow: var(--primary-shadow);
 }
 
+.main-view-button {
+  border: 8px;
+  padding: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.main-view-button:hover {
+  background-color: var(--primary-background-color);
+}
+
+.main-view-button-icon {
+  width: 32px;
+  margin: 16px;
+}
+
+.navigation-header {
+  display: flex;
+  align-items: center;
+}
+
+.navigation-header .main-view-button {
+  display: inline-block;
+  padding: 0;
+  margin-right: 8px;
+}
+
+.navigation-header .main-view-button-icon {
+  margin: 8px;
+}
+
+.navigation-header .main-view-text-medium-title {
+  display: inline-block;
+}
+
 .introduction-view-section {
   flex-direction: column;
   display: flex;
@@ -63,6 +100,13 @@ body {
   border-right: var(--primary-border-setting);
   padding: 10%;
 }
+
+.main-view-text-medium-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
 .about-view-section {
   display: none;
   grid-column-start: span 1;
