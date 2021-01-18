@@ -95,3 +95,11 @@
   height: 32px;
   padding: 16px;
 }
+
+#annual-emissions-chart-legend {
+  display: none;
+}
+
+#calendar-emissions-charts-legend {
+  display: none;
+}

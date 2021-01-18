@@ -273,9 +273,6 @@
                         processSegment(segment, index, yearString, monthName);
                     });
                     fileProcessProgress[yearString][monthName].processText = true;
-                    if (areAllFilesProcessed()) {
-                        onAllFilesProcessed();
-                    }
                 } else {
                     var errorMessage = "The JSON file for " + monthName + " " + yearString + " does not contain timelineObjects.";
                     onError(null, errorMessage, yearString, monthName, fileName);
@@ -284,6 +281,9 @@
                 fileProcessProgress[yearString][monthName].failure = true;
                 var errorMessage = "The file for " + monthName + " " + yearString + " is not valid JSON.";
                 onError(jsonParseError, errorMessage, yearString, monthName, fileName);
+            }
+            if (areAllFilesProcessed()) {
+                onAllFilesProcessed();
             }
         }
         
@@ -552,9 +552,14 @@
         var selectedYear = getWorstYear();
         var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
 
-        var analysisContainer = document.getElementById("analysis-container");
-        var yearSelectorContainer = document.getElementById("year-selector-container");
-        var activitySelectorContainer = document.getElementById("activity-selector-container");
+        var presentationSections = document.getElementsByClassName("presentation-view-section");
+
+        var scopeButtonOverall = document.getElementById("scope-selector-overall");
+        var scopeButtonAnnual = document.getElementById("scope-selector-annual");
+
+        var yearSelectorContainer = document.getElementById("year-control-panel-selector-container");
+        var activitySelectorContainer = document.getElementById("actvity-control-panel-selector-container");
+        var activitySelectors = document.getElementsByClassName("activity-control-panel-selector");
 
         // text fields
         var tfYearCount = document.getElementById("year-count");
@@ -571,10 +576,16 @@
         var map = undefined;
 
         function showPresentationStage(year, activity) {
-            analysisContainer.style.display = "block";
+            for (var i = 0; i < presentationSections.length; i++) {
+                presentationSections[i].style.display = "block";
+            }
+            for (var i = 0; i < activitySelectors.length; i++) {
+                activitySelectors[i].onclick = chooseActivity;
+            }
+            scopeButtonOverall.onclick = chooseScope;
             generateYearSelection();
-            generateActivitySelection();
-            changeAllText(year);
+            filterActivitySelection();
+            // changeAllText(year);
             // drawAllCharts(year);
             // drawMap(year, activity);
         }
@@ -837,69 +848,86 @@
         }
 
         function generateYearSelection() {
-            Object.entries(activityEmissionsByYear).forEach(function (emissionsYearEntry) {
+            var yearStrings = Object.keys(activityEmissionsByYear);
+            yearStrings.sort(function (a, b) {
+                return ('' + a.attr).localeCompare(b.attr);
+            });
+            var earliestYear = parseInt(yearStrings[0]);
+            var latestYear = (new Date()).getFullYear();
+            for (var year = earliestYear; year <= latestYear; year++) {
                 var yearSelector = document.createElement("div");
                 yearSelector.className = "year-control-panel-selector button";
-                yearSelector.id = "year-control-panel-selector-" + emissionsYearEntry[0];
-                yearSelector.innerText = emissionsYearEntry[0];
-                yearSelector.onclick = chooseYear;
-                yearSelector.setAttribute("year", emissionsYearEntry[0]);
+                yearSelector.id = "year-control-panel-selector-" + year;
+                yearSelector.innerText = year;
+                if (activityEmissionsByYear[year.toString()] === undefined) {
+                    yearSelector.classList.add("inactive");
+                } else {
+                    yearSelector.onclick = chooseYear;
+                }
+
+                if (year.toString() === selectedYear.toString()) {
+                    yearSelector.classList.add("selected");
+                }
+                yearSelector.setAttribute("year", year.toString());
                 yearSelectorContainer.appendChild(yearSelector);
-            });
+            }
         }
 
-        function generateActivitySelection() {
-            Object.entries(activityEmissionsTotals).forEach(function (emissionsTotalEntry) {
-                var activitySelector = document.createElement("div");
-                activitySelector.className = "activity-control-panel-selector";
-                activitySelector.id = "activity-control-panel-selector-" + emissionsTotalEntry[0];
-                activitySelector.onclick = chooseActivity;
-                activitySelector.setAttribute("activity", emissionsTotalEntry[0]);
-
-                var selectorImage = document.createElement("img");
-                selectorImage.className = "activity-control-panel-icon";
-                selectorImage.id = "activity-control-panel-icon-" + emissionsTotalEntry[0];
-                selectorImage.setAttribute("activity", emissionsTotalEntry[0]);
-                switch (emissionsTotalEntry[0]) {
-                    case "FLYING": 
-                        selectorImage.src = "images/activities/plane.svg";
-                        break;
-                    case "IN_BUS": 
-                        selectorImage.src = "images/activities/bus.svg";
-                        break;
-                    case "IN_FERRY": 
-                        selectorImage.src = "images/activities/boat.svg";
-                        break;
-                    case "IN_PASSENGER_VEHICLE": 
-                        selectorImage.src = "images/activities/car.svg";
-                        break;
-                    case "IN_SUBWAY": 
-                        selectorImage.src = "images/activities/subway.svg";
-                        break;
-                    case "IN_TRAIN": 
-                        selectorImage.src = "images/activities/train.svg";
-                        break;
-                    case "MOTORCYCLING": 
-                        selectorImage.src = "images/activities/motorcycle.svg";
-                        break;
+        function filterActivitySelection() {
+            var currentlySelectedActivityInYear = false;
+            var firstUnfilteredActivity = undefined;
+            var activitySelectors = activitySelectorContainer.children;
+            for (var i = 0; i < activitySelectors.length; i++) {
+                var activitySelector = activitySelectors[i];
+                activitySelector.classList.remove("selected");
+                var activitySelectorActivity = activitySelector.getAttribute("activity");
+                if (activityEmissionsByYear[selectedYear][activitySelectorActivity] === undefined) {
+                    activitySelector.style.display = "none";
+                } else {
+                    if (selectedActivity === activitySelectorActivity) {
+                        currentlySelectedActivityInYear = true;
+                        activitySelector.classList.add("selected");
+                    }
+                    activitySelector.style.display = "flex";
                 }
-                activitySelector.appendChild(selectorImage);
-                activitySelectorContainer.appendChild(activitySelector);
-            });
+                if (firstUnfilteredActivity === undefined) {
+                    firstUnfilteredActivity = activitySelector;
+                }
+            }
+
+            if (!currentlySelectedActivityInYear) {
+                firstUnfilteredActivity.classList.add("selected");
+                selectedActivity = firstUnfilteredActivity.getAttribute("activity");
+            }
         }
 
         function chooseYear(event) {
             // gtag('event', 'on_choose_year');
             selectedYear = parseInt(event.target.getAttribute("year"));
-            changeAllText(selectedYear);
-            drawAllCharts(selectedYear);
-            drawMap(selectedYear, selectedActivity);
+            var yearSelectors = yearSelectorContainer.children;
+            for (var i = 0; i < yearSelectors.length; i++) {
+                yearSelectors[i].classList.remove("selected");
+                if (yearSelectors[i].getAttribute("year") === selectedYear) {
+                    yearSelectors[i].classList.add("selected");
+                }
+            }
+            filterActivitySelection();
+            // changeAllText(selectedYear);
+            // drawAllCharts(selectedYear);
+            // drawMap(selectedYear, selectedActivity);
         }
 
         function chooseActivity(event) {
             // gtag('event', 'on_choose_activity');
             selectedActivity = event.target.getAttribute("activity");
-            drawMap(selectedYear, selectedActivity);
+            var activitySelectors = activitySelectorContainer.children;
+            for (var i = 0; i < activitySelectors.length; i++) {
+                activitySelectors[i].classList.remove("selected");
+                if (activitySelectors[i].getAttribute("activity") === selectedActivity) {
+                    activitySelectors[i].classList.add("selected");
+                }
+            }
+            // drawMap(selectedYear, selectedActivity);
         }
 
         function getYearCount() {
@@ -1051,6 +1079,10 @@
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, annualEmissionsAverage) {
             return annualEmissionsAverage * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
+        }
+
+        function chooseScope(event) {
+            
         }
 
         showPresentationStage(selectedYear, selectedActivity);        
