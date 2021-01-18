@@ -6,13 +6,20 @@
     <meta name="keywords" content="Personal, Transportation, Carbon, Tracker, Footprince, CO2, Emission, Offset, Pollution, Carbon dioxide, fossil fuels">
     <meta name="author" content="Daniel Kawalsky">
     <title>Carbon Foot Prince</title>
-    <link rel="stylesheet" href="index2.css">
-    <link rel="stylesheet" href="styles/control-panels/activity-control-panel.css">
-    <link rel="stylesheet" href="styles/control-panels/presentation-view-control-panel.css">
-    <link rel="stylesheet" href="styles/control-panels/year-control-panel.css">
-    <link rel="stylesheet" href="styles/main-view/introduction.css">
-    <link rel="stylesheet" href="styles/main-view/about.css">
-    <link rel="stylesheet" href="styles/main-view/upload.css">
+    <link rel="stylesheet" href="index2.css" />
+    <link rel="stylesheet" href="styles/control-panels/activity-control-panel.css" />
+    <link rel="stylesheet" href="styles/control-panels/scope-control-panel.css" />
+    <link rel="stylesheet" href="styles/control-panels/chart-control-panel.css" />
+    <link rel="stylesheet" href="styles/control-panels/presentation-view-control-panel.css" />
+    <link rel="stylesheet" href="styles/control-panels/year-control-panel.css" />
+    <link rel="stylesheet" href="styles/main-view/introduction.css" />
+    <link rel="stylesheet" href="styles/main-view/about.css" />
+    <link rel="stylesheet" href="styles/main-view/upload.css" />
+    <link rel="stylesheet" href="styles/main-view/charts/calendar.css" />
+    <link rel="stylesheet" href="styles/main-view/charts/donate.css" />
+    <link rel="stylesheet" href="styles/main-view/charts/donut.css" />
+    <link rel="stylesheet" href="styles/main-view/charts/line.css" />
+    <link rel="stylesheet" href="styles/main-view/charts/map.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -33,23 +40,25 @@
         <div id="presentation-view-control-panel-cell">
             <div id="presentation-view-control-panel-cell-row">
                 <div id="scope-control-panel-selector-container">
-                    <div class="scope-control-panel-selector button" id="scope-selector-overall">
-                        Overall
-                    </div>
-                    <div class="scope-control-panel-selector button" id="scope-selector-annual">
-                        Annual
-                    </div>
+                    <div class="scope-control-panel-selector button selected" id="scope-selector-overall" scope="overall">Overall</div>
+                    <div class="scope-control-panel-selector button" id="scope-selector-annual" scope="annual">Annual</div>
                 </div>
                 <div id="control-panel-chevron">▸</div>
                 <div id="chart-view-control-panel-selector-container">
-                    <div class="chart-view-control-panel-selector button">
-                        <img class="chart-view-control-panel-icon" src="images/views/healing.svg" />
+                    <div class="chart-view-control-panel-selector button selected" id="chart-view-control-panel-selector-donate" chartname="donate">
+                        <img class="chart-view-control-panel-icon" src="images/views/healing.svg" chartname="donate" />
                     </div>
-                    <div class="chart-view-control-panel-selector button">
-                        <img class="chart-view-control-panel-icon" src="images/views/donut-chart.svg" />
+                    <div class="chart-view-control-panel-selector button" id="chart-view-control-panel-selector-donut" chartname="donut">
+                        <img class="chart-view-control-panel-icon" src="images/views/donut-chart.svg" chartname="donut" />
                     </div>
-                    <div class="chart-view-control-panel-selector button">
-                        <img class="chart-view-control-panel-icon" src="images/views/line-graph.svg" />
+                    <div class="chart-view-control-panel-selector button" id="chart-view-control-panel-selector-line" chartname="line">
+                        <img class="chart-view-control-panel-icon" src="images/views/line-graph.svg" chartname="line" />
+                    </div>
+                    <div class="chart-view-control-panel-selector button" id="chart-view-control-panel-selector-map" chartname="map">
+                        <img class="chart-view-control-panel-icon" src="images/views/world.svg" chartname="map" />
+                    </div>
+                    <div class="chart-view-control-panel-selector button" id="chart-view-control-panel-selector-calendar" chartname="calendar">
+                        <img class="chart-view-control-panel-icon" src="images/views/calendar-chart.svg" chartname="calendar" />
                     </div>
                 </div>
             </div>

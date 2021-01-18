@@ -25,6 +25,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: var(--primary-shadow);
+  display: none; /*block*/
 }
 
 .activity-control-panel-selector {

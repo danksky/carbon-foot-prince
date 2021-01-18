@@ -1,3 +1,8 @@
+.upload-view-section {
+  display: none;
+  grid-column-start: span 1;
+}
+
 #file-input {
   margin-block-start: 1em;
 }

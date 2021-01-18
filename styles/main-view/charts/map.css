@@ -1,0 +1,4 @@
+#map-container {
+  display: none;
+  grid-column-start: span 2;
+}

@@ -19,7 +19,7 @@
 
 #year-control-panel-selector-container {
   margin-right: auto;
-  display: inline-flex;
+  display: none; /* inline-flex */
   background-color: white;
   height: calc(90% * 6 / 7);
   border: var(--primary-border-setting);

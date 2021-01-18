@@ -1,3 +1,8 @@
+.about-view-section {
+  display: none;
+  grid-column-start: span 1;
+}
+
 .question-button {
   display: flex;
   align-items: center;

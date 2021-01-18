@@ -108,23 +108,6 @@ body {
   margin-bottom: 5px;
 }
 
-.about-view-section {
-  display: none;
-  grid-column-start: span 1;
-}
-.upload-view-section {
-  display: none;
-  grid-column-start: span 1;
-}
-.presentation-view-section {
-  display: none;
-  grid-column-start: span 1;
-}
-.map-section {
-  display: none;
-  grid-column-start: span 2;
-}
-
 #main-text-section {
   border-right: var(--primary-border-setting);
 }
@@ -137,40 +120,6 @@ body {
   width: 80%;
   height: 80%;
   margin: 10%;
-}
-
-#annual-emissions-chart-legend {
-  margin-top: 0%;
-  /* height: 35%; */
-  margin-bottom: 5%;
-  font-size: 1em;
-}
-
-.annual-emissions-chart-legend-item {
-  margin-bottom: 5px;
-}
-
-.annual-emissions-chart-legend-item-color {
-  width: 15px;
-  height: 15px;
-  border-radius: 2px;
-  display: inline-block;
-  margin-right: 5px;
-}
-#annual-emissions-chart-legend-item-color-1 {
-  background-color: rgb(66, 133, 244);
-}
-#annual-emissions-chart-legend-item-color-2 {
-  background-color: rgb(219, 68, 55);
-}
-#annual-emissions-chart-legend-item-color-3 {
-  background-color: rgb(244, 180, 0);
-}
-#annual-emissions-chart-legend-item-color-4 {
-  background-color: rgb(15, 157, 88);
-}
-.annual-emissions-chart-legend-item-explanation {
-  display: contents;
 }
 
 #main-view-chart-container {

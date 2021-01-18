@@ -549,17 +549,28 @@
         var annualTotals = {};
         var annualExcess = {};
         
+        var selectedScope = "overall";
+        var selectedOverallChart = "donate";
+        var selectedAnnualChart = "donate";
         var selectedYear = getWorstYear();
         var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
 
         var presentationSections = document.getElementsByClassName("presentation-view-section");
 
-        var scopeButtonOverall = document.getElementById("scope-selector-overall");
-        var scopeButtonAnnual = document.getElementById("scope-selector-annual");
-
+        var scopeSelectorContainer = document.getElementById("scope-control-panel-selector-container");
+        var chevronElement = document.getElementById("control-panel-chevron");
+        var chartSelectorContainer = document.getElementById("chart-view-control-panel-selector-container");
         var yearSelectorContainer = document.getElementById("year-control-panel-selector-container");
         var activitySelectorContainer = document.getElementById("actvity-control-panel-selector-container");
+
+        var scopeButtons = document.getElementsByClassName("scope-control-panel-selector");
+        var chartButtons = document.getElementsByClassName("chart-view-control-panel-selector");
+        
         var activitySelectors = document.getElementsByClassName("activity-control-panel-selector");
+
+        var annualEmissionsChartLegend = document.getElementById("annual-emissions-chart-legend");
+        var calendarEmissionsChartLegend = document.getElementById("calendar-emissions-charts-legend");
+        var donationCallToAction = document.getElementById("donation-call-to-action");
 
         // text fields
         var tfYearCount = document.getElementById("year-count");
@@ -582,7 +593,17 @@
             for (var i = 0; i < activitySelectors.length; i++) {
                 activitySelectors[i].onclick = chooseActivity;
             }
-            scopeButtonOverall.onclick = chooseScope;
+            for (var i = 0; i < scopeButtons.length; i++) {
+                scopeButtons[i].onclick = chooseScope;
+            }
+            for (var i = 0; i < chartButtons.length; i++) {
+                chartButtons[i].onclick = (event) => {chooseChart(event.target.getAttribute("chartname"));};
+            }
+            scopeSelectorContainer.style.display = "grid";
+            chevronElement.style.display = "flex";
+            chartSelectorContainer.style.display = "grid";
+            yearSelectorContainer.style.display = "inline-flex";
+            activitySelectorContainer.style.display = "block";
             generateYearSelection();
             filterActivitySelection();
             // changeAllText(year);
@@ -901,9 +922,159 @@
             }
         }
 
+        function chooseScope(event) {
+            var scope = event.target.getAttribute("scope");
+            selectedScope = scope;
+            for (var i = 0; i < scopeButtons.length; i++) {
+                var scopeButton = scopeButtons[i];
+                var buttonScope = scopeButton.getAttribute("scope");
+                scopeButton.classList.remove("selected");
+                if (selectedScope === buttonScope) {
+                    scopeButton.classList.add("selected");
+                }
+            }
+            switch (scope) {
+                case "overall":
+                    // hide year selector
+                    yearSelectorContainer.style.display = "none";
+                    // hide activity selector
+                    activitySelectorContainer.style.display = "none";
+                    // show overall chart type selection
+                    for (var i = 0; i < chartButtons.length; i++) {
+                        var chartButton = chartButtons[i];
+                        var chartName = chartButton.getAttribute("chartname");
+                        switch(chartName) {
+                            case "donate":
+                                chartButton.style.display = "flex";
+                                break;
+                            case "donut":
+                                chartButton.style.display = "flex";
+                                break;
+                            case "line":
+                                chartButton.style.display = "flex";
+                                break;
+                            case "map":
+                                chartButton.style.display = "none";
+                                break;
+                            case "calendar":
+                                chartButton.style.display = "none";
+                                break;
+                        }
+                    }
+                    // show chosen overall chart and modify selection in control panel
+                    chooseChart(selectedOverallChart);
+                    break;
+                case "annual":
+                    // show year selector
+                    yearSelectorContainer.style.display = "block";
+                    // show activity selector
+                    activitySelectorContainer.style.display = "block";
+                    // show annual chart type selection
+                    for (var i = 0; i < chartButtons.length; i++) {
+                        var chartButton = chartButtons[i];
+                        var chartName = chartButton.getAttribute("chartname");
+                        switch(chartName) {
+                            case "donate":
+                                chartButton.style.display = "flex";
+                                break;
+                            case "donut":
+                                chartButton.style.display = "none";
+                                break;
+                            case "line":
+                                chartButton.style.display = "none";
+                                break;
+                            case "map":
+                                chartButton.style.display = "flex";
+                                break;
+                            case "calendar":
+                                chartButton.style.display = "flex";
+                                break;
+                        }
+                    }
+                    // show chosen annual chart and modify selection in control panel
+                    chooseChart(selectedAnnualChart);
+                    break;
+                default:
+                    console.warn("unknown chosen scope", event);
+                    break;
+            }
+        }
+
+        function chooseChart(chartName) {
+            switch (selectedScope) {
+                case "overall":
+                    selectedOverallChart = chartName;
+                    for (var i = 0; i < chartButtons.length; i++) {
+                        var chartButton = chartButtons[i];
+                        var buttonChartName = chartButton.getAttribute("chartname");
+                        chartButton.classList.remove("selected");
+                        if (selectedOverallChart === buttonChartName) {
+                            chartButton.classList.add("selected");
+                        }
+                    }
+                    switch(chartName) {
+                        case "donate":
+                            
+                            break;
+                        case "donut":
+                            
+                            break;
+                        case "line":
+                            
+                            break;
+                        case "map":
+                            console.warn(chartName, "chart choice is not valid for overall");
+                            break;
+                        case "calendar":
+                            console.warn(chartName, "chart choice is not valid for overall");
+                            break;
+                        default:
+                            console.warn("unknown chosen chart");
+                            break;
+                    }
+                    break;
+                case "annual":
+                    selectedAnnualChart = chartName;
+                    for (var i = 0; i < chartButtons.length; i++) {
+                        var chartButton = chartButtons[i];
+                        var buttonChartName = chartButton.getAttribute("chartname");
+                        chartButton.classList.remove("selected");
+                        if (selectedAnnualChart === buttonChartName) {
+                            chartButton.classList.add("selected");
+                        }
+                    }
+                    switch(chartName) {
+                        case "donate":
+                            
+                            break;
+                        case "donut":
+                            console.warn(chartName, "chart choice is not valid for annual");
+                            break;
+                        case "line":
+                            console.warn(chartName, "chart choice is not valid for annual");
+                            break;
+                        case "map":
+                            
+                            break;
+                        case "calendar":
+                            
+                            break;
+                        default:
+                            console.warn("unknown chosen chart");
+                            break;
+                    }
+                    break;
+            }
+            // chartname="donate"
+            // chartname="donut"
+            // chartname="line"
+            // chartname="map"
+            // chartname="calendar"
+        }
+
         function chooseYear(event) {
             // gtag('event', 'on_choose_year');
-            selectedYear = parseInt(event.target.getAttribute("year"));
+            selectedYear = event.target.getAttribute("year");
             var yearSelectors = yearSelectorContainer.children;
             for (var i = 0; i < yearSelectors.length; i++) {
                 yearSelectors[i].classList.remove("selected");
@@ -1079,10 +1250,6 @@
 
         function getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, annualEmissionsAverage) {
             return annualEmissionsAverage * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
-        }
-
-        function chooseScope(event) {
-            
         }
 
         showPresentationStage(selectedYear, selectedActivity);        
