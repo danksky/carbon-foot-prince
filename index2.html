@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/control-panels/year-control-panel.css" />
     <link rel="stylesheet" href="styles/main-view/introduction.css" />
     <link rel="stylesheet" href="styles/main-view/about.css" />
+    <link rel="stylesheet" href="styles/main-view/presentation.css" />
     <link rel="stylesheet" href="styles/main-view/upload.css" />
     <link rel="stylesheet" href="styles/main-view/charts/calendar.css" />
     <link rel="stylesheet" href="styles/main-view/charts/donate.css" />
@@ -224,6 +225,12 @@
             </div>
             <div class="presentation-view-section main-view-first-section" id="presentation-text-section">
                 <div id="presentation-view-text-container">
+                    <div id="donation-call-to-action">
+                        <div class="main-view-text-medium-title">Offset your carbon.</div>
+                        <div>
+                            Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
+                        </div>
+                    </div>
                     <div id="annual-emissions-chart-legend">
                         <div class="main-view-text-medium-title">Legend</div>
                         <div class="annual-emissions-chart-legend-item">
@@ -265,33 +272,64 @@
                         <div class="main-view-text-medium-title">Cumulative Emissions</div>
                         <div class="presentation-view-text-explanation">The gradient below projects the 2015 Paris Climate Accords goals onto your year's emissions. When it turns from green to white, you have reached your annual carbon emission allowance for <span class="selected-year">0000</span>. Once your carbon emissions exceed this budget, the gradient turns red.</div>
                     </div>
-                    <div id="donation-call-to-action">
-                        <div class="main-view-text-medium-title">Offset your carbon.</div>
-                    </div>
                 </div>
             </div>
             <div class="presentation-view-section" id="presentation-chart-section">
                 <div id="presentation-view-chart-container">
                     <div id="calendar-charts-container">
                         <div class="calculator-chart-container" id="activity-daily-emissions-container">
-                            <h3 class="chart-label">Daily Emissions</h3>
+                            <div class="main-view-text-medium-title">Daily Emissions</div>
                             <div id="activity-daily-emissions-chart"></div>
                         </div>
                         <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
-                            <h3 class="chart-label">Cumulative Emissions</h3>
+                            <div class="main-view-text-medium-title">Cumulative Emissions</div>
                             <div id="activity-cumulative-emissions-chart"></div>
                         </div>
                     </div>
                     <div id="annual-emissions-chart-container">
-                        <h3 class="chart-label">Annual Emissions</h3>
+                        <div class="main-view-text-medium-title">Annual Emissions</div>
                         <div id="annual-emissions-chart"></div>
                     </div>
                     <div id="total-emissions-donut-chart-container">
-                        <h3 class="chart-label">Total Emissions</h3>
+                        <div class="main-view-text-medium-title">Total Emissions</div>
                         <div id="total-emissions-donut-chart"></div>
                     </div>
                     <div id="emissions-breakdown">
                         <div class="main-view-text-medium-title">What happens to all your carbon?</div>
+                        <div>
+                            <div class="emissions-breakdown-item"> 
+                                <div class="emissions-breakdown-item-icon-container">
+                                    <img class="emissions-breakdown-item-icon" src="images/climate-change/tailpipe.svg" />
+                                </div>
+                                <div class="emissions-breakdown-item-text">
+                                    In total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emitted <span class="total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> since <span class="earliest-year">0000</span>. 
+                                </div>
+                            </div>
+                            <div class="emissions-breakdown-item"> 
+                                <div class="emissions-breakdown-item-icon-container">
+                                    <img class="emissions-breakdown-item-icon" src="images/climate-change/global-warming.svg" />
+                                </div>
+                                <div class="emissions-breakdown-item-text">
+                                    Of this, <span id="half-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> will remain in the atmosphere, 
+                                </div>
+                            </div>
+                            <div class="emissions-breakdown-item"> 
+                                <div class="emissions-breakdown-item-icon-container">
+                                    <img class="emissions-breakdown-item-icon" src="images/climate-change/ocean.svg" />
+                                </div>
+                                <div class="emissions-breakdown-item-text">
+                                    and <span class="quarter-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> will acidify the ocean. 
+                                </div>
+                            </div>
+                            <div class="emissions-breakdown-item"> 
+                                <div class="emissions-breakdown-item-icon-container">
+                                    <img class="emissions-breakdown-item-icon" src="images/climate-change/tree-stump.svg" />
+                                </div>
+                                <div class="emissions-breakdown-item-text">
+                                    Plants will process the other <span class="quarter-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub>.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

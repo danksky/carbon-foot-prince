@@ -534,6 +534,7 @@
             }
         }
         makeDOMInteractive();
+        google.charts.load("current", {packages:["line", "calendar", "corechart"]});
     }
 
     const chartDrawer = {
@@ -572,6 +573,10 @@
         var calendarEmissionsChartLegend = document.getElementById("calendar-emissions-charts-legend");
         var donationCallToAction = document.getElementById("donation-call-to-action");
 
+        var emissionsBreakdown = document.getElementById("emissions-breakdown");
+        var annualEmissionsChartContainer = document.getElementById("annual-emissions-chart-container");
+        var annualEmissionsChart = undefined;
+
         // text fields
         var tfYearCount = document.getElementById("year-count");
         var tfHalfTotalEmissions = document.getElementById("half-total-emission");
@@ -603,9 +608,10 @@
             chevronElement.style.display = "flex";
             chartSelectorContainer.style.display = "grid";
             yearSelectorContainer.style.display = "inline-flex";
-            activitySelectorContainer.style.display = "block";
+            // activitySelectorContainer.style.display = (selectedAnnualChart === "map") ? "block" : "none";
+
             generateYearSelection();
-            filterActivitySelection();
+            chooseYear(selectedYear);
             // changeAllText(year);
             // drawAllCharts(year);
             // drawMap(year, activity);
@@ -769,6 +775,10 @@
         }
 
         function drawLineChart(chartID) {
+            if (annualEmissionsChart !== undefined) {
+                console.log("already loaded annualEmissionsChart")
+                return;
+            }
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn('string', 'Year' );
             dataTable.addColumn('number', 'Annual Emissions' );
@@ -822,6 +832,7 @@
                     });
                     annualSum = annualSum / 1000;
                 }
+                console.log("annualSum",annualSum);
                 annualEmisionsData.push([
                     year.toString(), 
                     annualSum, 
@@ -833,18 +844,21 @@
             dataTable.addRows(annualEmisionsData);
 
             var chartElement = document.getElementById(chartID);
-            var chart = new google.charts.Line(chartElement);
+            var chart = new google.visualization.LineChart(chartElement);
             
             var options = {
                 legend: {
                     position: 'none'
                 },
                 vAxis: {
-                    title: 'Kilogram tons of CO2'
-                }
+                    title: 'Tonnes of CO2'
+                },
+                fontName: "Noto Sans",
+                pointsVisible: true,
             };
 
-            chart.draw(dataTable, google.charts.Line.convertOptions(options));
+            chart.draw(dataTable, options);
+            return chart;
         }
 
         function drawAllCharts(year) {
@@ -895,6 +909,7 @@
         }
 
         function filterActivitySelection() {
+            activitySelectorContainer.style.display = "block";
             var currentlySelectedActivityInYear = false;
             var firstUnfilteredActivity = undefined;
             var activitySelectors = activitySelectorContainer.children;
@@ -937,8 +952,6 @@
                 case "overall":
                     // hide year selector
                     yearSelectorContainer.style.display = "none";
-                    // hide activity selector
-                    activitySelectorContainer.style.display = "none";
                     // show overall chart type selection
                     for (var i = 0; i < chartButtons.length; i++) {
                         var chartButton = chartButtons[i];
@@ -967,8 +980,6 @@
                 case "annual":
                     // show year selector
                     yearSelectorContainer.style.display = "block";
-                    // show activity selector
-                    activitySelectorContainer.style.display = "block";
                     // show annual chart type selection
                     for (var i = 0; i < chartButtons.length; i++) {
                         var chartButton = chartButtons[i];
@@ -1014,13 +1025,26 @@
                     }
                     switch(chartName) {
                         case "donate":
-                            
+                            emissionsBreakdown.style.display = "block";
+                            donationCallToAction.style.display = "block";
+                            annualEmissionsChartLegend.style.display = "none";
+                            annualEmissionsChartContainer.style.display = "none";
+                            activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
-                            
+                            emissionsBreakdown.style.display = "none";
+                            donationCallToAction.style.display = "none";
+                            annualEmissionsChartLegend.style.display = "none";
+                            annualEmissionsChartContainer.style.display = "none";
+                            activitySelectorContainer.style.display = "none";
                             break;
                         case "line":
-                            
+                            emissionsBreakdown.style.display = "none";
+                            donationCallToAction.style.display = "none";
+                            annualEmissionsChartLegend.style.display = "block";
+                            annualEmissionsChartContainer.style.display = "flex";
+                            annualEmissionsChart = drawLineChart("annual-emissions-chart");
+                            activitySelectorContainer.style.display = "none";
                             break;
                         case "map":
                             console.warn(chartName, "chart choice is not valid for overall");
@@ -1045,7 +1069,11 @@
                     }
                     switch(chartName) {
                         case "donate":
-                            
+                            emissionsBreakdown.style.display = "block";
+                            donationCallToAction.style.display = "block";
+                            annualEmissionsChartLegend.style.display = "none";
+                            annualEmissionsChartContainer.style.display = "none";
+                            activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
                             console.warn(chartName, "chart choice is not valid for annual");
@@ -1054,10 +1082,18 @@
                             console.warn(chartName, "chart choice is not valid for annual");
                             break;
                         case "map":
-                            
+                            emissionsBreakdown.style.display = "none";
+                            donationCallToAction.style.display = "none";
+                            annualEmissionsChartLegend.style.display = "none";
+                            annualEmissionsChartContainer.style.display = "none";
+                            filterActivitySelection();
                             break;
                         case "calendar":
-                            
+                            emissionsBreakdown.style.display = "none";
+                            donationCallToAction.style.display = "none";
+                            annualEmissionsChartLegend.style.display = "none";
+                            annualEmissionsChartContainer.style.display = "none";
+                            activitySelectorContainer.style.display = "none";
                             break;
                         default:
                             console.warn("unknown chosen chart");
@@ -1082,7 +1118,7 @@
                     yearSelectors[i].classList.add("selected");
                 }
             }
-            filterActivitySelection();
+            chooseChart(selectedAnnualChart);
             // changeAllText(selectedYear);
             // drawAllCharts(selectedYear);
             // drawMap(selectedYear, selectedActivity);
