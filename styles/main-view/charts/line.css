@@ -1,3 +1,50 @@
+#annual-emissions-chart-legend {
+  margin-top: 0%;
+  /* height: 35%; */
+  display: none;
+  margin-bottom: 5%;
+  font-size: 1em;
+}
+
+#annual-emissions-chart-legend-items {
+  margin-top: 16px;
+}
+
+.annual-emissions-chart-legend-item {
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.annual-emissions-chart-legend-item-color-container {
+  display: flex;
+  margin-right: 16px;
+  margin-top: 5px;
+}
+
+.annual-emissions-chart-legend-item-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}
+#annual-emissions-chart-legend-item-color-1 {
+  background-color: rgb(66, 133, 244);
+}
+#annual-emissions-chart-legend-item-color-2 {
+  background-color: rgb(219, 68, 55);
+}
+#annual-emissions-chart-legend-item-color-3 {
+  background-color: rgb(244, 180, 0);
+}
+#annual-emissions-chart-legend-item-color-4 {
+  background-color: rgb(15, 157, 88);
+}
+.annual-emissions-chart-legend-item-explanation {
+  display: block;
+}
+.annual-emissions-chart-legend-item-explanation-annotation {
+  line-height: 0;
+}
+
 #annual-emissions-chart-container {
   display: none;
   padding: 45px;

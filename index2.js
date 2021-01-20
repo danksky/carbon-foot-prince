@@ -591,7 +591,23 @@
 
         var map = undefined;
 
-        function showPresentationStage(year, activity) {
+        // https://www.epa.gov/greenvehicles/fast-facts-transportation-greenhouse-gas-emissions
+        // https://www.epa.gov/greenvehicles/archives-fast-facts-us-transportation-sector-greenhouse-gas-emissions
+        var usaTotalPersonalTransportationPerCapita = { 
+            2010: 4.226056654,
+            2011: 4.2415522,
+            2012: 4.179033768,
+            2013: 3.999361088,
+            2014: 4.027634424,
+            2015: 3.948225731,
+            2016: 3.975654518,
+            2017: 3.953430532,
+            2018: 3.979868128,
+            2019: null,
+            2020: 3.527810416, // "we estimate that net economy-wide US GHG emissions fell by 10.3% in 2020" - https://rhg.com/research/preliminary-us-emissions-2020
+        }
+
+        function showPresentationStage() {
             for (var i = 0; i < presentationSections.length; i++) {
                 presentationSections[i].style.display = "block";
             }
@@ -607,8 +623,6 @@
             scopeSelectorContainer.style.display = "grid";
             chevronElement.style.display = "flex";
             chartSelectorContainer.style.display = "grid";
-            yearSelectorContainer.style.display = "inline-flex";
-            // activitySelectorContainer.style.display = (selectedAnnualChart === "map") ? "block" : "none";
 
             generateYearSelection();
             chooseYear(selectedYear);
@@ -668,6 +682,15 @@
             }
         }
 
+        // getUSAATPTE2010To2015 - get USA Average Total Personal Transportation Emissions from 2010 - 2015 
+        function getUSAATPTE2010To2015() {
+            var total2010to2015 = 0;
+            for (var year = 2010; year <= 2015; year++) {
+                total2010to2015 += usaTotalPersonalTransportationPerCapita[year];
+            }
+            return total2010to2015 / 6;
+        }
+
         function getEmissionsChartData(year) {
             if (dailyEmissionsChart[year] !== undefined) {
                 return dailyEmissionsChart[year];
@@ -724,7 +747,7 @@
             };
 
             if (isCumulative) {
-                var emissionBudget = Math.round(getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) * 10) / 10;
+                var emissionBudget = Math.round(getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015()) * 10) / 10;
                 var cumulativeMax = Math.round(chartData[chartData.length - 1][1] * 10) / 10;
                 if (cumulativeMax < emissionBudget) {
                     cumulativeMax = emissionBudget;
@@ -786,34 +809,20 @@
             dataTable.addColumn('number', 'Average USA Emissions Per Capita' );
             dataTable.addColumn('number', 'Average World Emissions Per Capita' );
 
-            var transportationShareOfUSACarbon = 0.28; // https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks
-            var usaTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
-                2010: 18.45,
-                2011: 17.88,
-                2012: 17.11,
-                2013: 17.46,
-                2014: 17.49,
-                2015: 16.90,
-                2016: 16.43,
-                2017: 16.21,
-                2018: 16.56,
-                2019: 16.60, // https://www.wri.org/blog/2019/12/co2-emissions-climb-all-time-high-again-2019-6-takeaways-latest-climate-data
-                2020: 15.53, // https://www.statista.com/statistics/193174/us-carbon-dioxide-emissions-per-person-since-2009/
-            }
-            var transportationShareOfGlobalCarbon = 0.14; // https://www.epa.gov/ghgemissions/global-greenhouse-gas-emissions-data
-            var worldTotalPerCapita = { // https://ourworldindata.org/co2/country/united-states?country=USA
-                2010: 4.75,
-                2011: 4.88,
-                2012: 4.90,
-                2013: 4.88,
-                2014: 4.87,
-                2015: 4.81,
-                2016: 4.78,
-                2017: 4.79,
-                2018: 4.79,
-                2019: 4.80, // https://www.wri.org/blog/2019/12/co2-emissions-climb-all-time-high-again-2019-6-takeaways-latest-climate-data
-                2020: 4.46, // "compared to 2019... a drop of 7% in global emissions." https://www.carbonbrief.org/global-carbon-project-coronavirus-causes-record-fall-in-fossil-fuel-emissions-in-2020
-                            // world population increased - https://www.worldometers.info/world-population/world-population-by-year/
+            // global emissions from passenger transport (Passenger road vehicles, Aviation, Rail) https://www.iea.org/data-and-statistics/charts/transport-sector-co2-emissions-by-mode-in-the-sustainable-development-scenario-2000-2030
+            // world population by year https://www.worldometers.info/world-population/world-population-by-year/
+            var worldTotalPersonalTransporationPerCapita = { 
+                2010: 0.567973156,
+                2011: 0.565946704,
+                2012: 0.568916286,
+                2013: 0.579894213,
+                2014: 0.584254256,
+                2015: 0.600838366,
+                2016: 0.610212495,
+                2017: 0.611524867,
+                2018: 0.607438158,
+                2019: null,
+                2020: 0.553599925, // "compared to 2019... a drop of 7% in global emissions." https://www.carbonbrief.org/global-carbon-project-coronavirus-causes-record-fall-in-fossil-fuel-emissions-in-2020
             }
 
             var minYear = (new Date()).getFullYear();
@@ -836,9 +845,10 @@
                 annualEmisionsData.push([
                     year.toString(), 
                     annualSum, 
-                    getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) / 1000, 
-                    usaTotalPerCapita[year] * transportationShareOfUSACarbon,
-                    worldTotalPerCapita[year] * transportationShareOfGlobalCarbon,
+                    // getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) / 1000, 
+                    usaTotalPersonalTransportationPerCapita[year],
+                    usaTotalPersonalTransportationPerCapita[year] === null ? null : getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015()),
+                    worldTotalPersonalTransporationPerCapita[year],
                 ]);
             }
             dataTable.addRows(annualEmisionsData);
@@ -855,6 +865,7 @@
                 },
                 fontName: "Noto Sans",
                 pointsVisible: true,
+                interpolateNulls: true,
             };
 
             chart.draw(dataTable, options);
@@ -897,7 +908,7 @@
                 if (activityEmissionsByYear[year.toString()] === undefined) {
                     yearSelector.classList.add("inactive");
                 } else {
-                    yearSelector.onclick = chooseYear;
+                    yearSelector.onclick = (e) => {chooseYear(e.target.getAttribute("year"));};
                 }
 
                 if (year.toString() === selectedYear.toString()) {
@@ -1108,9 +1119,9 @@
             // chartname="calendar"
         }
 
-        function chooseYear(event) {
+        function chooseYear(year) {
             // gtag('event', 'on_choose_year');
-            selectedYear = event.target.getAttribute("year");
+            selectedYear = year;
             var yearSelectors = yearSelectorContainer.children;
             for (var i = 0; i < yearSelectors.length; i++) {
                 yearSelectors[i].classList.remove("selected");
@@ -1154,7 +1165,7 @@
                 return annualExcess[year];
             }
             annualExcess[year] = 0;
-            var annualBudgetAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions());
+            var annualBudgetAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015());
             annualExcess[year] = getAnnualTotal(year) - annualBudgetAllowance;
             annualExcess[year] = Math.round( annualExcess[year] * 10) / 10;
             return annualExcess[year];
@@ -1196,7 +1207,7 @@
                 return yearExceededDate[year];
             }
             var cumulativeEmissionsData = getEmissionsChartData(year)[1];
-            var annualAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions());
+            var annualAllowance = getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015());
             var exceededDate = null;
             for (var i = 0; i < cumulativeEmissionsData.length; i++) {
                 var cumulativeEmissionsDayEntry = cumulativeEmissionsData[i];
@@ -1288,7 +1299,7 @@
             return annualEmissionsAverage * Math.pow((1 - reductionPercentageGoal),(currentYear - 2015 + 1));
         }
 
-        showPresentationStage(selectedYear, selectedActivity);        
+        showPresentationStage();        
     }
 
 })(this);
