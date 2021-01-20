@@ -571,13 +571,14 @@
 
         var overallDonutChartLegendContainer = document.getElementById("overall-emissions-donut-chart-legend-container");
         var overallLineChartLegendContainer = document.getElementById("overall-emissions-line-chart-legend-container");
-        var calendarEmissionsChartLegend = document.getElementById("calendar-emissions-charts-legend");
+        var annualEmissionsCalendarChartLegendsContainer = document.getElementById("annual-emissions-calendar-charts-legend-container");
         var donationCallToAction = document.getElementById("donation-call-to-action");
 
         var emissionsBreakdown = document.getElementById("emissions-breakdown");
         
         var overallEmissionsDonutChartContainer = document.getElementById("overall-emissions-donut-chart-container");
         var overallEmissionsLineChartContainer = document.getElementById("overall-emissions-line-chart-container");
+        var annualEmissionsCalendarChartsContainer = document.getElementById("annual-emissions-calendar-charts-container");
         var overallEmissionsLineChart = undefined;
         var overallEmissionsDonutChart = undefined;
 
@@ -1050,6 +1051,8 @@
                             overallEmissionsLineChartContainer.style.display = "none";
                             overallEmissionsDonutChartContainer.style.display = "none";
                             overallDonutChartLegendContainer.style.display = "none";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "none";
+                            annualEmissionsCalendarChartsContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
@@ -1060,6 +1063,8 @@
                             donutEmissionsChart = drawDonutChart("overall-emissions-donut-chart");
                             overallEmissionsDonutChartContainer.style.display = "flex";
                             overallDonutChartLegendContainer.style.display = "block";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "none";
+                            annualEmissionsCalendarChartsContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "line":
@@ -1070,6 +1075,8 @@
                             overallEmissionsLineChart = drawLineChart("overall-emissions-line-chart");
                             overallEmissionsDonutChartContainer.style.display = "none";
                             overallDonutChartLegendContainer.style.display = "none";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "none";
+                            annualEmissionsCalendarChartsContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "map":
@@ -1101,6 +1108,8 @@
                             overallEmissionsLineChartContainer.style.display = "none";
                             overallDonutChartLegendContainer.style.display = "none";
                             overallEmissionsDonutChartContainer.style.display = "none";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "none";
+                            annualEmissionsCalendarChartsContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
@@ -1114,9 +1123,11 @@
                             donationCallToAction.style.display = "none";
                             overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
-                            filterActivitySelection();
                             overallDonutChartLegendContainer.style.display = "none";
                             overallEmissionsDonutChartContainer.style.display = "none";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "none";
+                            annualEmissionsCalendarChartsContainer.style.display = "none";
+                            filterActivitySelection();
                             break;
                         case "calendar":
                             emissionsBreakdown.style.display = "none";
@@ -1125,6 +1136,8 @@
                             overallEmissionsLineChartContainer.style.display = "none";
                             overallDonutChartLegendContainer.style.display = "none";
                             overallEmissionsDonutChartContainer.style.display = "none";
+                            annualEmissionsCalendarChartLegendsContainer.style.display = "block";
+                            annualEmissionsCalendarChartsContainer.style.display = "block";
                             activitySelectorContainer.style.display = "none";
                             break;
                         default:
