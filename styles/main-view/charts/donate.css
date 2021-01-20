@@ -1,8 +1,4 @@
 #emissions-breakdown {
-  display: block;
-  padding: 45px;
-  overflow-y: scroll;
-  height: calc(100% - 90px);
 }
 
 .emissions-breakdown-item {

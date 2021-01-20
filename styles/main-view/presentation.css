@@ -4,4 +4,8 @@
 
 #presentation-view-chart-container {
   height: 100%;
+  display: block;
+  padding: 45px;
+  height: calc(100% - 90px);
+  overflow-y: scroll;
 }
