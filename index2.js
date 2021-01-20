@@ -569,7 +569,8 @@
         
         var activitySelectors = document.getElementsByClassName("activity-control-panel-selector");
 
-        var annualEmissionsChartLegend = document.getElementById("overall-emissions-line-chart-legend-container");
+        var overallDonutChartLegendContainer = document.getElementById("overall-emissions-donut-chart-legend-container");
+        var overallLineChartLegendContainer = document.getElementById("overall-emissions-line-chart-legend-container");
         var calendarEmissionsChartLegend = document.getElementById("calendar-emissions-charts-legend");
         var donationCallToAction = document.getElementById("donation-call-to-action");
 
@@ -577,7 +578,8 @@
         
         var overallEmissionsDonutChartContainer = document.getElementById("overall-emissions-donut-chart-container");
         var overallEmissionsLineChartContainer = document.getElementById("overall-emissions-line-chart-container");
-        var annualEmissionsChart = undefined;
+        var overallEmissionsLineChart = undefined;
+        var overallEmissionsDonutChart = undefined;
 
         // text fields
         var tfYearCount = document.getElementById("year-count");
@@ -769,6 +771,10 @@
         }
 
         function drawDonutChart(chartID) {
+            if (overallEmissionsDonutChart !== undefined) {
+                console.log("already loaded overallEmissionsDonutChart")
+                return;
+            }
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'string', id: 'Activity' });
             dataTable.addColumn({ type: 'number', id: 'Emissions' });
@@ -800,8 +806,8 @@
         }
 
         function drawLineChart(chartID) {
-            if (annualEmissionsChart !== undefined) {
-                console.log("already loaded annualEmissionsChart")
+            if (overallEmissionsLineChart !== undefined) {
+                console.log("already loaded overallEmissionsLineChart")
                 return;
             }
             var dataTable = new google.visualization.DataTable();
@@ -849,7 +855,7 @@
                     annualSum, 
                     // getAnnualBudgetAllowance(reductionPercentageGoal, year, getAverageTotalAnnualEmissions()) / 1000, 
                     usaTotalPersonalTransportationPerCapita[year],
-                    usaTotalPersonalTransportationPerCapita[year] === null ? null : getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015()),
+                    getAnnualBudgetAllowance(reductionPercentageGoal, year, getUSAATPTE2010To2015()),
                     worldTotalPersonalTransporationPerCapita[year],
                 ]);
             }
@@ -1040,27 +1046,30 @@
                         case "donate":
                             emissionsBreakdown.style.display = "block";
                             donationCallToAction.style.display = "block";
-                            annualEmissionsChartLegend.style.display = "none";
+                            overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
                             overallEmissionsDonutChartContainer.style.display = "none";
+                            overallDonutChartLegendContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
                             emissionsBreakdown.style.display = "none";
                             donationCallToAction.style.display = "none";
-                            annualEmissionsChartLegend.style.display = "none";
+                            overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
-                            overallEmissionsDonutChartContainer.style.display = "flex";
                             donutEmissionsChart = drawDonutChart("overall-emissions-donut-chart");
+                            overallEmissionsDonutChartContainer.style.display = "flex";
+                            overallDonutChartLegendContainer.style.display = "block";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "line":
                             emissionsBreakdown.style.display = "none";
                             donationCallToAction.style.display = "none";
-                            annualEmissionsChartLegend.style.display = "block";
+                            overallLineChartLegendContainer.style.display = "block";
                             overallEmissionsLineChartContainer.style.display = "flex";
+                            overallEmissionsLineChart = drawLineChart("overall-emissions-line-chart");
                             overallEmissionsDonutChartContainer.style.display = "none";
-                            annualEmissionsChart = drawLineChart("overall-emissions-line-chart");
+                            overallDonutChartLegendContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "map":
@@ -1088,8 +1097,10 @@
                         case "donate":
                             emissionsBreakdown.style.display = "block";
                             donationCallToAction.style.display = "block";
-                            annualEmissionsChartLegend.style.display = "none";
+                            overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
+                            overallDonutChartLegendContainer.style.display = "none";
+                            overallEmissionsDonutChartContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         case "donut":
@@ -1101,15 +1112,19 @@
                         case "map":
                             emissionsBreakdown.style.display = "none";
                             donationCallToAction.style.display = "none";
-                            annualEmissionsChartLegend.style.display = "none";
+                            overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
                             filterActivitySelection();
+                            overallDonutChartLegendContainer.style.display = "none";
+                            overallEmissionsDonutChartContainer.style.display = "none";
                             break;
                         case "calendar":
                             emissionsBreakdown.style.display = "none";
                             donationCallToAction.style.display = "none";
-                            annualEmissionsChartLegend.style.display = "none";
+                            overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
+                            overallDonutChartLegendContainer.style.display = "none";
+                            overallEmissionsDonutChartContainer.style.display = "none";
                             activitySelectorContainer.style.display = "none";
                             break;
                         default:

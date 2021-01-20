@@ -231,6 +231,17 @@
                             Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
                         </div>
                     </div>
+                    <div id="overall-emissions-donut-chart-legend-container">
+                        <div class="main-view-text-medium-title">Donut Chunks</div>
+                        <div id="overall-emissions-donut-chart-legend-items">
+                            <!-- TODO: Improve the dynamic nature of this explanation, (1) compare user's average annual flight miles to average American's flight miles annually. -->
+                            <div>
+                                Is your donut chart dominated by 2 or 3 "chunks?" Flying on 
+                                commercial airlines and driving a passenger vehicle typically 
+                                accounts for the vast majority of your emissions.
+                            </div>
+                        </div>
+                    </div>
                     <div id="overall-emissions-line-chart-legend-container">
                         <div class="main-view-text-medium-title">Legend</div>
                         <div id="overall-emissions-line-chart-legend-items">
@@ -340,7 +351,9 @@
                 </div>
             </div>
             <div id="map-container">
-                <div id="map-label"></div>
+                <div id="map-label">
+                    <!-- TODO: Include the km traveled by this mode. 2019: 4,263 Passenger Vehicle kilometers -->
+                </div>
                 <div id="map"></div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-#overall-emissions-line-chart-container-legend {
+#overall-emissions-line-chart-legend-container {
   margin-top: 0%;
   /* height: 35%; */
   display: none;
@@ -6,42 +6,42 @@
   font-size: 1em;
 }
 
-#overall-emissions-line-chart-container-legend-items {
+#overall-emissions-line-chart-legend-items {
   margin-top: 16px;
 }
 
-.overall-emissions-line-chart-container-legend-item {
+.overall-emissions-line-chart-legend-item {
   margin-bottom: 16px;
   display: flex;
 }
 
-.overall-emissions-line-chart-container-legend-item-color-container {
+.overall-emissions-line-chart-legend-item-color-container {
   display: flex;
   margin-right: 16px;
   margin-top: 5px;
 }
 
-.overall-emissions-line-chart-container-legend-item-color {
+.overall-emissions-line-chart-legend-item-color {
   width: 16px;
   height: 16px;
   border-radius: 2px;
 }
-#overall-emissions-line-chart-container-legend-item-color-1 {
+#overall-emissions-line-chart-legend-item-color-1 {
   background-color: rgb(66, 133, 244);
 }
-#overall-emissions-line-chart-container-legend-item-color-2 {
+#overall-emissions-line-chart-legend-item-color-2 {
   background-color: rgb(219, 68, 55);
 }
-#overall-emissions-line-chart-container-legend-item-color-3 {
+#overall-emissions-line-chart-legend-item-color-3 {
   background-color: rgb(244, 180, 0);
 }
-#overall-emissions-line-chart-container-legend-item-color-4 {
+#overall-emissions-line-chart-legend-item-color-4 {
   background-color: rgb(15, 157, 88);
 }
-.overall-emissions-line-chart-container-legend-item-explanation {
+.overall-emissions-line-chart-legend-item-explanation {
   display: block;
 }
-.overall-emissions-line-chart-container-legend-item-explanation-annotation {
+.overall-emissions-line-chart-legend-item-explanation-annotation {
   line-height: 0;
 }
 
