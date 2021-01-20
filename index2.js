@@ -569,7 +569,7 @@
         
         var activitySelectors = document.getElementsByClassName("activity-control-panel-selector");
 
-        var annualEmissionsChartLegend = document.getElementById("overall-emissions-line-chart-container-legend");
+        var annualEmissionsChartLegend = document.getElementById("overall-emissions-line-chart-legend-container");
         var calendarEmissionsChartLegend = document.getElementById("calendar-emissions-charts-legend");
         var donationCallToAction = document.getElementById("donation-call-to-action");
 
