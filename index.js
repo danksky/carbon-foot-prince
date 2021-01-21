@@ -1254,7 +1254,7 @@
         }
 
         function chooseYear(yearNum) {
-            // gtag('event', 'on_choose_year');
+            gtag('event', 'on_choose_year');
             selectedYear = yearNum;
             var yearSelectors = yearSelectorContainer.children;
             for (var i = 0; i < yearSelectors.length; i++) {

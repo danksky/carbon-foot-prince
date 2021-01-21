@@ -15,6 +15,7 @@ body {
 
 #container {
   width: 100%;
+  min-width: 1250px;
   min-height: 800px;
   height: 100vh;
   background-color: var(--primary-background-color);
