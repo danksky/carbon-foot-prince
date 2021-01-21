@@ -1,416 +1,130 @@
 :root {
-  --primary-decorative-green: #01db22;
-  --secondary-decorative-green: #99ffa8;
-  --primary-green: #088b1b;
-  --secondary-green: #dbffe0;
-  --white: #ffffff;
-  --red: #ff5b19;
-  --primary-blue: #005db3;
-  --secondary-blue: #d9edff;
-  --standard-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  --primary-background-color: #edf6ff;
+  --primary-border-color: #d6d5ff;
+  --primary-border-setting: 2px solid #d6d5ff;
+  --primary-button-text-color: #004759;
+  --primary-button-hover-darken: #d5d7db;
+  --primary-shadow: 10px 10px 0px #d6d5ff;
+  --primary-selected-color: #d6d5ff85;
 }
 
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
-.stage-container {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-}
-
-.page {
-  width: 100vw;
+#container {
+  width: 100%;
   min-height: 800px;
-  height: 90vh;
+  height: 100vh;
+  background-color: var(--primary-background-color);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1000px 1fr;
+  grid-template-rows: 25% 50% 25%;
 }
 
-.page-section {
-  grid-column-start: span 1;
-  height: calc(100% - 10vw);
-  padding: 10%;
-  /* overflow: scroll; */
+.button {
+  color: var(--primary-button-text-color);
 }
 
-.page-divider {
-  grid-column-start: span 2;
-}
-
-.card {
-  box-shadow: var(--standard-shadow);
-}
-
-.header {
-  width: 90%;
-  min-height: 6vh;
-  box-shadow: var(--standard-shadow);
-  padding-left: 5%;
-  padding-right: 5%;
-  overflow: auto;
-}
-
-.header-button-anchor {
-  text-decoration: none;
-}
-
-.header-button-anchor:visited {
-  text-decoration: none;
-}
-
-.header-button {
-  padding: 15px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: inline-block;
-  border: 1px solid var(--primary-blue);
-  float: right;
-  margin-left: 5px;
-}
-
-.header-button:hover {
-  background-color: var(--secondary-blue);
-}
-
-.header-button-icon {
-  width: 1.5em;
-}
-
-.intro-section {
-  height: calc(100% - 15vw);
-}
-
-#intro {
-  margin-top: 15%;
-}
-
-#intro-image {
-  width: 12%;
-}
-
-#intro-title {
-  font-size: 2em;
-}
-
-#intro-subtitle {
-  font-size: 1.5em;
-  font-weight: normal;
-}
-
-#upload-container {
-  /* margin-top: calc(10vh); */
-  min-height: 40%;
-}
-
-#instructions-container {
-  /* border: 1px solid var(--primary-green); */
-}
-
-#instructions-description {
-  font-weight: normal;
-}
-
-#questions-container {
-  width: 100%;
-}
-
-.instruction-button {
-  border: 1px solid var(--primary-green);
-  padding: 15px;
-  margin-top: 15px;
-  color: var(--primary-green);
-  margin-bottom: 15px;
-}
-
-.instruction-button:hover {
-  background-color: var(--secondary-green);
+.button:hover {
+  background-color: var(--primary-button-hover-darken);
   cursor: pointer;
 }
 
-.instruction-button-icon {
-  width: 0.8em;
-  margin-right: 1em;
+.selected {
+  background-color: var(--primary-selected-color);
 }
 
-#instructions-steps {
-  display: none;
-  user-select: none;
-  /* border: 1px solid var(--primary-green); */
+#main-view-cell {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  background-color: white;
+  border-radius: 8px;
+  border: var(--primary-border-setting);
+  display: grid;
+  grid-template-columns: 45% 55%;
+  grid-template-rows: 100%;
+  box-shadow: var(--primary-shadow);
 }
 
-.question-button-anchor {
-  text-decoration: none;
+.main-view-button {
+  border: 8px;
+  padding: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
 }
 
-.question-button-anchor:visited {
-  color: var(--primary-blue);
+.main-view-button:hover {
+  background-color: var(--primary-background-color);
 }
 
-.question-button {
-  border: 1px solid var(--primary-blue);
-  padding: 15px;
-  margin-top: 15px;
-  color: var(--primary-blue);
+.main-view-button-icon {
+  width: 32px;
+  margin: 16px;
 }
 
-.question-button:hover {
-  background-color: var(--secondary-blue);
-  cursor: pointer;
-}
-
-.question-button-icon {
-  width: 0.8em;
-  margin-right: 1em;
-}
-
-#analysis-container {
-  display: none;
-}
-
-#upload-progress-bar-container {
-  width: 100%;
-  height: 20px;
-}
-
-#upload-progress-bar {
-  width: 0%;
-  height: 100%;
-  background-color: var(--primary-decorative-green);
-}
-
-#summary-image {
-  margin-left: 35%;
-  width: 30%;
-  margin-bottom: 2.5%;
-}
-
-#summary-text {
-  margin-top: 0%;
-  /* height: 35%; */
-  margin-bottom: 0%;
-  font-size: 1em;
-}
-
-#summary-text span {
-  font-weight: bold;
-}
-
-#total-emissions-text {
-  /* roughly 22% max of the height */
-  font-size: 3.75vw;
-  /* line-height: 200%; */
-}
-
-#big-total-emission {
-  font-size: 8vw;
-}
-
-#annual-emissions-chart-container {
-  height: 45%;
-}
-
-#annual-emissions-chart {
-  height: 100%;
-}
-
-#total-emissions-donut-chart-container {
-  min-height: 30%;
-  height: 40%;
-  max-height: 50%;
-  width: 100%;
-}
-
-#total-emissions-donut-chart {
-  width: 100%;
-  height: 100%;
-}
-
-#line-graph-image {
-  margin-left: 35%;
-  width: 30%;
-  margin-bottom: 2.5%;
-}
-
-#annual-emissions-chart-legend {
-  margin-top: 0%;
-  /* height: 35%; */
-  margin-bottom: 5%;
-  font-size: 1em;
-}
-
-.annual-emissions-chart-legend-item {
-  margin-bottom: 5px;
-}
-
-.annual-emissions-chart-legend-item-color {
-  width: 15px;
-  height: 15px;
-  border-radius: 2px;
-  display: inline-block;
-  margin-right: 5px;
-}
-#annual-emissions-chart-legend-item-color-1 {
-  background-color: rgb(66, 133, 244);
-}
-#annual-emissions-chart-legend-item-color-2 {
-  background-color: rgb(219, 68, 55);
-}
-#annual-emissions-chart-legend-item-color-3 {
-  background-color: rgb(244, 180, 0);
-}
-#annual-emissions-chart-legend-item-color-4 {
-  background-color: rgb(15, 157, 88);
-}
-.annual-emissions-chart-legend-item-explanation {
-  display: contents;
-}
-
-#year-selector-container {
+.navigation-header {
   display: flex;
-  justify-content: space-around;
-  height: 4.5vh;
-  padding: 5%;
-  padding-top: 2.5%;
-  padding-bottom: 2.5%;
+  align-items: center;
 }
 
-.year-selector {
-  text-align: center;
-  flex: 1;
-  padding-top: 1.25vh;
-  border: 1px gray solid;
-  width: 10em;
-  max-width: 10em;
-  border: 1px var(--primary-blue) solid;
-  color: var(--primary-blue);
+.navigation-header .main-view-button {
+  display: inline-block;
+  padding: 0;
+  margin-right: 8px;
 }
 
-.year-selector:hover {
-  background-color: var(--secondary-blue);
-  cursor: pointer;
+.navigation-header .main-view-button-icon {
+  margin: 0px;
 }
 
-#year-container {
-  padding-bottom: 10%;
-  /* max-height: 50%; */
-  width: 100%;
-  text-align: center;
+.navigation-header .main-view-text-medium-title {
+  display: inline-block;
 }
 
-#breakdown-page-section-1 {
+.introduction-view-section {
   flex-direction: column;
   display: flex;
   justify-content: space-between;
-}
-
-#big-selected-year {
-  font-size: 12vw;
-  line-height: 100%;
-  font-weight: bold;
-  width: 100%;
-}
-
-#selected-year-caption {
-  text-align: left;
-}
-
-#did-exceed-allowance {
-  display: contents;
-}
-
-#did-not-exceed-allowance {
-  display: contents;
-}
-
-#map-container {
-  width: 100%;
-  height: 50%;
-  min-height: 50%;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-  box-shadow: var(--standard-shadow);
-}
-
-#summary-page {
-}
-
-#activity-container {
-  overflow: scroll;
-  width: 100%;
-  height: 100%;
-}
-
-#activity-inner-container {
-  margin: 10%;
+  grid-column-start: span 2;
+  padding: 5%;
   height: 80%;
+}
+
+.main-view-first-section {
+  border-right: var(--primary-border-setting);
+  padding: 10%;
+  overflow-y: scroll;
+}
+
+.main-view-text-medium-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+#main-text-section {
+  border-right: var(--primary-border-setting);
+}
+
+#main-view-text-container {
+  margin: 10%;
+}
+
+#chart-container {
   width: 80%;
+  height: 80%;
+  margin: 10%;
 }
 
-#activity-selector-container {
-  display: block;
-  width: 100%;
-}
-
-.activity-selector {
-  display: inline-block;
-  padding-bottom: 10%;
-  margin: 5px;
-  margin-left: 0px;
-  border: 1px var(--primary-blue) solid;
-  width: 10%;
-  height: 0;
-}
-
-.activity-selector:hover {
-  background-color: var(--secondary-blue);
-  cursor: pointer;
-}
-
-.activity-selector-image {
-  padding: 25%;
-  width: 50%;
-}
-#calendar-charts-container {
-  width: 100%;
-  height: 70%;
-  position: relative;
-  font-size: 1vw;
-}
-
-.calculator-chart-container {
-  padding-bottom: 5%;
-  height: 22.5vh;
-  /* padding-top: 5%; */
-}
-
-.calendar-chart-label {
-  /* padding-top: 1vh;
-  padding-bottom: 1vh; */
-}
-
-#activity-daily-emissions-container {
-}
-
-#activity-daily-emissions-chart {
-  width: 100%;
-  height: 100%;
-}
-
-#activity-cumulative-emissions-container {
-  /* position: absolute; */
-  width: 100%;
-  /* top: 45%; */
-  /* padding-top: 0; */
-}
-
-#activity-cumulative-emissions-chart {
-  width: 100%;
-  height: 100%;
+#main-view-chart-container {
+  margin-left: 10%;
+  margin-top: 10%;
+  width: 80%;
+  height: 80%;
 }
