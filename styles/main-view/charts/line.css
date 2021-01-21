@@ -41,9 +41,6 @@
 .overall-emissions-line-chart-legend-item-explanation {
   display: block;
 }
-.overall-emissions-line-chart-legend-item-explanation-annotation {
-  line-height: 0;
-}
 
 #overall-emissions-line-chart-container {
   display: none; /* flex */

@@ -9,3 +9,11 @@
   height: calc(100% - 90px);
   overflow-y: scroll;
 }
+
+.presentation-view-text-explanation-script-decoration {
+  line-height: 0;
+}
+
+.presentation-view-text-explanation {
+  margin-bottom: 12px;
+}

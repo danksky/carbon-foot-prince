@@ -228,7 +228,16 @@
                     <div id="donation-call-to-action">
                         <div class="main-view-text-medium-title">Offset your carbon.</div>
                         <div>
-                            Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> kgt of CO<sub>2</sub>. 
+                            Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> Tonnes of CO<sub>2</sub>. 
+                            <br />
+                            <br />
+                            Climate change reinforces poverty and makes life worse for everyone.
+                            <sup class="presentation-view-text-explanation-script-decoration"><a href="https://www.inderscience.com/info/inarticle.php?artid=977">[1]</a></sup>
+                            <sup class="presentation-view-text-explanation-script-decoration"><a href="https://www.youtube.com/watch?t=329&v=rvskMHn0sqQ">[2]</a></sup>
+                            From $10 USD/Tonne<sub class="presentation-view-text-explanation-script-decoration">CO<sub>2</sub></sub>, 
+                            you can offset your transportation emissions 
+                            since <span class="earliest-year">0000</span>. 
+                            Donate to a project that will enable communities to develop sustainably <a href="https://marketplace.goldstandard.org/collections/projects#market-place">here</a>.
                         </div>
                     </div>
                     <div id="overall-emissions-donut-chart-legend-container">
@@ -243,7 +252,7 @@
                         </div>
                     </div>
                     <div id="overall-emissions-line-chart-legend-container">
-                        <div class="main-view-text-medium-title">Legend</div>
+                        <div class="main-view-text-medium-title">Legend<sup class="presentation-view-text-explanation-script-decoration"><a>[1]</a></sup></div>
                         <div id="overall-emissions-line-chart-legend-items">
                             <div class="overall-emissions-line-chart-legend-item">
                                 <div class="overall-emissions-line-chart-legend-item-color-container">
@@ -251,7 +260,7 @@
                                 </div>
                                 <div class="overall-emissions-line-chart-legend-item-explanation">
                                     <div class="overall-emissions-line-chart-legend-item-explanation-title"><strong>Personal Transportation Emissions</strong></div>
-                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">your personal carbon output from personal transportation<sup class="overall-emissions-line-chart-legend-item-explanation-annotation"><a>[1]</a></sup></div>
+                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">your personal carbon output from personal transportation</div>
                                 </div>
                             </div>
                             <div class="overall-emissions-line-chart-legend-item">
@@ -260,7 +269,7 @@
                                 </div>
                                 <div class="overall-emissions-line-chart-legend-item-explanation">
                                     <div class="overall-emissions-line-chart-legend-item-explanation-title"><strong>USA Personal Transportation Emissions Per Capita</strong></div>
-                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation in the USA<sup class="overall-emissions-line-chart-legend-item-explanation-annotation"><a>[2]</a></sup></div>
+                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation in the USA</div>
                                 </div>
                             </div>
                             <div class="overall-emissions-line-chart-legend-item">
@@ -269,7 +278,7 @@
                                 </div>
                                 <div class="overall-emissions-line-chart-legend-item-explanation">
                                     <div class="overall-emissions-line-chart-legend-item-explanation-title"><strong>USA Personal Transportation Emissions Per Capita - 2015 Paris Climate Accords Goal</strong></div>
-                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation in the USA annually reduced to goals set by the 2015 Paris Climate Accords<sup class="overall-emissions-line-chart-legend-item-explanation-annotation"><a>[3]</a></sup></div>
+                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation in the USA annually reduced to goals set by the 2015 Paris Climate Accords</div>
                                 </div>
                             </div>
                             <div class="overall-emissions-line-chart-legend-item">
@@ -278,17 +287,23 @@
                                 </div>
                                 <div class="overall-emissions-line-chart-legend-item-explanation">
                                     <div class="overall-emissions-line-chart-legend-item-explanation-title"><strong>Global Personal Transportation Emissions Per Capita</strong></div>
-                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation globally<sup class="overall-emissions-line-chart-legend-item-explanation-annotation"><a>[4]</a></sup></div>
+                                    <div class="overall-emissions-line-chart-legend-item-explanation-title-explanation">per-capita personal transportation globally</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="annual-emissions-calendar-charts-legend-container">
-                        <div class="main-view-text-medium-title">Daily Emissions</div>
-                        <div class="presentation-view-text-explanation"></div>
-                        <div class="main-view-text-medium-title">Cumulative Emissions</div>
+                        <div class="main-view-text-medium-title">Daily Emissions (kg<sub>CO<sub>2</sub></sub>)</div>
                         <div class="presentation-view-text-explanation">
-                            The gradient below (todo) projects the 2015 Paris Climate Accords goals onto your year's emissions (todo). When it turns from green to white, you have reached your annual carbon emission allowance for <span class="selected-year">0000</span>. Once your carbon emissions exceed this budget, the gradient turns red.
+                            You can infer from your rich location and movement data how much carbon you released from fossil fuels to get around. You emitted a maximum of <span class="year-max-kg">00</span> kg<sub class="presentation-view-text-explanation-script-decoration">CO<sub>2</sub></sub> in <span class="selected-year">0000</span> on <span class="year-max-day">WORST YEAR's MONTH, DATE</span>.
+                        </div>
+                        <div class="main-view-text-medium-title">Cumulative Emissions (Tonnes<sub>CO<sub>2</sub></sub>)</div>
+                        <div class="presentation-view-text-explanation">
+                            In <span class="selected-year" id="focused-year-span">0000</span>, you 
+                            <span id="did-exceed-allowance">exceeded your annual personal transportation carbon allowance by <span id="exceeded-date">January 1</span>,
+                            emitting an excess <span id="excess-co2">99</span> Tonnes<sub class="presentation-view-text-explanation-script-decoration">CO<sub>2</sub></sub>.</span>
+                            <span id="did-not-exceed-allowance">did not exceed your annual personal transportation carbon allowance. Nice job!</span> 
+                            The gradient of this chart projects the personal transportation goals of the 2015 Paris Climate Accords onto your year's emissions. When it turns from green to white, you have reached your annual carbon emission allowance for <span class="selected-year">0000</span>. Once your carbon emissions exceed this budget, the gradient turns red.
                         </div>
                     </div>
                 </div>
@@ -296,14 +311,15 @@
             <div class="presentation-view-section" id="presentation-chart-section">
                 <div id="presentation-view-chart-container">
                     <div id="emissions-breakdown">
-                        <div class="main-view-text-medium-title">What happens to all your carbon?</div>
+                        <div class="main-view-text-medium-title">What happens to all your carbon?
+                            <sup class="presentation-view-text-explanation-script-decoration"><a href="https://earthobservatory.nasa.gov/features/CarbonCycle">[3]</a></sup></div>
                         <div>
                             <div class="emissions-breakdown-item"> 
                                 <div class="emissions-breakdown-item-icon-container">
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/tailpipe.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    In total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emittedIn total, your emitted <span class="total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> since <span class="earliest-year">0000</span>. 
+                                    In total, your emitted <span class="total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> since <span class="earliest-year">0000</span>. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -311,7 +327,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/global-warming.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    Of this, <span id="half-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> will remain in the atmosphere, 
+                                    ½ of this, or <span id="half-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will remain in the atmosphere, absorbing radiation. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -319,7 +335,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/ocean.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    and <span class="quarter-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub> will acidify the ocean. 
+                                    ¼ of this, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> will dissolve into the ocean, acidifying it. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -327,7 +343,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/tree-stump.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    Plants will process the other <span class="quarter-total-emission">X</span> kgt <sub>CO<sub>2</sub></sub>.
+                                    The remaining ¼, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will by processed by plants, producing oxygen and biomass.
                                 </div>
                             </div>
                         </div>
@@ -341,22 +357,23 @@
                         <div id="overall-emissions-line-chart"></div>
                     </div>
                     <div id="annual-emissions-calendar-charts-container">
-                        <div class="calculator-chart-container" id="activity-daily-emissions-container">
-                            <div class="main-view-text-medium-title">Daily Emissions</div>
-                            <div id="activity-daily-emissions-chart"></div>
+                        <div class="calculator-chart-container" id="annual-emissions-calendar-chart-daily-container">
+                            <div class="main-view-text-medium-title">Daily Emissions (kg<sub>CO<sub>2</sub></sub>)</div>
+                            <div id="annual-emissions-calendar-chart-daily"></div>
                         </div>
-                        <div class="calculator-chart-container" id="activity-cumulative-emissions-container">
-                            <div class="main-view-text-medium-title">Cumulative Emissions</div>
-                            <div id="activity-cumulative-emissions-chart"></div>
+                        <div class="calculator-chart-container" id="annual-emissions-calendar-chart-cumulative-container">
+                            <div class="main-view-text-medium-title">Cumulative Emissions (Tonnes<sub>CO<sub>2</sub></sub>)</div>
+                            <div id="annual-emissions-calendar-chart-cumulative"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="map-container">
-                <div id="map-label">
+            <div id="annual-emissions-by-activity-map-container">
+                <div id="annual-emissions-by-activity-map-label">
+                    0000: 0,000 Passenger Vehicle km
                     <!-- TODO: Include the km traveled by this mode. 2019: 4,263 Passenger Vehicle kilometers -->
                 </div>
-                <div id="map"></div>
+                <div id="annual-emissions-by-activity-map"></div>
             </div>
         </div>
         <div id="activity-control-panel-cell">
