@@ -439,7 +439,7 @@
         }
 
         function showIntroductionStage() {
-            introductionSection.style.display = "block";
+            introductionSection.style.display = "flex";
         }
 
         function hideIntroductionStage() {

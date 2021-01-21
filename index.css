@@ -77,6 +77,11 @@ body {
   display: inline-block;
   padding: 0;
   margin-right: 8px;
+  opacity: 0.5;
+}
+
+.navigation-header .main-view-button:hover {
+  opacity: 1;
 }
 
 .navigation-header .main-view-button-icon {
@@ -92,8 +97,8 @@ body {
   display: flex;
   justify-content: space-between;
   grid-column-start: span 2;
-  padding: 5%;
-  height: 80%;
+  padding: 45px;
+  height: calc(100% - 90px);
 }
 
 .main-view-first-section {
