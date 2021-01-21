@@ -14,12 +14,12 @@
 
     var dailyEmissionsChart = {};
 
-    uploadStage();
+    importStage();
 
-    function uploadStage() {
+    function importStage() {
         // interactive document elements
         var fileInput = document.getElementById("file-input");
-        var fileProgressMeter = document.getElementById("upload-progress-bar"); 
+        var fileProgressMeter = document.getElementById("import-progress-bar"); 
         var introductionSection = document.getElementById("introduction-view-section");
         var introButtonLearnMore = document.getElementById("main-view-button-learn-more");
         var introButtonStart = document.getElementById("main-view-button-start");
@@ -36,12 +36,12 @@
         var aboutTextCalculation = document.getElementById("about-text-calculation");
         var aboutTextContribute = document.getElementById("about-text-contribute");
 
-        var uploadViewSections = document.getElementsByClassName("upload-view-section");
-        var uploadBackButton = document.getElementById("main-view-button-upload-back");
-        var uploadProgressContainer = document.getElementById("upload-progress-container");
-        var uploadProgressIndicatorComponents = {};
-        var uploadErrorContainer = document.getElementById("upload-error-container");
-        var uploadErrorsList = document.getElementById("upload-errors-list");
+        var importViewSections = document.getElementsByClassName("import-view-section");
+        var importBackButton = document.getElementById("main-view-button-import-back");
+        var importProgressContainer = document.getElementById("import-progress-container");
+        var importProgressIndicatorComponents = {};
+        var importErrorContainer = document.getElementById("import-error-container");
+        var importErrorsList = document.getElementById("import-errors-list");
         
         var didImportError = false;
         var importErrors = {};
@@ -62,8 +62,8 @@
                     semanticError: semanticError, 
                 });
 
-                if (uploadProgressIndicatorComponents[yearString][monthName] !== undefined) {
-                    uploadProgressIndicatorComponents[yearString][monthName].style.backgroundColor = "rgb(210, 110, 110)";
+                if (importProgressIndicatorComponents[yearString][monthName] !== undefined) {
+                    importProgressIndicatorComponents[yearString][monthName].style.backgroundColor = "rgb(210, 110, 110)";
                 }
 
                 if (fileProcessProgress[yearString] !== undefined &&
@@ -94,7 +94,7 @@
         }
 
         // UK Department for Business, Energy, and Industrial Strategy - 2019 Government greenhouse gas conversion factors for company reporting
-        // https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/904215/2019-ghg-conversion-factors-methodology-v01-02.pdf
+        // https://assets.publishing.service.gov.uk/government/imports/system/imports/attachment_data/file/904215/2019-ghg-conversion-factors-methodology-v01-02.pdf
         function getActivityEmissions(distance, activity) {
             switch (activity) {
                 case "FLYING": 
@@ -222,7 +222,11 @@
                             case "IN_SUBWAY":
                             case "MOTORCYCLING":
                                 if (mapDataByYear[yearString][activityType] === undefined) {
-                                    mapDataByYear[yearString][activityType] = L.heatLayer([]);
+                                    mapDataByYear[yearString][activityType] = L.heatLayer([], {
+                                            radius: 20,
+                                            blur: 12,
+                                            gradient: {0.3: 'red', 0.8: 'orange', 1: 'yellow'},
+                                        });
                                 } else {
                                     mapDataByYear[yearString][activityType].addLatLng(
                                         [startLatitude, startLongitude]
@@ -248,7 +252,7 @@
             if (didImportError) {
                 showErrors();
             } else {
-                hideUploadStage();
+                hideImportStage();
                 presentationStage();
             }
             // gtag('event', 'on_all_files_processed');
@@ -300,7 +304,7 @@
             fileProcessProgress[yearString][monthName].processText = false;
             var RB = 210 - Math.ceil(100 * current / total);
             var progressIndicatorColorRGB = "rgb(" + RB + ", 210, " + RB + ")";
-            uploadProgressIndicatorComponents[yearString][monthName].style.backgroundColor = progressIndicatorColorRGB;
+            importProgressIndicatorComponents[yearString][monthName].style.backgroundColor = progressIndicatorColorRGB;
             fileProgressMeter.style.width = getTotalReadFileProgress()*100 + "%";
         }
 
@@ -339,10 +343,10 @@
             );
         }
 
-        function generateUploadProgress(filteredEntries) {
+        function generateImportProgress(filteredEntries) {
             var importWarningElement = document.createElement("div");
             importWarningElement.innerHTML = "Do not change tabs or press back. Even if the page seems to freeze, the import should only take a maximum of 2 minutes.";
-            uploadProgressContainer.prepend(importWarningElement);
+            importProgressContainer.prepend(importWarningElement);
 
             // populate the progress map
             filteredEntries.forEach(function(entry) {
@@ -370,49 +374,49 @@
 
             for (var year = earliestYear; year <= latestYear; year++) {
                 var yearString = year + "";
-                var uploadProgressYearContainer = document.createElement("div");
-                uploadProgressYearContainer.className = "upload-progress-year-container";
-                uploadProgressYearContainer.id = "upload-progress-year-container-" + yearString;
+                var importProgressYearContainer = document.createElement("div");
+                importProgressYearContainer.className = "import-progress-year-container";
+                importProgressYearContainer.id = "import-progress-year-container-" + yearString;
                 for (var j = 0; j < 12; j++) {
-                    var uploadProgressMonthContainer = document.createElement("div");
-                    uploadProgressMonthContainer.className = "upload-progress-month-container";
-                    uploadProgressMonthContainer.id = "upload-progress-month-container-" + yearString + "-" + j;
+                    var importProgressMonthContainer = document.createElement("div");
+                    importProgressMonthContainer.className = "import-progress-month-container";
+                    importProgressMonthContainer.id = "import-progress-month-container-" + yearString + "-" + j;
                     
-                    var uploadProgressMonthIndicator = document.createElement("div");
-                    uploadProgressMonthIndicator.classList.add("upload-progress-month-indicator");
-                    uploadProgressMonthIndicator.classList.add("month-missing");
-                    uploadProgressMonthIndicator.id = "upload-progress-month-indicator-" + yearString + "-" + j;
+                    var importProgressMonthIndicator = document.createElement("div");
+                    importProgressMonthIndicator.classList.add("import-progress-month-indicator");
+                    importProgressMonthIndicator.classList.add("month-missing");
+                    importProgressMonthIndicator.id = "import-progress-month-indicator-" + yearString + "-" + j;
 
                     var monthName = monthNames[j];
                     if (fileProcessProgress[yearString] !== undefined && 
                         fileProcessProgress[yearString][monthName] !== undefined) {
-                        uploadProgressMonthIndicator.classList.remove("month-missing");
+                        importProgressMonthIndicator.classList.remove("month-missing");
                     }
                     
-                    uploadProgressMonthContainer.appendChild(uploadProgressMonthIndicator);
+                    importProgressMonthContainer.appendChild(importProgressMonthIndicator);
 
                     if (j < 11) {
-                        var uploadProgressMonthSpacer = document.createElement("div");
-                        uploadProgressMonthSpacer.className = "upload-progress-month-spacer";
-                        uploadProgressMonthSpacer.id = "upload-progress-month-spacer-" + yearString + "-" + j;
-                        uploadProgressMonthContainer.appendChild(uploadProgressMonthSpacer);
+                        var importProgressMonthSpacer = document.createElement("div");
+                        importProgressMonthSpacer.className = "import-progress-month-spacer";
+                        importProgressMonthSpacer.id = "import-progress-month-spacer-" + yearString + "-" + j;
+                        importProgressMonthContainer.appendChild(importProgressMonthSpacer);
                     }
                     
-                    uploadProgressYearContainer.appendChild(uploadProgressMonthContainer);
-                    if (uploadProgressIndicatorComponents[yearString] === undefined) {
-                        uploadProgressIndicatorComponents[yearString] = {};
+                    importProgressYearContainer.appendChild(importProgressMonthContainer);
+                    if (importProgressIndicatorComponents[yearString] === undefined) {
+                        importProgressIndicatorComponents[yearString] = {};
                     }
-                    uploadProgressIndicatorComponents[yearString][monthName] = uploadProgressMonthIndicator;
+                    importProgressIndicatorComponents[yearString][monthName] = importProgressMonthIndicator;
                 }
-                uploadProgressContainer.appendChild(uploadProgressYearContainer);
+                importProgressContainer.appendChild(importProgressYearContainer);
             }
         }
 
         function showErrors() {
             console.log(importErrors);
             // remove any pre-existing error components
-            while (uploadErrorsList.firstChild) {
-                uploadErrorsList.removeChild(uploadErrorsList.firstChild);
+            while (importErrorsList.firstChild) {
+                importErrorsList.removeChild(importErrorsList.firstChild);
             }
             // generate error components
             Object.entries(importErrors).forEach(function(importErrorYearEntry) {
@@ -420,18 +424,18 @@
                     var errorList = importErrorMonthEntry[1];
                     errorList.forEach(function(errorListItem) {
                         var errorElement = document.createElement("li");
-                        errorElement.className = "upload-error-element";
-                        errorElement.id = "upload-error-element-" + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
+                        errorElement.className = "import-error-element";
+                        errorElement.id = "import-error-element-" + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
                         var errorElementMessage = document.createElement("div");
-                        errorElementMessage.className = "upload-error-element-text";
-                        errorElementMessage.id = "upload-error-element-text-"  + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
+                        errorElementMessage.className = "import-error-element-text";
+                        errorElementMessage.id = "import-error-element-text-"  + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
                         errorElementMessage.innerText = errorListItem.semanticError;
                         errorElement.appendChild(errorElementMessage);
-                        uploadErrorsList.appendChild(errorElement);
+                        importErrorsList.appendChild(errorElement);
                     });
                 });
             })
-            uploadErrorContainer.style.display = "block";
+            importErrorContainer.style.display = "block";
         }
 
         function showIntroductionStage() {
@@ -485,15 +489,15 @@
             }
         }
 
-        function showUploadStage() {
+        function showImportStage() {
             for (var i = 0; i < aboutViewSections.length; i++) {
-                uploadViewSections[i].style.display = "block";
+                importViewSections[i].style.display = "block";
             }
         }
 
-        function hideUploadStage() {
+        function hideImportStage() {
             for (var i = 0; i < aboutViewSections.length; i++) {
-                uploadViewSections[i].style.display = "none";
+                importViewSections[i].style.display = "none";
             }
         }
 
@@ -504,18 +508,18 @@
                 var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
                 return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
             });
-            generateUploadProgress(filteredEntries);
+            generateImportProgress(filteredEntries);
             filteredEntries.forEach(handleExtractedFile);
         }
 
-        function onUploadFile(event) {
+        function onImportFile(event) {
             fileInput.disabled = true;
-            // gtag('event', 'on_zip_file_uploaded');
+            // gtag('event', 'on_zip_file_imported');
             getEntries(fileInput.files[0], onEntriesExtracted, onerror);
         }
 
         function makeDOMInteractive() {
-            fileInput.addEventListener('change', onUploadFile, false);
+            fileInput.addEventListener('change', onImportFile, false);
             // instructionButton.onclick = toggleInstructionSteps;
 
             aboutButtonDefault.onclick = (e) => {handleAboutButtonClick(e, "default")};
@@ -529,18 +533,18 @@
             }
             introButtonStart.onclick = () => {
                 hideIntroductionStage();
-                showUploadStage();
+                showImportStage();
             }
             introButtonStart2.onclick = () => {
                 hideQuestionStage();
-                showUploadStage();
+                showImportStage();
             }
             aboutBackButton.onclick = () => {
                 hideQuestionStage();
                 showIntroductionStage();
             }
-            uploadBackButton.onclick = () => {
-                hideUploadStage();
+            importBackButton.onclick = () => {
+                hideImportStage();
                 showQuestionStage();
             }
         }
@@ -800,7 +804,12 @@
                         cumulativeMax,
                     ]
                 };
-            }            
+            } else {
+                options.colorAxis = {
+                    minValue: 0,  
+                    colors: ['#FFFFFF', '#e69900'],
+                };
+            }       
 
             chart.draw(dataTable, options);
         }

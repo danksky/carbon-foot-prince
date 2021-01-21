@@ -128,3 +128,12 @@ body {
   width: 80%;
   height: 80%;
 }
+
+.inactive {
+  opacity: 0.5;
+}
+
+.inactive:hover {
+  background-color: white;
+  cursor: not-allowed;
+}

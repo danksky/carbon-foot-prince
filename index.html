@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main-view/introduction.css" />
     <link rel="stylesheet" href="styles/main-view/about.css" />
     <link rel="stylesheet" href="styles/main-view/presentation.css" />
-    <link rel="stylesheet" href="styles/main-view/upload.css" />
+    <link rel="stylesheet" href="styles/main-view/import.css" />
     <link rel="stylesheet" href="styles/main-view/charts/calendar.css" />
     <link rel="stylesheet" href="styles/main-view/charts/donate.css" />
     <link rel="stylesheet" href="styles/main-view/charts/donut.css" />
@@ -187,9 +187,9 @@
                     </div>
                 </div>
             </div>
-            <div class="upload-view-section main-view-first-section" id="instructions-container-section">
+            <div class="import-view-section main-view-first-section" id="instructions-container-section">
                 <div class="navigation-header">
-                    <div class="main-view-button button" id="main-view-button-upload-back">
+                    <div class="main-view-button button" id="main-view-button-import-back">
                         <img class="main-view-button-icon" src="images/icons/left-arrow.svg" />
                     </div>
                     <div class="main-view-text-medium-title">Get your location history</div>
@@ -210,16 +210,16 @@
                     <li> Import it here using the button below. </li>
                 </ol>
             </div>
-            <div class="upload-view-section" id="upload-container-section">
+            <div class="import-view-section" id="import-container-section">
                 <div class="main-view-text-medium-title">Import file</div>
                 <input type="file" accept="application/zip,application/json" id="file-input" />
-                <div id="upload-progress-container">
-                    <div id="upload-progress-bar-container"> 
-                        <div id="upload-progress-bar"></div>
+                <div id="import-progress-container">
+                    <div id="import-progress-bar-container"> 
+                        <div id="import-progress-bar"></div>
                     </div>
                 </div>
-                <div id="upload-error-container">
-                    <ul id="upload-errors-list">
+                <div id="import-error-container">
+                    <ul id="import-errors-list">
                     </ul>
                 </div>
             </div>
@@ -228,7 +228,7 @@
                     <div id="donation-call-to-action">
                         <div class="main-view-text-medium-title">Offset your carbon.</div>
                         <div>
-                            Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <span class="total-emission" id="summary-total-emission">X</span> Tonnes of CO<sub>2</sub>. 
+                            Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <strong><span class="total-emission" id="summary-total-emission">X</span> Tonnes of CO<sub>2</sub></strong>. 
                             <br />
                             <br />
                             Climate change reinforces poverty and makes life worse for everyone.
@@ -319,7 +319,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/tailpipe.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    In total, your emitted <span class="total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> since <span class="earliest-year">0000</span>. 
+                                    In total, you emitted <span class="total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> since <span class="earliest-year">0000</span>. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -327,7 +327,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/global-warming.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    ½ of this, or <span id="half-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will remain in the atmosphere, absorbing radiation. 
+                                    Half of your total, or <span id="half-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will remain in the atmosphere, absorbing radiation. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -335,7 +335,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/ocean.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    ¼ of this, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> will dissolve into the ocean, acidifying it. 
+                                    A quarter of your total, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub> will dissolve into the ocean, acidifying it. 
                                 </div>
                             </div>
                             <div class="emissions-breakdown-item"> 
@@ -343,7 +343,7 @@
                                     <img class="emissions-breakdown-item-icon" src="images/climate-change/tree-stump.svg" />
                                 </div>
                                 <div class="emissions-breakdown-item-text">
-                                    The remaining ¼, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will by processed by plants, producing oxygen and biomass.
+                                    The remaining quarter, or <span class="quarter-total-emission">X</span> kgt<sub>CO<sub>2</sub></sub>, will by processed by plants, producing oxygen and biomass.
                                 </div>
                             </div>
                         </div>
