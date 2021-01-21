@@ -859,10 +859,10 @@
             }
             var dataTable = new google.visualization.DataTable();
             dataTable.addColumn('string', 'Year' );
-            dataTable.addColumn('number', 'Annual Emissions' );
-            dataTable.addColumn('number', 'Paris Climate Accord Allowance' );
-            dataTable.addColumn('number', 'Average USA Emissions Per Capita' );
-            dataTable.addColumn('number', 'Average World Emissions Per Capita' );
+            dataTable.addColumn('number', 'Personal Transportation Emissions' );
+            dataTable.addColumn('number', 'USA (pass. trans. per capita)' );
+            dataTable.addColumn('number', 'USA 2015 Paris Climate Accords Goal' );
+            dataTable.addColumn('number', 'Global (pass. trans. per capita)' );
 
             // global emissions from passenger transport (Passenger road vehicles, Aviation, Rail) https://www.iea.org/data-and-statistics/charts/transport-sector-co2-emissions-by-mode-in-the-sustainable-development-scenario-2000-2030
             // world population by year https://www.worldometers.info/world-population/world-population-by-year/

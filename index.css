@@ -76,7 +76,7 @@ body {
 .navigation-header .main-view-button {
   display: inline-block;
   padding: 0;
-  margin-right: 8px;
+  margin-right: 20px;
   opacity: 0.5;
 }
 
@@ -141,4 +141,22 @@ body {
 .inactive:hover {
   background-color: white;
   cursor: not-allowed;
+}
+
+#header-container {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+#header-github-icon {
+  float: right;
+  width: 40px;
+  margin: 20px;
+  opacity: 0.5;
+}
+
+#header-github-icon:hover {
+  opacity: 1;
 }
