@@ -609,6 +609,7 @@
         var quarterTotalEmissionsElements = document.getElementsByClassName("quarter-total-emission");
         var totalEmissionsElements = document.getElementsByClassName("total-emission");
         var earliestYearElements = document.getElementsByClassName("earliest-year");
+        var donationCalculationElements = document.getElementsByClassName("donation-calculation");
 
         // annual text fields
         var tfExceededDate = document.getElementById("exceeded-date");
@@ -843,7 +844,9 @@
                     0: {offset: 0.1},
                     1: {offset: 0.1},
                     2: {offset: 0.1},
-                }
+                },
+                chartArea: {left:'10%', 'width': '80%', 'height': '80%'},
+                // pieSliceText: "none",
             };
 
             chart.draw(dataTable, options);
@@ -1107,9 +1110,9 @@
                             donationCallToAction.style.display = "none";
                             overallLineChartLegendContainer.style.display = "none";
                             overallEmissionsLineChartContainer.style.display = "none";
+                            overallEmissionsDonutChartContainer.style.display = "flex";
                             donutEmissionsChart = drawDonutChart("overall-emissions-donut-chart");
                             overallDonutChartLegendContainer.style.display = "block";
-                            overallEmissionsDonutChartContainer.style.display = "flex";
                             annualEmissionsByActivityMapContainer.style.display = "none";
                             annualEmissionsCalendarChartLegendsContainer.style.display = "none";
                             annualEmissionsCalendarChartsContainer.style.display = "none";
@@ -1247,9 +1250,6 @@
             for (var i = 0; i < yearMaxEmissionsElements.length; i++) {
                 var yearMaxEmissions = Math.round(getYearMaxDayAndEmissions(year).maxEmissions * 10) / 10;
                 yearMaxEmissionsElements[i].innerText = yearMaxEmissions
-            }
-            for (var i = 0; i < earliestYearElements.length; i++) {
-                earliestYearElements[i].innerText = getEarliestYear(year);
             }
         }
 
@@ -1430,6 +1430,12 @@
             }
             for (var i = 0; i < quarterTotalEmissionsElements.length; i++) {
                 quarterTotalEmissionsElements[i].innerText = numberWithCommas(Math.round(getTotalEmissions() / 4 * 10) / 10);
+            }
+            for (var i = 0; i < earliestYearElements.length; i++) {
+                earliestYearElements[i].innerText = getEarliestYear();
+            }
+            for (var i = 0; i < donationCalculationElements.length; i++) {
+                donationCalculationElements[i].innerText = numberWithCommas(Math.round(getTotalEmissions() * 10 /* USD */ * 100) / 100);
             }
         }
 
