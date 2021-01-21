@@ -10,7 +10,7 @@
   grid-row-end: 2;
   height: 100%;
   display: grid;
-  grid-template-rows: 50% 30% 20%;
+  grid-template-rows: 25% 50% 25%;
 }
 
 #presentation-view-control-panel-cell-row {

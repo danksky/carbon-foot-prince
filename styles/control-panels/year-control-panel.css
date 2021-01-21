@@ -5,7 +5,7 @@
   grid-row-end: 4;
   height: 100%;
   display: grid;
-  grid-template-rows: 20% 35% 45%;
+  grid-template-rows: 25% 50% 25%;
   grid-template-columns: 1fr;
 }
 

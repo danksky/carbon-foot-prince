@@ -20,7 +20,7 @@ body {
   background-color: var(--primary-background-color);
   display: grid;
   grid-template-columns: 1fr 1000px 1fr;
-  grid-template-rows: 25% 50% 25%;
+  grid-template-rows: 1fr 575px 1fr;
 }
 
 .button {
