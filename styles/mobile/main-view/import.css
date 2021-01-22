@@ -1,0 +1,68 @@
+@media only screen and (max-width: 1200px) {
+  .import-view-section {
+    display: none;
+    grid-column-start: span 1;
+  }
+
+  #file-input {
+    margin-block-start: 1em;
+  }
+
+  #import-progress-bar-container {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 5px;
+  }
+
+  #import-progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--primary-border-color);
+  }
+
+  #import-container-section {
+    padding: 45px;
+  }
+
+  #import-progress-container {
+    margin-top: 20px;
+  }
+
+  .import-progress-year-container {
+    height: 10px;
+    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr 1fr 3fr;
+  }
+
+  .import-progress-month-container {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+
+  .import-progress-month-container:nth-last-child(1) {
+    grid-column: span 1;
+    grid-template-columns: 1fr;
+  }
+
+  .import-progress-month-indicator {
+    background-color: rgb(210, 210, 210);
+    grid-column: span 1;
+  }
+
+  .month-missing {
+    background-color: rgba(210, 210, 210, 0.5);
+  }
+
+  .import-progress-month-spacer {
+    grid-column: span 1;
+  }
+
+  #import-error-container {
+    display: none;
+    border: 2px solid #ffbfbf;
+    border-radius: 8px;
+    background-color: #ffbfbf40;
+  }
+}

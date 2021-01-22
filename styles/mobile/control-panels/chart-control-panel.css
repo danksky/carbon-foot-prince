@@ -1,0 +1,52 @@
+@media only screen and (max-width: 1200px) {
+  #chart-view-control-panel-selector-container {
+    grid-column-start: 5;
+    grid-column-end: 8;
+    height: 100%;
+    background-color: white;
+    overflow: hidden;
+    grid-template-columns: 1fr 1fr 1fr;
+    display: none; /* grid */
+    border: var(--primary-border-setting);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--primary-shadow);
+  }
+
+  #chart-view-control-panel-selector-donate {
+    display: flex;
+  }
+
+  #chart-view-control-panel-selector-donut {
+    display: flex;
+  }
+
+  #chart-view-control-panel-selector-line {
+    display: flex;
+  }
+
+  #chart-view-control-panel-selector-map {
+    display: none;
+  }
+
+  #chart-view-control-panel-selector-calendar {
+    display: none;
+  }
+
+  .chart-view-control-panel-selector {
+    grid-column-start: span 1;
+    border-right: var(--primary-border-setting);
+    display: flex;
+    align-items: center;
+  }
+
+  .chart-view-control-panel-selector:nth-last-child(1) {
+    border-right: none;
+  }
+
+  .chart-view-control-panel-icon {
+    width: 32px;
+    height: 32px;
+    padding: 16px;
+  }
+}

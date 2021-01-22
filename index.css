@@ -13,3 +13,19 @@
 @import url("./styles/desktop/main-view/charts/line.css");
 @import url("./styles/desktop/main-view/charts/map.css");
 @import url("./styles/desktop/index.css");
+
+@import url("./styles/mobile/control-panels/activity-control-panel.css");
+@import url("./styles/mobile/control-panels/scope-control-panel.css");
+@import url("./styles/mobile/control-panels/chart-control-panel.css");
+@import url("./styles/mobile/control-panels/presentation-view-control-panel.css");
+@import url("./styles/mobile/control-panels/year-control-panel.css");
+@import url("./styles/mobile/main-view/introduction.css");
+@import url("./styles/mobile/main-view/about.css");
+@import url("./styles/mobile/main-view/presentation.css");
+@import url("./styles/mobile/main-view/import.css");
+@import url("./styles/mobile/main-view/charts/calendar.css");
+@import url("./styles/mobile/main-view/charts/donate.css");
+@import url("./styles/mobile/main-view/charts/donut.css");
+@import url("./styles/mobile/main-view/charts/line.css");
+@import url("./styles/mobile/main-view/charts/map.css");
+@import url("./styles/mobile/index.css");
