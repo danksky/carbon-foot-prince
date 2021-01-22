@@ -1,4 +1,8 @@
 (function(obj) {
+    var timeIndexJSLoaded = performance.now()
+    var timeZipFileSelected = undefined;
+    var timeAllFilesProcessed = undefined;
+
 	var requestFileSystem = obj.webkitRequestFileSystem || obj.mozRequestFileSystem || obj.requestFileSystem;
 	var activityEmissionsByDay = {};
 	var activityEmissionsByMonth = {};
@@ -6,6 +10,7 @@
     var activityDistancesByYear = {};
 	var activityEmissionsTotals = {};
     var fileProcessProgress = {};
+    var yearsAndMonths = {};
 
     const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
     const monthNums = {"JANUARY": 0, "FEBRUARY": 1, "MARCH": 2, "APRIL": 3, "MAY": 4, "JUNE": 5, "JULY": 6, "AUGUST": 7, "SEPTEMBER": 8, "OCTOBER": 9, "NOVEMBER": 10, "DECEMBER": 11};
@@ -41,7 +46,7 @@
         var importProgressContainer = document.getElementById("import-progress-container");
         var importProgressIndicatorComponents = {};
         var importErrorContainer = document.getElementById("import-error-container");
-        var importErrorsList = document.getElementById("import-errors-list");
+        var importErrorElementsList = document.getElementById("import-errors-list");
         
         var didImportError = false;
         var importErrors = {};
@@ -250,12 +255,17 @@
             console.log(didImportError);
             console.log(importErrors);
             if (didImportError) {
-                showErrors();
+                showImportErrors();
             } else {
                 hideImportStage();
                 presentationStage();
             }
-            // gtag('event', 'on_all_files_processed');
+            timeAllFilesProcessed = performance.now();
+            gtag("event", "timing_complete", {
+                name: 'on_all_files_processed',
+                value: timeAllFilesProcessed - timeZipFileSelected,
+                event_category: 'from_import_to_analysis',
+            });
         }  
 
         function getTotalReadFileProgress() {
@@ -284,6 +294,10 @@
                         processSegment(segment, index, yearString, monthName);
                     });
                     fileProcessProgress[yearString][monthName].processText = true;
+                    gtag('event', 'on_file_processed', {
+                        year: yearString,
+                        month: monthName,
+                    }); 
                 } else {
                     var errorMessage = "The JSON file for " + monthName + " " + yearString + " does not contain timelineObjects.";
                     onError(null, errorMessage, yearString, monthName, fileName);
@@ -336,6 +350,7 @@
                 activityEmissionsByDay[yearString][monthName] = {};
             }
 
+
             entry.getData(
                 new zip.TextWriter(), 
                 (fileText) => {onFileReadDone(entry.filename, yearString, monthName, fileText)}, 
@@ -363,6 +378,12 @@
                         fileName: entry.filename,
                         failure: false,
                     };
+                }
+                if (yearsAndMonths[yearString] === undefined) {
+                    yearsAndMonths[yearString] = {};
+                }
+                if (yearsAndMonths[yearString][monthName] === undefined) {
+                    yearsAndMonths[yearString][monthName] = true;
                 }
             })
             var yearStrings = Object.keys(fileProcessProgress);
@@ -412,12 +433,13 @@
             }
         }
 
-        function showErrors() {
+        function showImportErrors() {
             console.log(importErrors);
             // remove any pre-existing error components
-            while (importErrorsList.firstChild) {
-                importErrorsList.removeChild(importErrorsList.firstChild);
+            while (importErrorElementsList.firstChild) {
+                importErrorElementsList.removeChild(importErrorElementsList.firstChild);
             }
+            var importErrors = [];
             // generate error components
             Object.entries(importErrors).forEach(function(importErrorYearEntry) {
                 Object.entries(importErrorYearEntry[1]).forEach(function(importErrorMonthEntry) {
@@ -430,16 +452,21 @@
                         errorElementMessage.className = "import-error-element-text";
                         errorElementMessage.id = "import-error-element-text-"  + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
                         errorElementMessage.innerText = errorListItem.semanticError;
+                        importErrors.push(errorListItem.semanticError);
                         errorElement.appendChild(errorElementMessage);
-                        importErrorsList.appendChild(errorElement);
+                        importErrorElementsList.appendChild(errorElement);
                     });
                 });
             })
+            gtag('event', 'on_show_import_errors', {
+                importErrors: importErrors,
+            });
             importErrorContainer.style.display = "block";
         }
 
         function showIntroductionStage() {
             introductionSection.style.display = "flex";
+            gtag('event', 'on_show_introduction_stage');
         }
 
         function hideIntroductionStage() {
@@ -450,6 +477,7 @@
             for (var i = 0; i < aboutViewSections.length; i++) {
                 aboutViewSections[i].style.display = "block";
             }
+            gtag('event', 'on_show_question_stage');
         }
 
         function handleAboutButtonClick(event, whichQuestion) {
@@ -481,6 +509,9 @@
                     aboutTextCalculation.style.display = "block";
                     break;
             }
+            gtag('event', 'on_question_button_click', {
+                whichQuestion: whichQuestion,
+            });
         }
 
         function hideQuestionStage() {
@@ -493,6 +524,7 @@
             for (var i = 0; i < aboutViewSections.length; i++) {
                 importViewSections[i].style.display = "block";
             }
+            gtag('event', 'on_show_import_stage');
         }
 
         function hideImportStage() {
@@ -509,13 +541,22 @@
                 return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
             });
             generateImportProgress(filteredEntries);
+            gtag('event', 'on_entries_extracted', {
+                filteredEntriesCount: filteredEntries.length,
+                yearsAndMonths: yearsAndMonths,
+            })
             filteredEntries.forEach(handleExtractedFile);
         }
 
         function onImportFile(event) {
             fileInput.disabled = true;
-            // gtag('event', 'on_zip_file_imported');
-            getEntries(fileInput.files[0], onEntriesExtracted, onerror);
+            timeZipFileSelected = performance.now();
+            gtag("event", "timing_complete", {
+                name: 'on_file_selected',
+                value: timeAllFilesProcessed - timeIndexJSLoaded,
+                event_category: 'from_import_to_analysis',
+            });
+            getEntries(fileInput.files[0], onEntriesExtracted, onError);
         }
 
         function makeDOMInteractive() {
@@ -647,7 +688,17 @@
                 activitySelectors[i].onclick = chooseActivity;
             }
             for (var i = 0; i < scopeButtons.length; i++) {
-                scopeButtons[i].onclick = chooseScope;
+                scopeButtons[i].onclick = (event) => {
+                    var scope = event.target.getAttribute("scope");
+                    chooseScope(scope);
+                    gtag('event', 'on_choose_scope', {
+                        scope: scope,
+                        year: selectedYear,
+                        activity: selectedActivity,
+                        overallChart: selectedOverallChart,
+                        annualChart: selectedAnnualChart,
+                    });
+                };
             }
             for (var i = 0; i < chartButtons.length; i++) {
                 chartButtons[i].onclick = (event) => {chooseChart(event.target.getAttribute("chartname"));};
@@ -659,6 +710,7 @@
             generateYearSelection();
             changeOverallText()
             chooseYear(selectedYear);
+            gtag('event', 'on_show_presentation_stage');
             // changeAllText(year);
             // drawAllCharts(year);
             // drawMap(year, activity);
@@ -963,7 +1015,17 @@
                 if (activityEmissionsByYear[year.toString()] === undefined) {
                     yearSelector.classList.add("inactive");
                 } else {
-                    yearSelector.onclick = (e) => {chooseYear(parseInt(e.target.getAttribute("year")));};
+                    yearSelector.onclick = (e) => {
+                        var year = parseInt(e.target.getAttribute("year"));
+                        chooseYear(year);
+                        gtag('event', 'on_choose_year', {
+                            scope: selectedScope,
+                            year: year,
+                            activity: selectedActivity,
+                            overallChart: selectedOverallChart,
+                            annualChart: selectedAnnualChart,
+                        });
+                    };
                 }
 
                 if (year.toString() === selectedYear.toString()) {
@@ -1003,8 +1065,7 @@
             }
         }
 
-        function chooseScope(event) {
-            var scope = event.target.getAttribute("scope");
+        function chooseScope(scope) {
             selectedScope = scope;
             for (var i = 0; i < scopeButtons.length; i++) {
                 var scopeButton = scopeButtons[i];
@@ -1221,11 +1282,13 @@
                     }
                     break;
             }
-            // chartname="donate"
-            // chartname="donut"
-            // chartname="line"
-            // chartname="map"
-            // chartname="calendar"
+            gtag('event', 'on_choose_chart', {
+                scope: selectedScope,
+                year: selectedYear,
+                activity: selectedActivity,
+                overallChart: selectedOverallChart,
+                annualChart: selectedAnnualChart,
+            });
         }
 
         function changeYearText(year) {
@@ -1254,7 +1317,6 @@
         }
 
         function chooseYear(yearNum) {
-            gtag('event', 'on_choose_year');
             selectedYear = yearNum;
             var yearSelectors = yearSelectorContainer.children;
             for (var i = 0; i < yearSelectors.length; i++) {
@@ -1271,8 +1333,14 @@
         }
 
         function chooseActivity(event) {
-            // gtag('event', 'on_choose_activity');
             selectedActivity = event.target.getAttribute("activity");
+            gtag('event', 'on_choose_activity', {
+                scope: selectedScope,
+                year: selectedYear,
+                activity: selectedActivity,
+                overallChart: selectedOverallChart,
+                annualChart: selectedAnnualChart,
+            });
             var activitySelectors = activitySelectorContainer.children;
             for (var i = 0; i < activitySelectors.length; i++) {
                 activitySelectors[i].classList.remove("selected");
