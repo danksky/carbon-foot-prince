@@ -1037,7 +1037,7 @@
         }
 
         function filterActivitySelection() {
-            activitySelectorContainer.style.display = "block";
+            activitySelectorContainer.style.display = "flex";
             var currentlySelectedActivityInYear = false;
             var firstUnfilteredActivity = undefined;
             var activitySelectors = activitySelectorContainer.children;
@@ -1256,7 +1256,7 @@
                             annualEmissionsByActivityMap = drawMap(selectedYear, selectedActivity, mapID);
                             annualEmissionsCalendarChartLegendsContainer.style.display = "none";
                             annualEmissionsCalendarChartsContainer.style.display = "none";
-                            yearSelectorContainer.style.display = "block";
+                            yearSelectorContainer.style.display = "flex";
                             break;
                         case "calendar":
                             for (var i = 0; i < presentationSections.length; i++) {
@@ -1273,7 +1273,7 @@
                             annualEmissionsCalendarChartsContainer.style.display = "block";
                             annualEmissionsCalendarDailyChart = drawCalendarChart(selectedYear, false, 'annual-emissions-calendar-chart-daily');
                             annualEmissionsCalendarCumulativeChart = drawCalendarChart(selectedYear, true, 'annual-emissions-calendar-chart-cumulative');
-                            yearSelectorContainer.style.display = "block";
+                            yearSelectorContainer.style.display = "flex";
                             activitySelectorContainer.style.display = "none";
                             break;
                         default:
