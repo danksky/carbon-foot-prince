@@ -1,73 +1,75 @@
-.about-view-section {
-  display: none;
-  grid-column-start: span 1;
-}
+@media only screen and (min-width: 1250px) {
+  .about-view-section {
+    display: none;
+    grid-column-start: span 1;
+  }
 
-#questions-container-section {
-  display: none;
-  position: relative;
-}
+  #questions-container-section {
+    display: none;
+    position: relative;
+  }
 
-#main-view-button-start-2 {
-  position: absolute;
-  bottom: 45px;
-}
+  #main-view-button-start-2 {
+    position: absolute;
+    bottom: 45px;
+  }
 
-.question-button {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  border-radius: 100px;
-  padding: 5px;
-}
+  .question-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 100px;
+    padding: 5px;
+  }
 
-#question-button-default {
-  margin-top: 16px;
-}
+  #question-button-default {
+    margin-top: 16px;
+  }
 
-.question-button-icon-container {
-  display: inline-block;
-  width: 48px;
-}
+  .question-button-icon-container {
+    display: inline-block;
+    width: 48px;
+  }
 
-.question-button-icon {
-  width: 24px;
-  margin: 12px;
-}
+  .question-button-icon {
+    width: 24px;
+    margin: 12px;
+  }
 
-.question-button-text-container {
-  display: inline-block;
-  width: calc(100% - 53px);
-}
+  .question-button-text-container {
+    display: inline-block;
+    width: calc(100% - 53px);
+  }
 
-.question-button-text {
-}
+  .question-button-text {
+  }
 
-#answer-container-section {
-  overflow-y: scroll;
-  padding: 45px;
-}
+  #answer-container-section {
+    overflow-y: scroll;
+    padding: 45px;
+  }
 
-#about-text-default {
-  display: block;
-}
+  #about-text-default {
+    display: block;
+  }
 
-#about-text-privacy {
-  display: none;
-}
+  #about-text-privacy {
+    display: none;
+  }
 
-#about-text-calculation {
-  display: none;
-}
+  #about-text-calculation {
+    display: none;
+  }
 
-#about-text-contribute {
-  display: none;
-}
+  #about-text-contribute {
+    display: none;
+  }
 
-.about-text {
-  display: none;
-}
+  .about-text {
+    display: none;
+  }
 
-.about-text-paragraph {
-  margin-bottom: 20px;
+  .about-text-paragraph {
+    margin-bottom: 20px;
+  }
 }

@@ -1,22 +1,24 @@
-#emissions-breakdown {
-}
+@media only screen and (min-width: 1250px) {
+  #emissions-breakdown {
+  }
 
-.emissions-breakdown-item {
-  padding: 8px;
-  align-items: center;
-  display: flex;
-}
+  .emissions-breakdown-item {
+    padding: 8px;
+    align-items: center;
+    display: flex;
+  }
 
-.emissions-breakdown-item-icon-container {
-  display: inline-block;
-  height: 100%;
-}
+  .emissions-breakdown-item-icon-container {
+    display: inline-block;
+    height: 100%;
+  }
 
-.emissions-breakdown-item-icon {
-  padding: 16px;
-  width: 32px;
-}
+  .emissions-breakdown-item-icon {
+    padding: 16px;
+    width: 32px;
+  }
 
-.emissions-breakdown-item-text {
-  display: inline-block;
+  .emissions-breakdown-item-text {
+    display: inline-block;
+  }
 }

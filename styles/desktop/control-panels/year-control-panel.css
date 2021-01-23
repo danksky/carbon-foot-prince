@@ -1,45 +1,47 @@
-#year-control-panel-cell {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 3;
-  grid-row-end: 4;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 25% 50% 25%;
-  grid-template-columns: 1fr;
-}
+@media only screen and (min-width: 1250px) {
+  #year-control-panel-cell {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 25% 50% 25%;
+    grid-template-columns: 1fr;
+  }
 
-#year-control-panel-cell-row {
-  grid-row-start: 2;
-  grid-row-end: 3;
-  display: flex;
-  /* align-items: center; */
-  overflow-x: scroll;
-}
+  #year-control-panel-cell-row {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    /* align-items: center; */
+    overflow-x: scroll;
+  }
 
-#year-control-panel-selector-container {
-  margin-right: auto;
-  display: none; /* inline-flex */
-  background-color: white;
-  height: calc(90% * 6 / 7);
-  border: var(--primary-border-setting);
-  border-radius: 8px;
-  margin-left: auto;
-  box-shadow: var(--primary-shadow);
-}
+  #year-control-panel-selector-container {
+    margin-right: auto;
+    display: none; /* inline-flex */
+    background-color: white;
+    height: calc(90% * 6 / 7);
+    border: var(--primary-border-setting);
+    border-radius: 8px;
+    margin-left: auto;
+    box-shadow: var(--primary-shadow);
+  }
 
-.year-control-panel-selector {
-  height: calc(100% - 20px);
-  border-right: var(--primary-border-setting);
-  text-align: center;
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
+  .year-control-panel-selector {
+    height: calc(100% - 20px);
+    border-right: var(--primary-border-setting);
+    text-align: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.year-control-panel-selector:nth-last-child(1) {
-  border-right: none;
+  .year-control-panel-selector:nth-last-child(1) {
+    border-right: none;
+  }
 }

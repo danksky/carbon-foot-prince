@@ -1,48 +1,51 @@
-#activity-control-panel-cell {
-  grid-template-columns: 20% 40% 40%;
-  grid-template-rows: 1fr;
-  grid-row-end: 3;
-  grid-column-end: 4;
-  grid-column-start: 3;
-  grid-row-start: 2;
-  display: grid;
-}
+@media only screen and (min-width: 1250px) {
+  #activity-control-panel-cell {
+    grid-template-columns: 20% 40% 40%;
+    grid-template-rows: 1fr;
+    grid-row-end: 3;
+    grid-column-end: 4;
+    grid-column-start: 3;
+    grid-row-start: 2;
+    display: grid;
+  }
 
-#activity-control-panel-cell-column {
-  grid-row-start: 1;
-  grid-row-end: 2;
-  grid-column-start: 2;
-  grid-column-end: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  #activity-control-panel-cell-column {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-#actvity-control-panel-selector-container {
-  width: 100%;
-  background-color: white;
-  border: var(--primary-border-setting);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: var(--primary-shadow);
-  display: none; /*block*/
-}
+  #actvity-control-panel-selector-container {
+    width: 100%;
+    background-color: white;
+    border: var(--primary-border-setting);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--primary-shadow);
+    flex-direction: column;
+    display: none; /*flex*/
+  }
 
-.activity-control-panel-selector {
-  width: 100%;
-  border-bottom: var(--primary-border-setting);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .activity-control-panel-selector {
+    width: 100%;
+    border-bottom: var(--primary-border-setting);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.activity-control-panel-selector:nth-last-child(1) {
-  border-bottom: none;
-}
+  .activity-control-panel-selector:nth-last-child(1) {
+    border-bottom: none;
+  }
 
-.activity-control-panel-icon {
-  margin: auto;
-  width: 32px;
-  height: 32px;
-  padding: 16px;
+  .activity-control-panel-icon {
+    margin: auto;
+    width: 32px;
+    height: 32px;
+    padding: 16px;
+  }
 }

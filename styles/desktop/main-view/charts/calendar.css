@@ -1,12 +1,14 @@
-#annual-emissions-calendar-charts-legend-container {
-  display: none;
-}
+@media only screen and (min-width: 1250px) {
+  #annual-emissions-calendar-charts-legend-container {
+    display: none;
+  }
 
-#annual-emissions-calendar-charts-container {
-  display: none; /* block */
-  height: 100%;
-}
+  #annual-emissions-calendar-charts-container {
+    display: none; /* block */
+    height: 100%;
+  }
 
-.calculator-chart-container {
-  height: 50%;
+  .calculator-chart-container {
+    height: 50%;
+  }
 }

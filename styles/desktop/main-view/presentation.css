@@ -1,19 +1,25 @@
-#presentation-chart-section {
-  height: 100%;
-}
+@media only screen and (min-width: 1250px) {
+  .presentation-view-section {
+    display: none;
+    grid-column-start: span 1;
+  }
+  #presentation-chart-section {
+    height: 100%;
+  }
 
-#presentation-view-chart-container {
-  height: 100%;
-  display: block;
-  padding: 45px;
-  height: calc(100% - 90px);
-  overflow-y: scroll;
-}
+  #presentation-view-chart-container {
+    height: 100%;
+    display: block;
+    padding: 45px;
+    height: calc(100% - 90px);
+    overflow-y: scroll;
+  }
 
-.presentation-view-text-explanation-script-decoration {
-  line-height: 0;
-}
+  .presentation-view-text-explanation-script-decoration {
+    line-height: 0;
+  }
 
-.presentation-view-text-explanation {
-  margin-bottom: 12px;
+  .presentation-view-text-explanation {
+    margin-bottom: 12px;
+  }
 }
