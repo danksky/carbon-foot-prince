@@ -12,6 +12,7 @@
   body {
     margin: 0;
     font-family: "Noto Sans", sans-serif;
+    background-color: var(--primary-background-color);
   }
 
   #container {
@@ -20,7 +21,7 @@
     background-color: var(--primary-background-color);
     display: grid;
     grid-template-columns: 5% 90% 5%;
-    grid-template-rows: 5% 10% 55% 10% 10% 10%;
+    grid-template-rows: 75px 150px 1fr 150px 150px;
   }
 
   .button {
@@ -44,7 +45,7 @@
     background-color: white;
     border-radius: 8px;
     border: var(--primary-border-setting);
-    display: grid;
+    /* display: grid; */
     grid-template-columns: 100%;
     grid-template-rows: 50% 50%;
     box-shadow: var(--primary-shadow);

@@ -45,13 +45,13 @@
 
   #overall-emissions-line-chart-container {
     display: none; /* flex */
-    height: 100%;
+    height: 30vh;
     flex-direction: column;
     justify-content: space-between;
   }
 
   #overall-emissions-line-chart {
-    height: 80%;
+    height: 90%;
     margin-top: 20px;
   }
 }

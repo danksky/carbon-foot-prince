@@ -7,12 +7,12 @@
 
   #questions-container-section {
     display: none;
-    position: relative;
+    /* position: relative; */
   }
 
   #main-view-button-start-2 {
-    position: absolute;
-    bottom: 45px;
+    /* position: absolute; */
+    /* bottom: 45px; */
   }
 
   .question-button {

@@ -3,6 +3,7 @@
     display: none;
     grid-row-start: span 2;
     position: relative;
+    height: 50vh;
   }
 
   #annual-emissions-by-activity-map {

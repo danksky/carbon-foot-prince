@@ -1,13 +1,13 @@
 @media only screen and (max-width: 1249px) {
   #overall-emissions-donut-chart-container {
     display: none; /* flex */
-    height: 100%;
+    height: 30vh;
     flex-direction: column;
     justify-content: space-between;
   }
 
   #overall-emissions-donut-chart {
-    height: 100%;
+    height: 90%;
     margin-top: 20px;
   }
 }
