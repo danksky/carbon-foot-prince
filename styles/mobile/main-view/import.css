@@ -66,5 +66,7 @@
     border: 2px solid #ffbfbf;
     border-radius: 8px;
     background-color: #ffbfbf40;
+    overflow: scroll;
+    max-height: 40%;
   }
 }

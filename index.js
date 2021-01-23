@@ -49,20 +49,23 @@
         var importErrorElementsList = document.getElementById("import-errors-list");
         
         var didImportError = false;
-        var importErrors = {};
+        var importErrorsMiscList = [];
+        var importErrorsByYear = {};
+        var importErrorsByMonth = {};
 
         var history = {};
 
         function onError(error, semanticError, yearString, monthName, fileName) {
+            console.error(error, semanticError, yearString, monthName, fileName);
             didImportError = true;
             if (yearString && monthName) {
-                if (importErrors[yearString] === undefined) {
-                    importErrors[yearString] = {};
+                if (importErrorsByMonth[yearString] === undefined) {
+                    importErrorsByMonth[yearString] = {};
                 }
-                if (importErrors[yearString][monthName] === undefined) {
-                    importErrors[yearString][monthName] = [];
+                if (importErrorsByMonth[yearString][monthName] === undefined) {
+                    importErrorsByMonth[yearString][monthName] = [];
                 }
-                importErrors[yearString][monthName].push({
+                importErrorsByMonth[yearString][monthName].push({
                     error: error,
                     semanticError: semanticError, 
                 });
@@ -75,10 +78,22 @@
                     fileProcessProgress[yearString][monthName] !== undefined) {
                     fileProcessProgress[yearString][monthName].processText = true;
                 }
+                return;
             }
             if (yearString) {
-
+                if (importErrorsByYear[yearString] === undefined) {
+                    importErrorsByYear[yearString] = [];
+                }
+                importErrorsByYear[yearString].push({
+                    error: error,
+                    semanticError: semanticError, 
+                });
+                return;
             } 
+            importErrorsMiscList.push({
+                error: error,
+                semanticError: semanticError, 
+            });
         }
 
         function getEntries(file, onend) {
@@ -253,7 +268,7 @@
 
         function onAllFilesProcessed() {
             console.log(didImportError);
-            console.log(importErrors);
+            console.log(importErrorsByMonth);
             if (didImportError) {
                 showImportErrors();
             } else {
@@ -434,14 +449,14 @@
         }
 
         function showImportErrors() {
-            console.log(importErrors);
+            console.log(importErrorsByMonth);
             // remove any pre-existing error components
             while (importErrorElementsList.firstChild) {
                 importErrorElementsList.removeChild(importErrorElementsList.firstChild);
             }
-            var importErrors = [];
+            var importErrorsList = [];
             // generate error components
-            Object.entries(importErrors).forEach(function(importErrorYearEntry) {
+            Object.entries(importErrorsByMonth).forEach(function(importErrorYearEntry) {
                 Object.entries(importErrorYearEntry[1]).forEach(function(importErrorMonthEntry) {
                     var errorList = importErrorMonthEntry[1];
                     errorList.forEach(function(errorListItem) {
@@ -452,14 +467,45 @@
                         errorElementMessage.className = "import-error-element-text";
                         errorElementMessage.id = "import-error-element-text-"  + importErrorYearEntry[0] + "-" + importErrorMonthEntry[0];
                         errorElementMessage.innerText = errorListItem.semanticError;
-                        importErrors.push(errorListItem.semanticError);
+                        importErrorsList.push(errorListItem.semanticError);
                         errorElement.appendChild(errorElementMessage);
                         importErrorElementsList.appendChild(errorElement);
                     });
                 });
-            })
+            });
+            Object.entries(importErrorsByYear).forEach(function(importErrorYearEntry) {
+                var errorList = importErrorYearEntry[1];
+                var yearImportErrorCount = 0;
+                errorList.forEach(function(errorListItem) {
+                    var errorElement = document.createElement("li");
+                    errorElement.className = "import-error-element";
+                    errorElement.id = "import-error-element-" + importErrorYearEntry[0] + "-" + yearImportErrorCount;
+                    var errorElementMessage = document.createElement("div");
+                    errorElementMessage.className = "import-error-element-text";
+                    errorElementMessage.id = "import-error-element-text-"  + importErrorYearEntry[0] + "-" + yearImportErrorCount;
+                    errorElementMessage.innerText = errorListItem.semanticError;
+                    importErrorsList.push(errorListItem.semanticError);
+                    errorElement.appendChild(errorElementMessage);
+                    importErrorElementsList.appendChild(errorElement);
+                    yearImportErrorCount++
+                });
+            });
+            var miscellaneousImportErrorCount = 0;
+            importErrorsMiscList.forEach(function(errorListItem) {
+                var errorElement = document.createElement("li");
+                errorElement.className = "import-error-element";
+                errorElement.id = "import-error-element-miscellaneous-" + miscellaneousImportErrorCount;
+                var errorElementMessage = document.createElement("div");
+                errorElementMessage.className = "import-error-element-text";
+                errorElementMessage.id = "import-error-element-text-miscellaneous-" + miscellaneousImportErrorCount;
+                errorElementMessage.innerText = errorListItem.semanticError;
+                importErrorsList.push(errorListItem.semanticError);
+                errorElement.appendChild(errorElementMessage);
+                importErrorElementsList.appendChild(errorElement);
+                miscellaneousImportErrorCount++
+            });
             gtag('event', 'on_show_import_errors', {
-                importErrors: importErrors,
+                importErrorsList: importErrorsList,
             });
             importErrorContainer.style.display = "block";
         }
@@ -540,6 +586,12 @@
                 var semanticLocationHistoryFilePattern = /Semantic Location History\/([0-9]{4})\/([0-9]{4})_(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER).json/g;
                 return (entry.filename.match(semanticLocationHistoryFilePattern) !== null);
             });
+            if (filteredEntries.length < 1) {
+                var errorMessage = "The provided file is not the expected Google location history export zipfile."
+                onError(null, errorMessage, null, null, null);
+                onAllFilesProcessed();
+                return;
+            }
             generateImportProgress(filteredEntries);
             gtag('event', 'on_entries_extracted', {
                 filteredEntriesCount: filteredEntries.length,
