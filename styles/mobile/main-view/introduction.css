@@ -1,10 +1,22 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
+  .introduction-view-section {
+    flex-direction: column;
+    display: flex;
+    width: calc(100% - 90px);
+    justify-content: space-between;
+    grid-row-start: span 2;
+    padding: 45px;
+    font-size: 1.5em;
+    height: calc(100% - 90px);
+  }
+
   #introduction-image {
     width: 64px;
     display: inline-block;
   }
 
   #introduction-header {
+    width: 100%;
     justify-content: normal;
   }
 
@@ -23,6 +35,6 @@
   #intro-button-container {
     display: flex;
     justify-content: space-between;
-    background-color: red;
+    width: 100%;
   }
 }

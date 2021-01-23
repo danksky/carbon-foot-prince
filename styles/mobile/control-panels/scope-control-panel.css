@@ -1,4 +1,4 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #scope-control-panel-container {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -20,6 +20,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     box-shadow: var(--primary-shadow);
+    font-size: 1.5em;
   }
 
   .scope-control-panel-selector {

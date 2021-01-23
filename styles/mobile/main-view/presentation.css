@@ -1,14 +1,31 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
+  .presentation-view-section {
+    display: none;
+    grid-column-start: span 1;
+    grid-row-start: span 1;
+    width: calc(100% - 90px);
+  }
+
+  #presentation-text-section {
+    font-size: 1.5em;
+  }
+
+  #presentation-view-text-container {
+    width: 100%;
+  }
+
   #presentation-chart-section {
     height: 100%;
+    width: 100%;
   }
 
   #presentation-view-chart-container {
-    height: 100%;
+    width: calc(100% - 90px);
     display: block;
     padding: 45px;
     height: calc(100% - 90px);
-    overflow-y: scroll;
+    font-size: 1.5em;
+    /* overflow-y: scroll; */
   }
 
   .presentation-view-text-explanation-script-decoration {

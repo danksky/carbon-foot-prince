@@ -1,4 +1,4 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #overall-emissions-donut-chart-container {
     display: none; /* flex */
     height: 100%;
@@ -7,7 +7,7 @@
   }
 
   #overall-emissions-donut-chart {
-    height: 80%;
+    height: 100%;
     margin-top: 20px;
   }
 }

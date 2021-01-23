@@ -1,7 +1,9 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   .import-view-section {
     display: none;
     grid-column-start: span 1;
+    grid-row-start: span 1;
+    font-size: 1.5em;
   }
 
   #file-input {

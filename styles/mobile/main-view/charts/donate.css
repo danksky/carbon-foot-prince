@@ -1,8 +1,20 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
+  #donation-call-to-action {
+    width: 100%;
+  }
+  #donation-call-to-action-text {
+    width: 100%;
+  }
+
   #emissions-breakdown {
   }
 
+  #emissions-breakdown-items {
+    width: 100%;
+  }
+
   .emissions-breakdown-item {
+    width: calc(100% - 16px);
     padding: 8px;
     align-items: center;
     display: flex;
@@ -20,5 +32,6 @@
 
   .emissions-breakdown-item-text {
     display: inline-block;
+    width: 100%;
   }
 }

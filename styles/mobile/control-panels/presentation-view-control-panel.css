@@ -1,17 +1,12 @@
-@media only screen and (max-width: 1200px) {
-  .presentation-view-section {
-    display: none;
-    grid-column-start: span 1;
-  }
-
+@media only screen and (max-width: 1249px) {
   #presentation-view-control-panel-cell {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
     height: 100%;
     display: grid;
-    grid-template-rows: 25% 50% 25%;
+    grid-template-rows: 5% 85% 10%;
   }
 
   #presentation-view-control-panel-cell-row {
@@ -19,7 +14,7 @@
     grid-row-end: 3;
     display: grid;
     grid-template-rows: 100%;
-    grid-template-columns: 1fr 100px 100px 60px 68px 68px 68px 1fr;
+    grid-template-columns: 1fr 200px 200px 60px 100px 100px 100px 1fr;
   }
 
   #control-panel-chevron {

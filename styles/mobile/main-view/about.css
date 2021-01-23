@@ -1,7 +1,8 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   .about-view-section {
     display: none;
     grid-column-start: span 1;
+    font-size: 1.5em;
   }
 
   #questions-container-section {
@@ -20,6 +21,8 @@
     margin-bottom: 5px;
     border-radius: 100px;
     padding: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
   }
 
   #question-button-default {
@@ -28,12 +31,13 @@
 
   .question-button-icon-container {
     display: inline-block;
-    width: 48px;
+    width: 32px;
+    margin-right: 12px;
   }
 
   .question-button-icon {
     width: 24px;
-    margin: 12px;
+    margin: 6px;
   }
 
   .question-button-text-container {
@@ -47,6 +51,7 @@
   #answer-container-section {
     overflow-y: scroll;
     padding: 45px;
+    width: calc(100% - 90px);
   }
 
   #about-text-default {

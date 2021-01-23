@@ -1,5 +1,6 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #annual-emissions-calendar-charts-legend-container {
+    width: 100%;
     display: none;
   }
 
@@ -10,5 +11,12 @@
 
   .calculator-chart-container {
     height: 50%;
+  }
+
+  #annual-emissions-calendar-chart-daily-container {
+    height: 50%;
+    position: relative;
+    /* margin-bottom: 20px; */
+    top: -20px;
   }
 }

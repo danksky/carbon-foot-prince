@@ -1,7 +1,7 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #annual-emissions-by-activity-map-container {
     display: none;
-    grid-column-start: span 2;
+    grid-row-start: span 2;
     position: relative;
   }
 

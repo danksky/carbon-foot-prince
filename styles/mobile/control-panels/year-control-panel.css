@@ -1,32 +1,40 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #year-control-panel-cell {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 5;
     height: 100%;
     display: grid;
-    grid-template-rows: 25% 50% 25%;
+    grid-template-rows: 10% 90% 0%;
     grid-template-columns: 1fr;
   }
 
   #year-control-panel-cell-row {
+    grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 3;
     display: flex;
-    /* align-items: center; */
-    overflow-x: scroll;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    width: 100%;
+    grid-column-start: 1;
+    overflow: hidden;
   }
 
   #year-control-panel-selector-container {
-    margin-right: auto;
-    display: none; /* inline-flex */
+    /* margin-right: auto; */
+    display: none; /* flex */
     background-color: white;
-    height: calc(90% * 6 / 7);
+    /* height: calc(90% * 6 / 7); */
     border: var(--primary-border-setting);
     border-radius: 8px;
-    margin-left: auto;
+    /* margin-left: auto; */
     box-shadow: var(--primary-shadow);
+    height: calc(100% * 8 / 9);
+    overflow-x: scroll;
+    flex-wrap: nowrap;
   }
 
   .year-control-panel-selector {

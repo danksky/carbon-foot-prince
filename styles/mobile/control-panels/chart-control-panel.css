@@ -1,4 +1,4 @@
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1249px) {
   #chart-view-control-panel-selector-container {
     grid-column-start: 5;
     grid-column-end: 8;
@@ -38,6 +38,7 @@
     border-right: var(--primary-border-setting);
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .chart-view-control-panel-selector:nth-last-child(1) {
@@ -45,8 +46,8 @@
   }
 
   .chart-view-control-panel-icon {
-    width: 32px;
-    height: 32px;
+    width: 60px;
+    height: 60px;
     padding: 16px;
   }
 }
