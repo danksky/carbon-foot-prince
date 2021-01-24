@@ -1105,9 +1105,9 @@
                         activitySelector.classList.add("selected");
                     }
                     activitySelector.style.display = "flex";
-                }
-                if (firstUnfilteredActivity === undefined) {
-                    firstUnfilteredActivity = activitySelector;
+                    if (firstUnfilteredActivity === undefined) {
+                        firstUnfilteredActivity = activitySelector;
+                    }
                 }
             }
 
