@@ -661,7 +661,7 @@
         
         var selectedScope = "overall";
         var selectedOverallChart = "donate";
-        var selectedAnnualChart = "donate";
+        var selectedAnnualChart = "map";
         var selectedYear = getWorstYear();
         var selectedActivity = "FLYING"; // TODO: Get worst year's worst activity.
 
@@ -670,6 +670,8 @@
         var scopeSelectorContainer = document.getElementById("scope-control-panel-selector-container");
         var chevronElement = document.getElementById("control-panel-chevron");
         var chartSelectorContainer = document.getElementById("chart-view-control-panel-selector-container");
+        var chartSelectorSubsetContainerOverall = document.getElementById("chart-view-control-panel-selector-subset-container-overall");
+        var chartSelectorSubsetContainerAnnual = document.getElementById("chart-view-control-panel-selector-subset-container-annual");
         var yearSelectorContainer = document.getElementById("year-control-panel-selector-container");
         var activitySelectorContainer = document.getElementById("actvity-control-panel-selector-container");
 
@@ -760,8 +762,7 @@
             chartSelectorContainer.style.display = "grid";
 
             generateYearSelection();
-            changeOverallText()
-            chooseYear(selectedYear);
+            changeOverallText();
             gtag('event', 'on_show_presentation_stage');
             // changeAllText(year);
             // drawAllCharts(year);
@@ -1130,6 +1131,8 @@
             switch (scope) {
                 case "overall":
                     // show overall chart type selection
+                    chartSelectorSubsetContainerOverall.style.display = "grid";
+                    chartSelectorSubsetContainerAnnual.style.display = "none";
                     for (var i = 0; i < chartButtons.length; i++) {
                         var chartButton = chartButtons[i];
                         var chartName = chartButton.getAttribute("chartname");
@@ -1155,13 +1158,16 @@
                     chooseChart(selectedOverallChart);
                     break;
                 case "annual":
+                    chooseYear(selectedYear);
                     // show annual chart type selection
+                    chartSelectorSubsetContainerOverall.style.display = "none";
+                    chartSelectorSubsetContainerAnnual.style.display = "grid";
                     for (var i = 0; i < chartButtons.length; i++) {
                         var chartButton = chartButtons[i];
                         var chartName = chartButton.getAttribute("chartname");
                         switch(chartName) {
                             case "donate":
-                                chartButton.style.display = "flex";
+                                chartButton.style.display = "none";
                                 break;
                             case "donut":
                                 chartButton.style.display = "none";

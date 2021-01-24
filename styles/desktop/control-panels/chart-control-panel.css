@@ -3,14 +3,26 @@
     grid-column-start: 5;
     grid-column-end: 8;
     height: 100%;
-    background-color: white;
-    overflow: hidden;
     grid-template-columns: 1fr 1fr 1fr;
     display: none; /* grid */
+  }
+
+  .chart-view-control-panel-selector-subset-container {
+    background-color: white;
     border: var(--primary-border-setting);
+    grid-column-start: 1;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: var(--primary-shadow);
+  }
+  #chart-view-control-panel-selector-subset-container-overall {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-end: 4;
+  }
+  #chart-view-control-panel-selector-subset-container-annual {
+    display: none; /* grid */
+    grid-template-columns: 1fr 1fr;
+    grid-column-end: 3;
   }
 
   #chart-view-control-panel-selector-donate {
@@ -38,6 +50,7 @@
     border-right: var(--primary-border-setting);
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .chart-view-control-panel-selector:nth-last-child(1) {
@@ -47,6 +60,6 @@
   .chart-view-control-panel-icon {
     width: 32px;
     height: 32px;
-    padding: 16px;
+    /* padding: 16px; */
   }
 }
