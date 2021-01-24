@@ -6,6 +6,43 @@ A carbon emissions calculator website that uses your Google location history to 
 
 I hope you'll jump in and improve this site! It's pure HTML, CSS, and (vanilla) Javascript!
 
+## In this Project
+
+- [Previews](#previews)
+  - [Desktop](#desktop)
+  - [Mobile](#mobile)
+- [How to Run Locally](#how-to-run-locally)
+- [Calculation](#calculation)
+  - [Personal Transportation Emissions](#personal-transportation-emissions)
+  - [USA Personal Transportation Emissions Per Capita](#usa-personal-transportation-emissions-per-capita)
+  - [USA Personal Transportation Emissions Per Capita - 2015 Paris Climate Accords Goal](#usa-personal-transportation-emissions-per-capita---2015-paris-climate-accords-goal)
+    - [Example](#example)
+  - [Global Transportation Emissions Per Capita](#global-transportation-emissions-per-capita)
+- [Contribute](#contribute)
+- [Thanks](#thanks)
+  - [Packages](#packages)
+  - [Art](#art)
+- [Data Privacy](#data-privacy)
+- [License](#license)
+
+## Previews
+
+### Desktop
+
+<img width="600" src="https://user-images.githubusercontent.com/10901068/105646574-44454e80-5e66-11eb-8614-f4c5d30fe2ff.png" style="display: inline-block;">
+<img width="600" src="https://user-images.githubusercontent.com/10901068/105646605-5cb56900-5e66-11eb-9f5e-ae2bf76b2488.png" style="display: inline-block;">
+
+### Mobile
+
+<img width="200" src="https://user-images.githubusercontent.com/10901068/105646696-f250f880-5e66-11eb-8fc3-c335c7bd4612.png">
+
+## How to Run Locally
+
+1. `git clone` the repository
+2. `cd carbon-foot-prince`
+3. `python -m http.server 8080` [(run a web server from that directory)](https://flaviocopes.com/local-web-server/)
+4. Open `http://localhost:8080/` in your browser.
+
 ## Calculation
 
 ### Personal Transportation Emissions
@@ -30,7 +67,7 @@ UK Department for Business, Energy, and Industrial Strategy - 2019 Government gr
 
 - https://assets.publishing.service.gov.uk/government/imports/system/imports/attachment_data/file/904215/2019-ghg-conversion-factors-methodology-v01-02.pdf
 
-#### USA Personal Transportation Emissions Per Capita
+### USA Personal Transportation Emissions Per Capita
 
 Sources:
 
@@ -47,19 +84,19 @@ Macrotrends (USA population)
 
 https://www.macrotrends.net/countries/USA/united-states/population
 
-#### USA Personal Transportation Emissions Per Capita - 2015 Paris Climate Accords Goal
+### USA Personal Transportation Emissions Per Capita - 2015 Paris Climate Accords Goal
 
 Based off a 4.52% reduction of your emissions every year after 2015 until 2030, this projects that annual reduction onto the average American's personal transportation emissions prior to 2015. To be specific, this looks at the average emissions during the period 2010 to 2015.
 
 Your yearly 2015 Paris Climate Accords goal is defined by [`getAnnualBudgetAllowance(reductionPercentageGoal, currentYear, annualEmissionsAverage)`](index.js).
 
-##### Example
+#### Example
 
 Assume that the average American emitted an average of 6 kgt<sub>CO<sub>2</sub></sub> per year between 2010 and 2015, and in order to reach an annual emission of 3 kgt<sub>CO<sub>2</sub></sub> by 2030, they would need to cut 4.52% each year.
 
 For 2016, the calculation would look like this: **6 \* (1 - 0.0452)<sup>2</sup> = 5.46985824**, where the exponent (2) is defined by the n<sup>th</sup> year since then end of 2014.
 
-#### Global Transportation Emissions Per Capita
+### Global Transportation Emissions Per Capita
 
 International Energy Agency (Passenger road vehicles, Aviation, Rail)
 
@@ -77,13 +114,31 @@ Worldometers (world population)
 
 If you've thought of a new feature or found a ~bug~ [undocumented feature](https://en.wikipedia.org/wiki/Undocumented_feature), either open a pull request, or, if you aren't a coder, [create an issue](https://github.com/danksky/carbon-analysis/issues/new) in this repository.
 
-## Packages
+```
+.
+├── LICENSE
+├── README.md
+├── images/
+├── index.css
+├── index.html
+├── index.js
+├── lib/ (zip.js files)
+└── styles/
+    ├── desktop
+    └── mobile
 
+```
+
+## Thanks
+
+### Packages
+
+- [Google Charts](https://developers.google.com/chart), for visualizing data
 - [leaflet.js](http://leafletjs.com/), for rendering the interactive map
 - [leaflet.heat](https://github.com/Leaflet/Leaflet.heat), for rendering the heatmap overlay
 - [zip.js](https://github.com/gildas-lormeau/zip.js), for unzipping the location export file
 
-## Art
+### Art
 
 Thanks to the following authors of [flaticon.com](https://www.flaticon.com/)'s SVG repository:
 
