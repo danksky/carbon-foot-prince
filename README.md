@@ -29,12 +29,17 @@ I hope you'll jump in and improve this site! It's pure HTML, CSS, and (vanilla) 
 
 ### Desktop
 
-<img width="600" src="https://user-images.githubusercontent.com/10901068/105646574-44454e80-5e66-11eb-8614-f4c5d30fe2ff.png" style="display: inline-block;">
-<img width="600" src="https://user-images.githubusercontent.com/10901068/105646605-5cb56900-5e66-11eb-9f5e-ae2bf76b2488.png" style="display: inline-block;">
+<div>
+<img width="450" src="https://user-images.githubusercontent.com/10901068/105646574-44454e80-5e66-11eb-8614-f4c5d30fe2ff.png" style="display: inline-block;">
+<img width="450" src="https://user-images.githubusercontent.com/10901068/105646605-5cb56900-5e66-11eb-9f5e-ae2bf76b2488.png" style="display: inline-block;">
+</div>
 
 ### Mobile
 
-<img width="200" src="https://user-images.githubusercontent.com/10901068/105646696-f250f880-5e66-11eb-8fc3-c335c7bd4612.png">
+<div>
+<img width="200" src="https://user-images.githubusercontent.com/10901068/105647446-5ecdf680-5e6b-11eb-8ae2-f7205e3adf62.png" style="display: inline-block;">
+<img width="200" src="https://user-images.githubusercontent.com/10901068/105646696-f250f880-5e66-11eb-8fc3-c335c7bd4612.png" style="display: inline-block;">
+</div>
 
 ## How to Run Locally
 
