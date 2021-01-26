@@ -1,4 +1,8 @@
 @media only screen and (min-width: 1250px) {
+  #overall-emissions-donut-chart-legend-container {
+    display: none;
+  }
+
   #overall-emissions-donut-chart-container {
     display: none; /* flex */
     height: 100%;

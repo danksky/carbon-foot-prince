@@ -2,7 +2,7 @@
   .about-view-section {
     display: none;
     grid-column-start: span 1;
-    font-size: 1.5em;
+    font-size: 2.5em;
   }
 
   #questions-container-section {

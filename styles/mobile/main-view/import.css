@@ -3,7 +3,7 @@
     display: none;
     grid-column-start: span 1;
     grid-row-start: span 1;
-    font-size: 1.5em;
+    font-size: 2.5em;
   }
 
   #file-input {
@@ -68,5 +68,9 @@
     background-color: #ffbfbf40;
     overflow: scroll;
     max-height: 40%;
+  }
+
+  #file-input {
+    font-size: 0.8em;
   }
 }

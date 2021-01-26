@@ -6,7 +6,7 @@
     justify-content: space-between;
     grid-row-start: span 2;
     padding: 45px;
-    font-size: 1.5em;
+    font-size: 2.5em;
     height: calc(100% - 90px);
   }
 
@@ -22,7 +22,7 @@
 
   #introduction-title {
     display: inline-block;
-    font-size: 2.5em;
+    font-size: 2em;
   }
 
   #introduction-subtitle {
