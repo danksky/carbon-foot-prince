@@ -162,4 +162,56 @@
   #header-github-icon:hover {
     opacity: 1;
   }
+
+  .fade-in {
+    animation: fadeIn ease 0.25s;
+    -webkit-animation: fadeIn ease 0.25s;
+    -moz-animation: fadeIn ease 0.25s;
+    -o-animation: fadeIn ease 0.25s;
+    -ms-animation: fadeIn ease 0.25s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-o-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-ms-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
