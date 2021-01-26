@@ -24,7 +24,7 @@
 </head>
 <body>
     <div id="container">
-        <div id="presentation-view-control-panel-cell">
+        <div class="fade-in" id="presentation-view-control-panel-cell">
             <div id="presentation-view-control-panel-cell-row">
                 <div id="scope-control-panel-selector-container">
                     <div class="scope-control-panel-selector button selected" id="scope-selector-overall" scope="overall">Overall</div>
@@ -54,8 +54,8 @@
                 </div>
             </div>
         </div>
-        <div id="main-view-cell">
-            <div class="introduction-view-section" id="introduction-view-section">
+        <div class="fade-in" id="main-view-cell">
+            <div class="introduction-view-section fade-in" id="introduction-view-section">
                 <div id="introduction-header">
                     <img id="introduction-image" src="images/plant.svg" />
                     <h2 id="introduction-title"> Carbon Foot Prince </h2> 
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="about-view-section main-view-first-section" id="questions-container-section">
+            <div class="about-view-section main-view-first-section fade-in" id="questions-container-section">
                 <div id="question-button-container">
                     <div class="navigation-header">
                         <div class="main-view-button button" id="main-view-button-about-back">
@@ -120,7 +120,7 @@
                     <img class="main-view-button-icon" src="images/icons/running.svg" />
                 </div>
             </div>
-            <div class="about-view-section" id="answer-container-section">
+            <div class="about-view-section fade-in" id="answer-container-section">
                 <div class="about-text" id="about-text-default">
                     <div class="main-view-text-medium-title">Carbon Foot Prince</div>
                     <div class="about-text-paragraph">
@@ -179,7 +179,7 @@
                     </div>
                 </div>
             </div>
-            <div class="import-view-section main-view-first-section" id="instructions-container-section">
+            <div class="import-view-section main-view-first-section fade-in" id="instructions-container-section">
                 <div class="navigation-header">
                     <div class="main-view-button button" id="main-view-button-import-back">
                         <img class="main-view-button-icon" src="images/icons/left-arrow.svg" />
@@ -202,7 +202,7 @@
                     <li> Import it here using the button below. </li>
                 </ol>
             </div>
-            <div class="import-view-section" id="import-container-section">
+            <div class="import-view-section fade-in" id="import-container-section">
                 <div class="main-view-text-medium-title">Import file</div>
                 <input type="file" accept="application/zip,application/json" id="file-input" />
                 <div id="import-progress-container">
@@ -210,14 +210,14 @@
                         <div id="import-progress-bar"></div>
                     </div>
                 </div>
-                <div id="import-error-container">
+                <div class="fade-in" id="import-error-container">
                     <ul id="import-errors-list">
                     </ul>
                 </div>
             </div>
-            <div class="presentation-view-section main-view-first-section" id="presentation-text-section">
+            <div class="presentation-view-section main-view-first-section fade-in" id="presentation-text-section">
                 <div id="presentation-view-text-container">
-                    <div id="donation-call-to-action">
+                    <div class="fade-in" id="donation-call-to-action">
                         <div class="main-view-text-medium-title">Offset your carbon.</div>
                         <div id="donation-call-to-action-text">
                             Your personal transportation over the past <span id="year-count">X</span> years has emitted a conservatively calculated <strong><span class="total-emission" id="summary-total-emission">X</span> Tonnes of CO<sub>2</sub></strong>. 
@@ -234,7 +234,7 @@
                             Donate to a project that will enable communities to develop sustainably <a href="https://marketplace.goldstandard.org/collections/projects#market-place">here</a>.
                         </div>
                     </div>
-                    <div id="overall-emissions-donut-chart-legend-container">
+                    <div class="fade-in" id="overall-emissions-donut-chart-legend-container">
                         <div class="main-view-text-medium-title">Donut Chunks</div>
                         <div id="overall-emissions-donut-chart-legend-items">
                             <!-- TODO: Improve the dynamic nature of this explanation, (1) compare user's average annual flight miles to average American's flight miles annually. -->
@@ -245,7 +245,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="overall-emissions-line-chart-legend-container">
+                    <div class="fade-in" id="overall-emissions-line-chart-legend-container">
                         <div class="main-view-text-medium-title">Legend<sup class="presentation-view-text-explanation-script-decoration"><a href="https://github.com/danksky/carbon-analysis">[4]</a></sup></div>
                         <div id="overall-emissions-line-chart-legend-items">
                             <div class="overall-emissions-line-chart-legend-item">
@@ -286,7 +286,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="annual-emissions-calendar-charts-legend-container">
+                    <div class="fade-in" id="annual-emissions-calendar-charts-legend-container">
                         <div class="main-view-text-medium-title">Daily Emissions (kg<sub>CO<sub>2</sub></sub>)</div>
                         <div class="presentation-view-text-explanation">
                             You can infer from your rich location and movement data how much carbon you released from fossil fuels to get around. You emitted a maximum of <span class="year-max-kg">00</span> kg<sub class="presentation-view-text-explanation-script-decoration">CO<sub>2</sub></sub> in <span class="selected-year">0000</span> on <span class="year-max-day">WORST YEAR's MONTH, DATE</span>.
@@ -302,9 +302,9 @@
                     </div>
                 </div>
             </div>
-            <div class="presentation-view-section" id="presentation-chart-section">
+            <div class="presentation-view-section fade-in" id="presentation-chart-section">
                 <div id="presentation-view-chart-container">
-                    <div id="emissions-breakdown">
+                    <div class="fade-in" id="emissions-breakdown">
                         <div class="main-view-text-medium-title">What happens to all your carbon?
                             <sup class="presentation-view-text-explanation-script-decoration"><a href="https://earthobservatory.nasa.gov/features/CarbonCycle">[3]</a></sup></div>
                         <div id="emissions-breakdown-items">
@@ -342,15 +342,15 @@
                             </div>
                         </div>
                     </div>
-                    <div id="overall-emissions-donut-chart-container">
+                    <div class="fade-in" id="overall-emissions-donut-chart-container">
                         <div class="main-view-text-medium-title">Activity Breakdown</div>
                         <div id="overall-emissions-donut-chart"></div>
                     </div>
-                    <div id="overall-emissions-line-chart-container">
+                    <div class="fade-in" id="overall-emissions-line-chart-container">
                         <div class="main-view-text-medium-title">Literally, Tons Over the Years</div>
                         <div id="overall-emissions-line-chart"></div>
                     </div>
-                    <div id="annual-emissions-calendar-charts-container">
+                    <div class="fade-in" id="annual-emissions-calendar-charts-container">
                         <div class="calculator-chart-container" id="annual-emissions-calendar-chart-daily-container">
                             <div class="main-view-text-medium-title">Daily Emissions (kg<sub>CO<sub>2</sub></sub>)</div>
                             <div id="annual-emissions-calendar-chart-daily"></div>
@@ -362,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <div id="annual-emissions-by-activity-map-container">
+            <div class="fade-in" id="annual-emissions-by-activity-map-container">
                 <div id="annual-emissions-by-activity-map-label">
                     0000: 0,000 Passenger Vehicle km
                     <!-- TODO: Include the km traveled by this mode. 2019: 4,263 Passenger Vehicle kilometers -->
@@ -370,7 +370,7 @@
                 <div id="annual-emissions-by-activity-map"></div>
             </div>
         </div>
-        <div id="activity-control-panel-cell">
+        <div class="fade-in" id="activity-control-panel-cell">
             <div id="activity-control-panel-cell-column">
                 <div id="actvity-control-panel-selector-container">
                     <div class="activity-control-panel-selector button" activity="FLYING">
@@ -397,7 +397,7 @@
                 </div>
             </div>
         </div>
-        <div id="year-control-panel-cell">
+        <div class="fade-in" id="year-control-panel-cell">
             <div id="year-control-panel-cell-row">
                 <div id="year-control-panel-selector-container">
                 </div>
