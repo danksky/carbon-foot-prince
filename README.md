@@ -1,8 +1,6 @@
 # Carbon Foot Prince
 
-Live at: https://carbonfootprince.com
-
-A carbon emissions calculator website that uses your Google location history to give you detailed insights into the impact your personal transporation has on the environment. Everything can be run offline (client-side analysis).
+A carbon emissions calculator website that uses your Google location history to give you detailed insights into the impact your personal transportation has on the environment. Everything can be run offline (client-side analysis).
 
 I hope you'll jump in and improve this site! It's pure HTML, CSS, and (vanilla) Javascript!
 
@@ -68,9 +66,9 @@ and `c` varies according to the activity type. The various functions used to det
 
 Source:
 
-UK Department for Business, Energy, and Industrial Strategy - 2019 Government greenhouse gas conversion factors for company reporting
+UK Department for Energy Security & Net Zero - 2024 Government greenhouse gas conversion factors for company reporting
 
-- https://assets.publishing.service.gov.uk/government/imports/system/imports/attachment_data/file/904215/2019-ghg-conversion-factors-methodology-v01-02.pdf
+- https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024
 
 ### USA Personal Transportation Emissions Per Capita
 
@@ -85,9 +83,13 @@ Rhodium Group (2020 estimates)
 
 - https://rhg.com/research/preliminary-us-emissions-2020
 
+Our World in Data (2021-2025 per-capita CO₂ transport emissions)
+
+- https://ourworldindata.org/grapher/per-capita-co2-transport
+
 Macrotrends (USA population)
 
-https://www.macrotrends.net/countries/USA/united-states/population
+- https://www.macrotrends.net/countries/USA/united-states/population
 
 ### USA Personal Transportation Emissions Per Capita - 2015 Paris Climate Accords Goal
 
@@ -110,6 +112,10 @@ International Energy Agency (Passenger road vehicles, Aviation, Rail)
 Carbon Brief (2020 estimates)
 
 - https://www.carbonbrief.org/global-carbon-project-coronavirus-causes-record-fall-in-fossil-fuel-emissions-in-2020
+
+Our World in Data (2021-2025 per-capita CO₂ transport emissions)
+
+- https://ourworldindata.org/grapher/per-capita-co2-transport
 
 Worldometers (world population)
 
