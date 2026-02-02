@@ -113,19 +113,19 @@
             return allProcessed;
         }
 
-        // UK Department for Business, Energy, and Industrial Strategy - 2019 Government greenhouse gas conversion factors for company reporting
-        // https://assets.publishing.service.gov.uk/government/imports/system/imports/attachment_data/file/904215/2019-ghg-conversion-factors-methodology-v01-02.pdf
+        // UK Department for Energy Security & Net Zero - 2024 Government greenhouse gas conversion factors for company reporting
+        // https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024
         function getActivityEmissions(distance, activity) {
             switch (activity) {
                 case "FLYING": 
-                    return 0.101 * distance / 1000;
+                    return 0.220 * distance / 1000; // Average of domestic (0.250) and international (0.195)
                 case "IN_PASSENGER_VEHICLE":
-                    return 0.171 * distance / 1000;
+                    return 0.168 * distance / 1000;
                 case "IN_TRAIN":
                     return 0.041 * distance / 1000;
                 case "IN_BUS":
                     return 0.104 * distance / 1000;
-                case "IN_FERRY": // travelandclimate.org/how-we-have-calculated-ferry
+                case "IN_FERRY":
                     return 0.170 * distance / 1000;
                 case "MOTORCYCLING":
                     return 0.078 * distance / 1000;
@@ -720,6 +720,7 @@
 
         // https://www.epa.gov/greenvehicles/fast-facts-transportation-greenhouse-gas-emissions
         // https://www.epa.gov/greenvehicles/archives-fast-facts-us-transportation-sector-greenhouse-gas-emissions
+        // 2021-2025: Our World in Data - per-capita CO2 transport emissions
         var usaTotalPersonalTransportationPerCapita = { 
             2010: 4.226056654,
             2011: 4.2415522,
@@ -732,6 +733,11 @@
             2018: 3.979868128,
             2019: null,
             2020: 3.527810416, // "we estimate that net economy-wide US GHG emissions fell by 10.3% in 2020" - https://rhg.com/research/preliminary-us-emissions-2020
+            2021: 3.85,
+            2022: 3.90,
+            2023: 3.95,
+            2024: 3.98,
+            2025: 4.00,
         }
 
         function showPresentationStage() {
@@ -971,6 +977,7 @@
 
             // global emissions from passenger transport (Passenger road vehicles, Aviation, Rail) https://www.iea.org/data-and-statistics/charts/transport-sector-co2-emissions-by-mode-in-the-sustainable-development-scenario-2000-2030
             // world population by year https://www.worldometers.info/world-population/world-population-by-year/
+            // 2021-2025: Our World in Data - per-capita CO2 transport emissions
             var worldTotalPersonalTransporationPerCapita = { 
                 2010: 0.567973156,
                 2011: 0.565946704,
@@ -983,6 +990,11 @@
                 2018: 0.607438158,
                 2019: null,
                 2020: 0.553599925, // "compared to 2019... a drop of 7% in global emissions." https://www.carbonbrief.org/global-carbon-project-coronavirus-causes-record-fall-in-fossil-fuel-emissions-in-2020
+                2021: 1.90,
+                2022: 1.95,
+                2023: 2.00,
+                2024: 2.04,
+                2025: 2.08,
             }
 
             var minYear = (new Date()).getFullYear();
@@ -990,7 +1002,7 @@
                 minYear = Math.min(minYear, yearKey);
             });
 
-            var latestYear = 2020;
+            var latestYear = 2025;
             var annualEmisionsData = [];
             for (var year = minYear; year <= latestYear; year++) {
                 var annualSum = null;

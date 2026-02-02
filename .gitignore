@@ -1,3 +1,10 @@
 .DS_Store
 todo.txt
+todo2.txt
 error.html
+
+# Research and reference data
+research/
+
+# Project notes and feedback
+notes/
