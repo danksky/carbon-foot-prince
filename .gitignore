@@ -8,3 +8,6 @@ research/
 
 # Project notes and feedback
 notes/
+
+# WIP modular refactor (not production ready)
+js/
